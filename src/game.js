@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 import colors, { lightColors } from './colors';
+import { degreesToRadians } from './utils/math';
 
 const loadingManager = new THREE.LoadingManager();
 loadingManager.onLoad = () => {
@@ -32,13 +33,13 @@ scene.background = new THREE.Color(colors.black);
 const ambientLight = new THREE.AmbientLight(lightColors.softWhite, 0.7); // soft white light
 scene.add(ambientLight);
 
-const topLight = new THREE.PointLight(lightColors.white, 1.8, 100);
-topLight.position.set(0, 20, 22);
-topLight.castShadow = true;
-topLight.shadowDarkness = 2;
+const pointLight = new THREE.PointLight(lightColors.white, 1.5, 50);
+pointLight.position.set(0, 4, -5);
+pointLight.castShadow = true;
+pointLight.shadowDarkness = 2;
 
-topLight.shadowCameraVisible = true; // for debugging
-scene.add(topLight);
+pointLight.shadowCameraVisible = true; // for debugging
+scene.add(pointLight);
 
 
 /* *******
@@ -50,7 +51,7 @@ const camera = new THREE.PerspectiveCamera(
   1,
   1000,
 );
-camera.position.set(0, 1, -3);
+camera.position.set(0, 2, -8);
 camera.lookAt(scene.position);
 
 
@@ -63,7 +64,7 @@ const loader = new GLTFLoader(loadingManager);
 
 const pigLoadCallback = gltf => { // TODO: ECS
   pig = gltf.scene;
-  pig.rotation.y += 180;
+  pig.rotation.y += degreesToRadians(30);
   camera.lookAt(pig.position);
   scene.add(pig);
 };

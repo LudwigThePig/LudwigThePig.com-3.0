@@ -1,13 +1,14 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-
-import colors, { lightColors } from './colors';
+import showMenu from './views/menu';
+import colors, { lightColors } from './utils/colors';
 import { degreesToRadians } from './utils/math';
 
 const loadingManager = new THREE.LoadingManager();
 loadingManager.onLoad = () => {
   // eslint-disable-next-line no-use-before-define
   draw();
+  showMenu();
 };
 
 /* *********
@@ -30,29 +31,59 @@ scene.background = new THREE.Color(colors.black);
 /* *******
 * Lights *
 ******** */
-const ambientLight = new THREE.AmbientLight(lightColors.softWhite, 0.7); // soft white light
+const ambientLight = new THREE.AmbientLight(lightColors.softWhite, 1.2); // soft white light
 scene.add(ambientLight);
 
-const pointLight = new THREE.PointLight(lightColors.white, 1.5, 50);
-pointLight.position.set(0, 4, -5);
-pointLight.castShadow = true;
-pointLight.shadowDarkness = 2;
+const bottomLeftLight = new THREE.PointLight(colors.blue, 3.5, 50);
+bottomLeftLight.position.set(-3, -2, -5);
+bottomLeftLight.castShadow = true;
+bottomLeftLight.shadowDarkness = 2;
 
-pointLight.shadowCameraVisible = true; // for debugging
-scene.add(pointLight);
+bottomLeftLight.shadowCameraVisible = true; // for debugging
+scene.add(bottomLeftLight);
+const topRightLight = new THREE.PointLight(colors.orange, 3.5, 50);
+topRightLight.position.set(3, 2, -5);
+topRightLight.castShadow = true;
+topRightLight.shadowDarkness = 2;
+
+topRightLight.shadowCameraVisible = true; // for debugging
+scene.add(topRightLight);
 
 
 /* *******
 * Camera *
 ******** */
 const camera = new THREE.PerspectiveCamera(
-  50,
+  90,
   window.innerWidth / window.innerHeight,
   1,
   1000,
 );
 camera.position.set(0, 2, -8);
 camera.lookAt(scene.position);
+
+
+/* 🐷🐷🐷🐷🐷
+* PIG MODEL *
+🐷🐷🐷🐷🐷🐷 */
+const geometry = new THREE.TetrahedronGeometry(2, 0);
+// const geom = new THREE.IcosahedronGeometry(7, 1);
+// const geom2 = new THREE.IcosahedronGeometry(15, 1);
+const particle = new THREE.Object3D();
+
+const material = new THREE.MeshPhongMaterial({
+  color: 0xffffff,
+  shading: THREE.FlatShading,
+});
+
+for (let i = 0; i < 1000; i++) {
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.position.set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
+  mesh.position.multiplyScalar(90 + (Math.random() * 700));
+  mesh.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
+  particle.add(mesh);
+}
+scene.add(particle);
 
 
 /* 🐷🐷🐷🐷🐷
@@ -84,6 +115,9 @@ loader.load( // pig
 * Main Game Loop *
 **************** */
 const draw = () => {
+  particle.rotation.x += 0.0000;
+  particle.rotation.y -= 0.0040;
+
   renderer.render(scene, camera);
   requestAnimationFrame(draw);
 };

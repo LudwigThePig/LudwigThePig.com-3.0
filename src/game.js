@@ -3,6 +3,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import showMenu from './views/menu';
 import colors, { lightColors } from './utils/colors';
 import { degreesToRadians } from './utils/math';
+import { randomBool } from './utils/random';
 
 const loadingManager = new THREE.LoadingManager();
 loadingManager.onLoad = () => {
@@ -63,20 +64,20 @@ camera.position.set(0, 2, -8);
 camera.lookAt(scene.position);
 
 
-/* 🐷🐷🐷🐷🐷
-* PIG MODEL *
-🐷🐷🐷🐷🐷🐷 */
+/* *********************
+* Background Particles *
+********************** */
 const geometry = new THREE.TetrahedronGeometry(2, 0);
 // const geom = new THREE.IcosahedronGeometry(7, 1);
 // const geom2 = new THREE.IcosahedronGeometry(15, 1);
 const particle = new THREE.Object3D();
 
-const material = new THREE.MeshPhongMaterial({
-  color: 0xffffff,
-  shading: THREE.FlatShading,
-});
 
 for (let i = 0; i < 1000; i++) {
+  const material = new THREE.MeshPhongMaterial({
+    color: [colors.blue, colors.white, colors.orange][Math.floor(Math.random() * 3)],
+    shading: THREE.FlatShading,
+  });
   const mesh = new THREE.Mesh(geometry, material);
   mesh.position.set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
   mesh.position.multiplyScalar(90 + (Math.random() * 700));
@@ -84,6 +85,16 @@ for (let i = 0; i < 1000; i++) {
   particle.add(mesh);
 }
 scene.add(particle);
+
+let rotationSpeed = 1;
+let rotationDirection = 1;
+const updateParticleRotation = () => {
+  if (rotationSpeed >= 1) rotationDirection = -1;
+  if (rotationSpeed <= -1) rotationDirection = 1;
+  rotationSpeed += ((Math.cos(Math.PI * rotationSpeed) + 1) / 2 * rotationDirection);
+  particle.rotation.x += rotationSpeed * 0.002;
+  particle.rotation.y += rotationSpeed * 0.002;
+};
 
 
 /* 🐷🐷🐷🐷🐷
@@ -115,12 +126,14 @@ loader.load( // pig
 * Main Game Loop *
 **************** */
 const draw = () => {
-  particle.rotation.x += 0.0000;
-  particle.rotation.y -= 0.0040;
-
+  updateParticleRotation();
   renderer.render(scene, camera);
   requestAnimationFrame(draw);
 };
+
+
+setInterval(() => {
+}, 10);
 
 /* *********************
 * MISC EVENT LISTENERS *

@@ -5,9 +5,11 @@ import colors, { lightColors } from './utils/colors';
 import { degreesToRadians } from './utils/math';
 import { randomBool } from './utils/random';
 import { keyboardInputs, updatePosition } from './controllers/movement';
+import { hideLoadingScreen } from './views/loadingScreen';
 
 const loadingManager = new THREE.LoadingManager();
 loadingManager.onLoad = () => {
+  hideLoadingScreen();
   // eslint-disable-next-line no-use-before-define
   draw();
   showMenu();

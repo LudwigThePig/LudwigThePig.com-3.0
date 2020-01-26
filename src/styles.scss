@@ -34,6 +34,16 @@ body {
   font-family: 'Sigmar One', cursive;
 }
 
+
+@keyframes hide {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  99% { opacity: 0; }
+}
+.hidden-animation { animation: hide 5s; }
+
+.hidden { display: none; }
+
 #canvas-container{
   width: 100vw;
   height: 100vh;

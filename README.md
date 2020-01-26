@@ -9,3 +9,9 @@ This is a WIP
 - Make it easy to make changes
 - Don't make it hard to make changes
 - Make the website that I want to build, not the website that will get me the most street cred 🚢💵🏎
+
+
+# Push to Prod
+
+1. Make sure `npm run build:prod` builds the desired stuffz
+2. Merge into the releases branch

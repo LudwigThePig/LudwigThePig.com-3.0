@@ -5,7 +5,6 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 module.exports = {
   entry: {
     main: './src/index.js',
-    collision: './src/collisionThread.js',
   },
   resolve: {
     extensions: ['.js'],
@@ -31,6 +30,6 @@ module.exports = {
     ],
   },
   plugins: [
-    new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin(), // Uncomment and restart webpack to get a bundle.js report
   ],
 };

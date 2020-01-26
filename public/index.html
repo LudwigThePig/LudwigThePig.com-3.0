@@ -24,10 +24,10 @@
 
     @keyframes flying-pigs {
       0% {
-        transform: translateY(inherit) translateX(inherit) scale(0.2);
+        transform: translateX(0vw);
       }
       100% {
-        transform: translateY(100%) translateX(100%) scale(0.2);
+        transform: translateX(100vw);
       }    
     }
 
@@ -39,15 +39,12 @@
       background: #001011;
     }
     #loading-screen svg {
-      height: 150vh;
-      width: 150vw;
+      height: 100vh;
+      width: 100vw;
       position: fixed;
       left: 0;
       top: 0;
-    }
-    #loading-screen g {
-      transform: scale(0.2);
-      animation: flying-pigs 3s linear infinite;
+      animation: flying-pigs 4s linear infinite;
     }
     #loading-screen path { animation:color-pulse 2s linear infinite alternate both; }
   </style>
@@ -57,16 +54,46 @@
 <body>
   <div id="loading-screen">
     
-    <svg xmlns="http://www.w3.org/2000/svg" transform="translate( 0, -250)" viewBox="0 0 150 150" class="pig-svg">
-      <g>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" class="pig-svg" overflow="visible">
+      <g transform="translate(-300, 0) scale(0.5)">        
+        <path fill="none" stroke-width="3px" class="b" d="M20,127s-9.1-53.2-2-57S-8.1,74.2,4,61s8,11,8,11l6-2S31,42.1,52.5,41.5s77.2-7.6,79.5,2V61l-6,5s17-2,17,0V82L99,126s-3,3-3-3V95H54L25,124S20,131,20,127Z" />
+      </g>
+      <g transform="translate(-300, 75) scale(0.5)">        
+        <path fill="none" stroke-width="3px" class="b" d="M20,127s-9.1-53.2-2-57S-8.1,74.2,4,61s8,11,8,11l6-2S31,42.1,52.5,41.5s77.2-7.6,79.5,2V61l-6,5s17-2,17,0V82L99,126s-3,3-3-3V95H54L25,124S20,131,20,127Z" />
+      </g>
+      <g transform="translate(-225, 0) scale(0.5)">        
+        <path fill="none" stroke-width="3px" class="b" d="M20,127s-9.1-53.2-2-57S-8.1,74.2,4,61s8,11,8,11l6-2S31,42.1,52.5,41.5s77.2-7.6,79.5,2V61l-6,5s17-2,17,0V82L99,126s-3,3-3-3V95H54L25,124S20,131,20,127Z" />
+      </g>
+      <g transform="translate(-225, 75) scale(0.5)">        
+        <path fill="none" stroke-width="3px" class="b" d="M20,127s-9.1-53.2-2-57S-8.1,74.2,4,61s8,11,8,11l6-2S31,42.1,52.5,41.5s77.2-7.6,79.5,2V61l-6,5s17-2,17,0V82L99,126s-3,3-3-3V95H54L25,124S20,131,20,127Z" />
+      </g>
+      <g transform="translate(-150, 0) scale(0.5)">        
+        <path fill="none" stroke-width="3px" class="b" d="M20,127s-9.1-53.2-2-57S-8.1,74.2,4,61s8,11,8,11l6-2S31,42.1,52.5,41.5s77.2-7.6,79.5,2V61l-6,5s17-2,17,0V82L99,126s-3,3-3-3V95H54L25,124S20,131,20,127Z" />
+      </g>
+      <g transform="translate(-150, 75) scale(0.5)">        
+        <path fill="none" stroke-width="3px" class="b" d="M20,127s-9.1-53.2-2-57S-8.1,74.2,4,61s8,11,8,11l6-2S31,42.1,52.5,41.5s77.2-7.6,79.5,2V61l-6,5s17-2,17,0V82L99,126s-3,3-3-3V95H54L25,124S20,131,20,127Z" />
+      </g>
+      <g transform="translate(-75, 0) scale(0.5)">        
+        <path fill="none" stroke-width="3px" class="b" d="M20,127s-9.1-53.2-2-57S-8.1,74.2,4,61s8,11,8,11l6-2S31,42.1,52.5,41.5s77.2-7.6,79.5,2V61l-6,5s17-2,17,0V82L99,126s-3,3-3-3V95H54L25,124S20,131,20,127Z" />
+      </g>
+      <g transform="translate(-75, 75) scale(0.5)">        
+        <path fill="none" stroke-width="3px" class="b" d="M20,127s-9.1-53.2-2-57S-8.1,74.2,4,61s8,11,8,11l6-2S31,42.1,52.5,41.5s77.2-7.6,79.5,2V61l-6,5s17-2,17,0V82L99,126s-3,3-3-3V95H54L25,124S20,131,20,127Z" />
+      </g>
+
+      <g transform="translate(0, 0) scale(0.5)">        
+        <path fill="none" stroke-width="3px" class="b" d="M20,127s-9.1-53.2-2-57S-8.1,74.2,4,61s8,11,8,11l6-2S31,42.1,52.5,41.5s77.2-7.6,79.5,2V61l-6,5s17-2,17,0V82L99,126s-3,3-3-3V95H54L25,124S20,131,20,127Z" />
+      </g>
+      <g transform="translate(0, 75) scale(0.5)">        
+        <path fill="none" stroke-width="3px" class="b" d="M20,127s-9.1-53.2-2-57S-8.1,74.2,4,61s8,11,8,11l6-2S31,42.1,52.5,41.5s77.2-7.6,79.5,2V61l-6,5s17-2,17,0V82L99,126s-3,3-3-3V95H54L25,124S20,131,20,127Z" />
+      </g>
+      <g transform="translate(75, 0) scale(0.5)">        
+        <path fill="none" stroke-width="3px" class="b" d="M20,127s-9.1-53.2-2-57S-8.1,74.2,4,61s8,11,8,11l6-2S31,42.1,52.5,41.5s77.2-7.6,79.5,2V61l-6,5s17-2,17,0V82L99,126s-3,3-3-3V95H54L25,124S20,131,20,127Z" />
+      </g>
+      <g transform="translate(75, 75) scale(0.5)">        
         <path fill="none" stroke-width="3px" class="b" d="M20,127s-9.1-53.2-2-57S-8.1,74.2,4,61s8,11,8,11l6-2S31,42.1,52.5,41.5s77.2-7.6,79.5,2V61l-6,5s17-2,17,0V82L99,126s-3,3-3-3V95H54L25,124S20,131,20,127Z" />
       </g>
     </svg>
-    <svg xmlns="http://www.w3.org/2000/svg" transform="translate( 250, -150)" viewBox="0 0 150 150" class="pig-svg">
-      <g>
-        <path fill="none" stroke-width="3px" class="b" d="M20,127s-9.1-53.2-2-57S-8.1,74.2,4,61s8,11,8,11l6-2S31,42.1,52.5,41.5s77.2-7.6,79.5,2V61l-6,5s17-2,17,0V82L99,126s-3,3-3-3V95H54L25,124S20,131,20,127Z" />
-      </g>
-    </svg>
+
 
 
   </div>

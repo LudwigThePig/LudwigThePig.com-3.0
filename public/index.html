@@ -1,12 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link href="https://fonts.googleapis.com/css?family=Sigmar+One&display=swap" rel="stylesheet">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/mainfest.json">
+  <link rel="icon" href="/assets/favicon.ico">
+  <meta name="theme-color" content="#001011">
+  <title>Ludwig the Pig</title>
+  <style>
+    /* PRE LOAD CSS SETTINGS */
+    body{
+      background: #000;
+      overflow: hidden;
+    }
+
+    @keyframes color-pulse {
+      0% { stroke: #F2F2E6; }
+      100% { stroke: #ED6767; }
+    }
+
+    @keyframes draw-pig {
+      from {
+        stroke-dashoffset: 0;
+      }
+      to {
+        stroke-dashoffset: 500;
+      }
+    }
+
+    @keyframes text-animation {
+  0% {
+    text-shadow: 0 0 #ED6767, 0 0 #ED6767, 0 0 #ED6767, 0 0 #ED6767, 0 0 #ED6767, 0 0 #ED6767, 0 0 #ED6767, 0 0 #ED6767;
+    transform: translateX(0) translateY(0);
+  }
+  100% {
+    text-shadow: 1px -1px #ED6767, 2px -2px #ED6767, 3px -3px #ED6767, 4px -4px #ED6767, 5px -5px #ED6767, 6px -6px #ED6767, 7px -7px #ED6767, 8px -8px #ED6767;
+    transform: translateX(-8px) translateY(8px);
+  }
+}
+
+    #loading-screen {
+      position: fixed;
+      z-index: 1;
+      width: 100vw;
+      height: 100vh;
+      background: #001011;
+    }
+    #loading-screen svg {
+      height: 100vh;
+      width: 100vw;
+      position: fixed;
+      left: 0;
+      top: 0;
+      animation:color-pulse 2s linear infinite alternate both; 
+    }
+    #loading-screen path { 
+      stroke-dasharray: 250;
+      animation:draw-pig 5s linear infinite; 
+    }
+    #loading-screen h2 { 
+      text-align: center;
+      font-size: 3em;
+      position: fixed;
+      top: 80vh;
+      width: 100%;
+      color: white;
+      animation:text-animation 1.5s linear infinite alternate; 
+    }
+  </style>
+
   <title>Ludwig The Pig</title>
 </head>
 <body>
+  <div id="loading-screen">
+    <h2>Loading...</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" class="pig-svg" overflow="visible">
+      <path fill="none" stroke-width="3px" class="b" d="M20,127s-9.1-53.2-2-57S-8.1,74.2,4,61s8,11,8,11l6-2S31,42.1,52.5,41.5s77.2-7.6,79.5,2V61l-6,5s17-2,17,0V82L99,126s-3,3-3-3V95H54L25,124S20,131,20,127Z" />
+    </svg>
+
+
+
+  </div>
+
   <header>
     <div class="ctr ui">
       <h1>Ludwig The Pig</h1>

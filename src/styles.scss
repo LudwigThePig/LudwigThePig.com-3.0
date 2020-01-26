@@ -1,9 +1,29 @@
-@import url('https://fonts.googleapis.com/css?family=Sigmar+One&display=swap');
-
 $black: #001011;
 $white: #F2F2E6;
 $salmon: #ED6767;
 $purple: #793F5C;
+
+// From LTP-2.0 style sheet
+$themes: (
+  light: (
+    primary: #f9f3ed,
+    secondary: #342e37,
+    active-color: #A43A4B,
+    alt-color: #e57853, 
+  ),
+  dark: (
+    primary: #001011,
+    secondary: #F2F2E6,
+    active-color: #ED6767,
+    alt-color: #793F5C,
+  ),
+  blue: (
+    primary: #323846,
+    secondary: #fbf9f3,
+    active-color: #c3f7eb,
+    alt-color: #78dbf4,
+  ),
+);
 
 
 body {
@@ -11,6 +31,16 @@ body {
   color: $white;
   font-family: 'Sigmar One', cursive;
 }
+
+
+@keyframes hide {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  99% { opacity: 0; }
+}
+.hidden-animation { animation: hide 5s; }
+
+.hidden { display: none; }
 
 #canvas-container{
   width: 100vw;

@@ -4,6 +4,7 @@ import showMenu from './views/menu';
 import colors, { lightColors } from './utils/colors';
 import { degreesToRadians } from './utils/math';
 import { randomBool } from './utils/random';
+import { keyboardInputs, updatePosition } from './controllers/movement';
 
 const loadingManager = new THREE.LoadingManager();
 loadingManager.onLoad = () => {
@@ -68,15 +69,13 @@ camera.lookAt(scene.position);
 * Background Particles *
 ********************** */
 const geometry = new THREE.TetrahedronGeometry(2, 0);
-// const geom = new THREE.IcosahedronGeometry(7, 1);
-// const geom2 = new THREE.IcosahedronGeometry(15, 1);
 const particle = new THREE.Object3D();
 
 
 for (let i = 0; i < 1000; i++) {
   const material = new THREE.MeshPhongMaterial({
     color: [colors.blue, colors.white, colors.orange][Math.floor(Math.random() * 3)],
-    shading: THREE.FlatShading,
+    flatShading: true,
   });
   const mesh = new THREE.Mesh(geometry, material);
   mesh.position.set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
@@ -129,6 +128,7 @@ const draw = () => {
   updateParticleRotation();
   renderer.render(scene, camera);
   requestAnimationFrame(draw);
+  updatePosition(pig);
 };
 
 
@@ -145,5 +145,11 @@ const onWindowResize = () => {
 };
 window.addEventListener('resize', onWindowResize);
 
+
+const getKeyCode = event => event.which;
+export const keydown = event => { keyboardInputs[getKeyCode(event)] = true; };
+export const keyup = event => { keyboardInputs[getKeyCode(event)] = false; };
+document.addEventListener('keydown', keydown);
+document.addEventListener('keyup', keyup);
 
 export default renderer;

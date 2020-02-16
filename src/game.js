@@ -148,10 +148,4 @@ const onWindowResize = () => {
 window.addEventListener('resize', onWindowResize);
 
 
-const getKeyCode = event => event.which;
-export const keydown = event => { keyboardInputs[getKeyCode(event)] = true; };
-export const keyup = event => { keyboardInputs[getKeyCode(event)] = false; };
-document.addEventListener('keydown', keydown);
-document.addEventListener('keyup', keyup);
-
 export default renderer;

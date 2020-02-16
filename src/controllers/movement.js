@@ -13,7 +13,15 @@ const keys = {
   c: 67,
 };
 
-export const keyboardInputs = {};
+export const inputState = {
+  left: false,
+  right: false,
+  up: false,
+  down: false,
+  jump: false,
+  slide: false,
+};
+
 
 export const updatePosition = player => {
   // Forwards And Backwards

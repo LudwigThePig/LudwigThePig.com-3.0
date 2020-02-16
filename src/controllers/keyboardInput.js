@@ -1,4 +1,4 @@
-import { inputState } from './inputHandler';
+import { inputState } from './movement';
 
 const keyboardDictionary = {
   87: 'up', // W

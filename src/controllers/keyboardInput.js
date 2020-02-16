@@ -17,7 +17,7 @@ const keydown = event => {
 };
 const keyup = event => {
   const command = keyboardDictionary[getKeyCode(event)];
-  inputState[command] = true;
+  inputState[command] = false;
 };
 
 const initializeKeyboard = () => {

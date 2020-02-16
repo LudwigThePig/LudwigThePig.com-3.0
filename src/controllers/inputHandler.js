@@ -1,10 +1,11 @@
 import initializeKeyboard from './keyboardInput';
+import initializeGyroscope from './mobileInput';
 
-const isMobile = () => ((window.innerWidth <= 800) && (window.innerHeight <= 600));
+const isMobile = () => ((window.innerHeight <= 800) && (window.innerWidth <= 600));
 
 const inputHandler = () => {
   if (isMobile()) {
-
+    initializeGyroscope();
   } else {
     initializeKeyboard();
   }

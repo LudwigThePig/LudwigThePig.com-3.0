@@ -25,28 +25,28 @@ export const inputState = {
 
 export const updatePosition = player => {
   // Forwards And Backwards
-  if (keyboardInputs[keys.backwards]) {
+  if (inputState.down) {
     player.position.x += Math.sin(player.rotation.y) * forwardVelocity;
     player.position.z += Math.cos(player.rotation.y) * forwardVelocity;
   }
-  if (keyboardInputs[keys.forward]) {
+  if (inputState.up) {
     player.position.x -= Math.sin(player.rotation.y) * forwardVelocity;
     player.position.z -= Math.cos(player.rotation.y) * forwardVelocity;
   }
 
   player.rotation.z = 0;
   // Y Rotation
-  if (keyboardInputs[keys.right]) {
+  if (inputState.right) {
     player.rotation.y -= rotationVelocity;
     player.rotation.z = -25;
   }
-  if (keyboardInputs[keys.left]) {
+  if (inputState.left) {
     player.rotation.y += rotationVelocity;
     player.rotation.z = 25;
   }
 
   // Slide the Pig :)
-  if (keyboardInputs[keys.shift] || keyboardInputs[keys.c]) {
+  if (inputState.slide) {
     game.isSliding = true;
   } else if (game.isSliding) { // Avoid redundant reassignment
     game.isSliding = false;

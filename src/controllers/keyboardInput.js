@@ -1,4 +1,4 @@
-import { inputState } from './inputHandler';
+import { inputState } from './movement';
 
 const keyboardDictionary = {
   87: 'up', // W
@@ -17,7 +17,7 @@ const keydown = event => {
 };
 const keyup = event => {
   const command = keyboardDictionary[getKeyCode(event)];
-  inputState[command] = true;
+  inputState[command] = false;
 };
 
 const initializeKeyboard = () => {

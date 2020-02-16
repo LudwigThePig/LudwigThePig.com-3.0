@@ -6,6 +6,7 @@ import { degreesToRadians } from './utils/math';
 import { randomBool } from './utils/random';
 import { keyboardInputs, updatePosition } from './controllers/movement';
 import { hideLoadingScreen } from './views/loadingScreen';
+import inputHandler from './controllers/inputHandler';
 
 const loadingManager = new THREE.LoadingManager();
 loadingManager.onLoad = () => {
@@ -147,5 +148,6 @@ const onWindowResize = () => {
 };
 window.addEventListener('resize', onWindowResize);
 
+inputHandler();
 
 export default renderer;

@@ -6,8 +6,13 @@ const tolerance = 100;
 const handleStart = e => {
   origin = getTouchPos(e);
 };
-const handleEnd = e => console.log('handle end', e);
-const handleCancel = e => console.log('handle cancel', e);
+const handleEnd = () => {
+  inputState.up = false;
+  inputState.down = false;
+  inputState.left = false;
+  inputState.right = false;
+  origin = null;
+};
 
 
 const handleMove = e => {

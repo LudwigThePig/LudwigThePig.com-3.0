@@ -13,7 +13,7 @@ loadingManager.onLoad = () => {
   // eslint-disable-next-line no-use-before-define
   draw();
   showMenu();
-  inputHandler();
+  setTimeout(() => inputHandler(), 0); // Must wait for the canvas to render
 };
 
 /* *********

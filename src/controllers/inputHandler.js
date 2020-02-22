@@ -1,11 +1,11 @@
 import initializeKeyboard from './keyboardInput';
-import initializeMobile from './mobileInput';
+import MobileInputManager from './mobileInput';
 
 const isMobile = () => ((window.innerHeight <= 800) && (window.innerWidth <= 600));
 
 const inputHandler = () => {
   if (isMobile()) {
-    initializeMobile();
+    const mobileInput = new MobileInputManager();
   } else {
     initializeKeyboard();
   }

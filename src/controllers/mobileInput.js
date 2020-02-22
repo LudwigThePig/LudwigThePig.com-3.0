@@ -1,11 +1,12 @@
 import { inputState } from './movement';
 
-const getTouchPos = e => ({ x: e.touches[0].screenX, y: e.touches[0].screenY });
 let origin;
-const tolerance = 100;
+const getTouchPos = e => ({ x: e.touches[0].screenX, y: e.touches[0].screenY });
+
 const handleStart = e => {
   origin = getTouchPos(e);
 };
+
 const handleEnd = () => {
   inputState.up = false;
   inputState.down = false;
@@ -16,6 +17,7 @@ const handleEnd = () => {
 
 
 const handleMove = e => {
+  const tolerance = 100;
   const { x, y } = getTouchPos(e);
 
   if (origin.x < x - tolerance) {
@@ -45,7 +47,6 @@ const initializeMobile = () => {
   const el = document.getElementById('canvas-container').children[0];
   el.addEventListener('touchstart', handleStart, false);
   el.addEventListener('touchend', handleEnd, false);
-  el.addEventListener('touchcancel', handleCancel, false);
   el.addEventListener('touchmove', handleMove, false);
 };
 

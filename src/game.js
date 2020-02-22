@@ -3,9 +3,9 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import showMenu from './views/menu';
 import colors, { lightColors } from './utils/colors';
 import { degreesToRadians } from './utils/math';
-import { randomBool } from './utils/random';
-import { keyboardInputs, updatePosition } from './controllers/movement';
+import { updatePosition } from './controllers/movement';
 import { hideLoadingScreen } from './views/loadingScreen';
+import inputHandler from './controllers/inputHandler';
 
 const loadingManager = new THREE.LoadingManager();
 loadingManager.onLoad = () => {
@@ -13,6 +13,7 @@ loadingManager.onLoad = () => {
   // eslint-disable-next-line no-use-before-define
   draw();
   showMenu();
+  setTimeout(() => inputHandler(), 500); // Must wait for the canvas to render
 };
 
 /* *********
@@ -109,6 +110,7 @@ const pigLoadCallback = gltf => { // TODO: ECS
   pig = gltf.scene;
   pig.rotation.y += degreesToRadians(30);
   camera.lookAt(pig.position);
+  // Update mesh rotation using rotation matrix.
   scene.add(pig);
 };
 
@@ -146,12 +148,5 @@ const onWindowResize = () => {
   camera.updateProjectionMatrix();
 };
 window.addEventListener('resize', onWindowResize);
-
-
-const getKeyCode = event => event.which;
-export const keydown = event => { keyboardInputs[getKeyCode(event)] = true; };
-export const keyup = event => { keyboardInputs[getKeyCode(event)] = false; };
-document.addEventListener('keydown', keydown);
-document.addEventListener('keyup', keyup);
 
 export default renderer;

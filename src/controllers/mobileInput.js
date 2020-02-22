@@ -1,50 +1,58 @@
-// purely for development purposes
-const xEl = document.createElement('p');
-xEl.innerText = 'X';
-const yEl = document.createElement('p');
-yEl.innerText = 'Y';
-const zEl = document.createElement('p');
-zEl.innerText = 'Z';
-const gyroscopeDevConsole = {
-  init: () => {
-    const parentEl = document.body;
-    const consoleDiv = document.createElement('div');
-    consoleDiv.style.position = 'absolute';
-    consoleDiv.style.left = 0;
-    consoleDiv.style.top = 0;
-    consoleDiv.style.background = '#121212aa';
-    consoleDiv.appendChild(xEl);
-    consoleDiv.appendChild(yEl);
-    consoleDiv.appendChild(zEl);
-    parentEl.appendChild(consoleDiv);
-  },
-  update: (el, text) => {
-    el.innerText = text;
-  },
-};
+import { inputState } from './movement';
 
 
-let gyroscope;
+// This is more of a giant function than a class, but this is easier to read
+class MobileInputManager {
+  constructor() {
+    this.origin = null;
 
-const onGyroscopeEvent = e => {
-  gyroscopeDevConsole.update(xEl, 'gyroscope.x');
-  gyroscopeDevConsole.update(yEl, 'gyroscope.y');
-  gyroscopeDevConsole.update(zEl, 'gyroscope.z');
-};
-
-const initializeGyroscope = () => {
-  gyroscopeDevConsole.init();
-  // eslint-disable-next-line no-undef
-  try {
-    gyroscope = new LinearAccelerationSensor({ frequency: 60 });
-  } catch (err) {
-    gyroscopeDevConsole.update(xEl, 'Shit is broken');
+    const el = document.getElementById('canvas-container').children[0];
+    el.addEventListener('touchstart', this.handleStart, false);
+    el.addEventListener('touchend', this.handleEnd, false);
+    el.addEventListener('touchmove', this.handleMove, false);
   }
-  gyroscope.addEventListener('reading', onGyroscopeEvent);
-  gyroscope.addEventListener('error', e => { gyroscopeDevConsole.update(xEl, JSON.stringify(e)); });
-  gyroscope.addEventListener('activate', e => { gyroscopeDevConsole.update(xEl, JSON.stringify(e)); });
 
-  gyroscope.start();
-};
+  static clearInput() {
+    inputState.up = false;
+    inputState.down = false;
+    inputState.left = false;
+    inputState.right = false;
+  }
 
-export default initializeGyroscope;
+  static getTouchPos(e) {
+    return {
+      x: e.touches[0].screenX,
+      y: e.touches[0].screenY,
+    };
+  }
+
+  handleStart(e) {
+    this.origin = MobileInputManager.getTouchPos(e);
+  }
+
+
+  handleMove(e) {
+    const tolerance = 100;
+    const { x, y } = MobileInputManager.getTouchPos(e);
+    MobileInputManager.clearInput();
+
+    if (this.origin.x < x - tolerance)
+      inputState.right = true;
+    else if (this.origin.x > x + tolerance)
+      inputState.left = true;
+
+    if (this.origin.y < y - tolerance)
+      inputState.down = true;
+    else if (this.origin.y > y + tolerance)
+      inputState.up = true;
+  }
+
+
+  handleEnd() {
+    MobileInputManager.clearInput();
+    this.origin = null;
+  }
+}
+
+
+export default MobileInputManager;

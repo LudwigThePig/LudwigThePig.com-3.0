@@ -5,10 +5,18 @@ import { inputState } from './movement';
 class MobileInputManager {
   constructor() {
     this.origin = null;
+
     const el = document.getElementById('canvas-container').children[0];
     el.addEventListener('touchstart', this.handleStart, false);
-    el.addEventListener('touchend', MobileInputManager.handleEnd, false);
+    el.addEventListener('touchend', this.handleEnd, false);
     el.addEventListener('touchmove', this.handleMove, false);
+  }
+
+  static clearInput() {
+    inputState.up = false;
+    inputState.down = false;
+    inputState.left = false;
+    inputState.right = false;
   }
 
   static getTouchPos(e) {
@@ -26,36 +34,22 @@ class MobileInputManager {
   handleMove(e) {
     const tolerance = 100;
     const { x, y } = MobileInputManager.getTouchPos(e);
+    MobileInputManager.clearInput();
 
-    if (this.origin.x < x - tolerance) {
+    if (this.origin.x < x - tolerance)
       inputState.right = true;
-      inputState.left = false;
-    } else if (this.origin.x > x + tolerance) {
-      inputState.right = false;
+    else if (this.origin.x > x + tolerance)
       inputState.left = true;
-    } else {
-      inputState.right = false;
-      inputState.left = false;
-    }
 
-    if (this.origin.y < y - tolerance) {
+    if (this.origin.y < y - tolerance)
       inputState.down = true;
-      inputState.up = false;
-    } else if (this.origin.y > y + tolerance) {
-      inputState.down = false;
+    else if (this.origin.y > y + tolerance)
       inputState.up = true;
-    } else {
-      inputState.up = false;
-      inputState.down = false;
-    }
   }
 
 
   handleEnd() {
-    inputState.up = false;
-    inputState.down = false;
-    inputState.left = false;
-    inputState.right = false;
+    MobileInputManager.clearInput();
     this.origin = null;
   }
 }

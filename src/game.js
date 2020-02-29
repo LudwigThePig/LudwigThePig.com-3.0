@@ -40,13 +40,6 @@ scene.background = new THREE.Color(colors.black);
 const ambientLight = new THREE.AmbientLight(lightColors.softWhite, 1.2); // soft white light
 scene.add(ambientLight);
 
-const bottomLeftLight = new THREE.PointLight(colors.blue, 1.5, 50);
-bottomLeftLight.position.set(-3, -2, -5);
-bottomLeftLight.castShadow = true;
-bottomLeftLight.shadowDarkness = 2;
-
-bottomLeftLight.shadowCameraVisible = true; // for debugging
-scene.add(bottomLeftLight);
 const topRightLight = new THREE.PointLight(colors.orange, 1, 50);
 topRightLight.position.set(3, 2, -5);
 topRightLight.castShadow = true;

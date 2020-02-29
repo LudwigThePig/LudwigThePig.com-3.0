@@ -108,6 +108,7 @@ const loader = new GLTFLoader(loadingManager);
 
 const pigLoadCallback = gltf => { // TODO: ECS
   pig = gltf.scene;
+  pig.children[2].material = new THREE.ShaderMaterial();
   pig.rotation.y += degreesToRadians(30);
   camera.lookAt(pig.position);
   // Update mesh rotation using rotation matrix.
@@ -119,7 +120,7 @@ const pigLoadCallback = gltf => { // TODO: ECS
 * LOADERS *
 ********** */
 loader.load( // pig
-  'models/pig.glb',
+  'models/pig-no-mat.glb',
   pigLoadCallback,
   xhr => console.log(`${(xhr.loaded / xhr.total) * 100}% loaded`),
   err => console.error(err),

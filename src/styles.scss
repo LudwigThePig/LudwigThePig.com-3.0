@@ -43,6 +43,7 @@ body {
 
 .hidden { display: none; }
 
+
 #canvas-container{
   width: 100vw;
   height: 100vh;
@@ -80,9 +81,65 @@ header {
   }
 }
 
-footer {
+#menu-button-ctr {
   position: absolute;
   display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  padding-bottom: 2em;
+  top: calc(100vh - 100px);
+  width: 100%;
+  height: 80px;
+  margin-top: auto;
+  button {
+    padding: 10px 25px;
+    background: none;
+    border: none;
+    svg {
+      height: 80px;
+      width: 50px;
+      stroke-width: 12px;
+      stroke: $white;
+      
+      .right { 
+        transform: skewY(-45deg)
+                   translateY(50px);
+      }
+      .left { 
+        transform: skewY(45deg);
+      }
+
+      // animation: flip-arrow 0.5s reverse;
+    }
+    transform: rotate(0deg);
+    transition: transform 0.5s;
+  }
+  .is-active {
+    transform: rotate(180deg);
+    transition: transform 0.5s;
+  }
+  
+  // .is-not-active {
+  //   animation: flip-arrow 0.5s reverse;
+  //   // transform: rotate(0deg);
+  // }
+  
+}
+
+@keyframes flip-arrow {
+  from {
+    transform: rotate(180deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+
+footer {
+  position: absolute;
+  display: none;
+  // display: flex;
   justify-content: center;
   box-sizing: border-box;
   padding-bottom: 2em;

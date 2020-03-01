@@ -113,7 +113,8 @@ main {
   justify-content: center;
   box-sizing: border-box;
   padding-bottom: 2em;
-  top: calc(100vh - 120px);
+  top: calc(100vh - 130px);
+  @media screen and (min-width: $desktop) { top: calc(100vh - 80px); }
   width: 100vw;
   height: 100vh;
   padding: 0 10vw;

@@ -1,15 +1,19 @@
 class MenuHandler {
   constructor(toggler) {
     this.isActive = false;
-    this.toggler = toggler;
+    this.togglerEl = toggler;
     this.toggleMenu = this.toggleMenu.bind(this);
+    this.menuCtrEl = document.getElementById('menu');
   }
 
   toggleMenu() {
-    if (this.isActive)
-      this.toggler.classList.remove('is-active');
-    else
-      this.toggler.classList.add('is-active');
+    if (this.isActive) {
+      this.togglerEl.classList.remove('is-active');
+      this.menuCtrEl.classList.remove('is-active');
+    } else {
+      this.togglerEl.classList.add('is-active');
+      this.menuCtrEl.classList.add('is-active');
+    }
     this.isActive = !this.isActive;
   }
 }

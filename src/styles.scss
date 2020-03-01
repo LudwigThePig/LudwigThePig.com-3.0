@@ -34,17 +34,17 @@ body {
 }
 
 .desktop {
-  visibility: hidden;
+  display: none;
 }
 .mobile {
-  visibility: visible;
+  display: block;
 }
 @media screen and (min-width: $desktop) {
   .desktop {
-    visibility: visible;
+    display: block;
   }
   .mobile {
-    visibility: hidden;
+    display: none;
   }
 }
 
@@ -124,7 +124,7 @@ main {
   &.is-active { 
     top: 0vh;
     transition: top 1s ease-out, background-color 1s ease-out; 
-    background-color: #323846DD;
+    background-color: #323846EF;
   }
   
   #menu-button-ctr {
@@ -167,7 +167,18 @@ main {
     text-shadow: 1px -1px #ED6767, 2px -2px #ED6767, 2px -2px #ED6767, 4px -4px #ED6767, 4px -4px #ED6767, 4px -4px #ED6767, 4px -4px #ED6767, 4px -4px #ED6767;
   }
   p {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
+  }
+
+  .key {
+    font-size: 1.3rem;
+    background: rgb(143,143,143);
+    background: linear-gradient(149deg, #848484 0%, #C9C9C9 17%, #FAFAFA 100%);
+    border-radius: 4px;
+    box-shadow: inset 6px 0px 15px 6px #848484, 0px 0px 0px 2px #737373;
+    color: $black;
+    padding: 2px 5px;
+    font-family: Helvetica, sans-serif;
   }
   
 

@@ -39,6 +39,17 @@ body {
   50% { opacity: 0; }
   99% { opacity: 0; }
 }
+
+@keyframes flip-arrow {
+  from {
+    transform: rotate(180deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+
 .hidden-animation { animation: hide 5s; }
 
 .hidden { display: none; }
@@ -81,7 +92,8 @@ header {
   }
 }
 
-#menu-button-ctr {
+/* Menu Container */
+main {
   position: absolute;
   display: flex;
   justify-content: center;
@@ -89,72 +101,73 @@ header {
   padding-bottom: 2em;
   top: calc(100vh - 100px);
   width: 100%;
-  height: 80px;
+  height: 100vh;
   margin-top: auto;
-  button {
-    padding: 10px 25px;
-    background: none;
-    border: none;
-    svg {
-      height: 80px;
-      width: 50px;
-      stroke-width: 12px;
-      stroke: $white;
-      
-      .right { 
-        transform: skewY(-45deg)
-                   translateY(50px);
-      }
-      .left { 
-        transform: skewY(45deg);
-      }
+  background-color: #12345600;
+  transition: top 1s ease-in, background-color 1s ease-in;
+  &.is-active { 
+    top: 0vh;
+    transition: top 1s ease-out, background-color 1s ease-out; 
+    background-color: #ED6767dd;
+  }
+  
+  #menu-button-ctr {
+    display: flex;
+    justify-content: center;  
+    width: 100%;
+    height: 80px;
 
-      // animation: flip-arrow 0.5s reverse;
+    button {
+      padding: 10px 25px;
+      background: none;
+      border: none;
+      svg {
+        height: 80px;
+        width: 50px;
+        stroke-width: 12px;
+        stroke: $white;
+        
+        .right { 
+          transform: skewY(-45deg)
+          translateY(50px);
+        }
+        .left { 
+          transform: skewY(45deg);
+        }
+        
+        // animation: flip-arrow 0.5s reverse;
+      }
+      transform: rotate(0deg);
+      transition: transform 0.5s;
     }
-    transform: rotate(0deg);
-    transition: transform 0.5s;
+    .is-active {
+      transform: rotate(180deg);
+      transition: transform 0.5s;
+    }
   }
-  .is-active {
-    transform: rotate(180deg);
-    transition: transform 0.5s;
-  }
-  
-  // .is-not-active {
-  //   animation: flip-arrow 0.5s reverse;
-  //   // transform: rotate(0deg);
-  // }
-  
-}
-
-@keyframes flip-arrow {
-  from {
-    transform: rotate(180deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
-}
 
 
-footer {
-  position: absolute;
-  display: none;
-  // display: flex;
-  justify-content: center;
-  box-sizing: border-box;
-  padding-bottom: 2em;
-  top: calc(100vh - 100px);
-  width: 100%;
-  height: 80px;
-  margin-top: auto;
-  .icon {
-    fill: $white;
-    height: 2.5em;
-    width: 2.5em;
-    cursor: pointer;
-    margin: 0 1em;
-    &:hover {
-      fill: $salmon;
+
+  footer {
+    position: absolute;
+    display: none;
+    // display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    padding-bottom: 2em;
+    top: calc(100vh - 100px);
+    width: 100%;
+    height: 80px;
+    margin-top: auto;
+    .icon {
+      fill: $white;
+      height: 2.5em;
+      width: 2.5em;
+      cursor: pointer;
+      margin: 0 1em;
+      &:hover {
+        fill: $salmon;
+      }
     }
   }
 }

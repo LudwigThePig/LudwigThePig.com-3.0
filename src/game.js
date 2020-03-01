@@ -39,19 +39,9 @@ scene.background = new THREE.Color(colors.black);
 const ambientLight = new THREE.AmbientLight(lightColors.softWhite, 1.2); // soft white light
 scene.add(ambientLight);
 
-const bottomLeftLight = new THREE.PointLight(colors.blue, 3.5, 50);
-bottomLeftLight.position.set(-3, -2, -5);
-bottomLeftLight.castShadow = true;
-bottomLeftLight.shadowDarkness = 2;
-
-bottomLeftLight.shadowCameraVisible = true; // for debugging
-scene.add(bottomLeftLight);
-const topRightLight = new THREE.PointLight(colors.orange, 3.5, 50);
+const topRightLight = new THREE.PointLight(colors.orange, 1, 50);
 topRightLight.position.set(3, 2, -5);
 topRightLight.castShadow = true;
-topRightLight.shadowDarkness = 2;
-
-topRightLight.shadowCameraVisible = true; // for debugging
 scene.add(topRightLight);
 
 
@@ -108,9 +98,15 @@ const loader = new GLTFLoader(loadingManager);
 
 const pigLoadCallback = gltf => { // TODO: ECS
   pig = gltf.scene;
+
+  pig.children[2].material = new THREE.MeshToonMaterial({
+    color: colors.purple,
+    bumpScale: 1,
+    shininess: 1,
+  });
+
   pig.rotation.y += degreesToRadians(30);
   camera.lookAt(pig.position);
-  // Update mesh rotation using rotation matrix.
   scene.add(pig);
 };
 

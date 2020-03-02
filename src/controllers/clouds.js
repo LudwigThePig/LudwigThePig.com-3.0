@@ -12,7 +12,7 @@ const updateCloudsPosition = clouds => {
     time = 0;
   }
   const speed = (easeInOutSine(time, 0.001, maxSpeed, totalDuration / 2));
-  console.log(speed);
+
   clouds.forEach(cloud => {
     cloud.position.x += speed * direction;
     cloud.position.z += speed * direction;

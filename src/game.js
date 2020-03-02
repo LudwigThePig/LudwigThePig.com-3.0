@@ -39,10 +39,10 @@ scene.background = new THREE.Color(colors.black);
 * Lights *
 ******** */
 
-const ambientLight = new THREE.AmbientLight(lightColors.softWhite, 1.2); // soft white light
+const ambientLight = new THREE.AmbientLight(lightColors.white, 0.8); // soft white light
 scene.add(ambientLight);
 
-const topRightLight = new THREE.PointLight(colors.orange, 1, 50, 0);
+const topRightLight = new THREE.PointLight(colors.white, 0.2, 50, 0);
 topRightLight.position.set(0, 5, 0);
 topRightLight.castShadow = true;
 scene.add(topRightLight);
@@ -75,7 +75,7 @@ const pigLoadCallback = gltf => { // TODO: ECS
   pig = gltf.scene;
 
   pig.children[2].material = new THREE.MeshToonMaterial({
-    color: colors.purple,
+    color: colors.pink,
     bumpScale: 1,
     shininess: 1,
   });
@@ -90,12 +90,14 @@ const pigLoadCallback = gltf => { // TODO: ECS
  ☁☁☁☁☁☁☁☁ */
 const clouds = [];
 const cloudLoadCallback = gltf => {
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 20; i++) {
     const cloud = gltf.scene.clone();
     cloud.children[2].material = new THREE.MeshToonMaterial({
       color: 0xFFFFFF,
+      emissive: 0,
+      emissiveIntensity: 0,
       bumpScale: 1,
-      shininess: 0,
+      shininess: 1,
     });
 
     cloud.position.x = randomBoundedInt(-20, 20);

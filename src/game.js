@@ -6,6 +6,8 @@ import { degreesToRadians } from './utils/math';
 import { updatePosition } from './controllers/movement';
 import { hideLoadingScreen } from './views/loadingScreen';
 import inputHandler from './controllers/inputHandler';
+import updateCloudsPosition from './controllers/clouds';
+import { randomBoundedInt } from './utils/random';
 
 const loadingManager = new THREE.LoadingManager();
 loadingManager.onLoad = () => {
@@ -36,11 +38,12 @@ scene.background = new THREE.Color(colors.black);
 /* *******
 * Lights *
 ******** */
-const ambientLight = new THREE.AmbientLight(lightColors.softWhite, 1.2); // soft white light
+
+const ambientLight = new THREE.AmbientLight(lightColors.white, 0.8); // soft white light
 scene.add(ambientLight);
 
-const topRightLight = new THREE.PointLight(colors.orange, 1, 50);
-topRightLight.position.set(3, 2, -5);
+const topRightLight = new THREE.PointLight(colors.white, 0.2, 50, 0);
+topRightLight.position.set(0, 5, 0);
 topRightLight.castShadow = true;
 scene.add(topRightLight);
 
@@ -58,49 +61,21 @@ camera.position.set(0, 2, -8);
 camera.lookAt(scene.position);
 
 
-/* *********************
-* Background Particles *
-********************** */
-const geometry = new THREE.TetrahedronGeometry(2, 0);
-const particle = new THREE.Object3D();
-
-
-for (let i = 0; i < 1000; i++) {
-  const material = new THREE.MeshPhongMaterial({
-    color: [colors.blue, colors.white, colors.orange][Math.floor(Math.random() * 3)],
-    flatShading: true,
-  });
-  const mesh = new THREE.Mesh(geometry, material);
-  mesh.position.set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
-  mesh.position.multiplyScalar(90 + (Math.random() * 700));
-  mesh.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
-  particle.add(mesh);
-}
-scene.add(particle);
-
-let rotationSpeed = 1;
-let rotationDirection = 1;
-const updateParticleRotation = () => {
-  if (rotationSpeed >= 1) rotationDirection = -1;
-  if (rotationSpeed <= -1) rotationDirection = 1;
-  rotationSpeed += ((Math.cos(Math.PI * rotationSpeed) + 1) / 2 * rotationDirection);
-  particle.rotation.x += rotationSpeed * 0.002;
-  particle.rotation.y += rotationSpeed * 0.002;
-};
-
-
 /* 🐷🐷🐷🐷🐷
 * PIG MODEL *
 🐷🐷🐷🐷🐷🐷 */
 let pig;
 
-const loader = new GLTFLoader(loadingManager);
+const pigLoader = new GLTFLoader(loadingManager);
+const skyboXloader = new THREE.CubeTextureLoader(loadingManager);
+const cloudLoader = new GLTFLoader(loadingManager);
+
 
 const pigLoadCallback = gltf => { // TODO: ECS
   pig = gltf.scene;
 
   pig.children[2].material = new THREE.MeshToonMaterial({
-    color: colors.purple,
+    color: colors.pink,
     bumpScale: 1,
     shininess: 1,
   });
@@ -110,30 +85,70 @@ const pigLoadCallback = gltf => { // TODO: ECS
   scene.add(pig);
 };
 
+/* ☁☁☁☁☁☁☁☁
+ * CLOUD MODEL *
+ ☁☁☁☁☁☁☁☁ */
+const clouds = [];
+const cloudLoadCallback = gltf => {
+  for (let i = 0; i < 20; i++) {
+    const cloud = gltf.scene.clone();
+    cloud.children[2].material = new THREE.MeshToonMaterial({
+      color: 0xFFFFFF,
+      emissive: 0,
+      emissiveIntensity: 0,
+      bumpScale: 1,
+      shininess: 1,
+    });
+
+    cloud.position.x = randomBoundedInt(-20, 20);
+    cloud.position.y = randomBoundedInt(5, 8);
+    cloud.position.z = randomBoundedInt(-20, 20);
+    cloud.rotation.y = degreesToRadians(randomBoundedInt(0, 360));
+    clouds.push(cloud);
+    scene.add(cloud);
+  }
+};
+
 
 /* ********
 * LOADERS *
 ********** */
-loader.load( // pig
+pigLoader.load( // pig
   'models/pig.glb',
   pigLoadCallback,
-  xhr => console.log(`${(xhr.loaded / xhr.total) * 100}% loaded`),
+  null,
   err => console.error(err),
 );
+
+cloudLoader.load(
+  'models/cloud.glb',
+  cloudLoadCallback,
+  null,
+  err => console.error(err),
+);
+
+const texture = skyboXloader.load([
+  'textures/skybox/z-plus.png',
+  'textures/skybox/z-minus.png', // should be minus
+  'textures/skybox/y-plus.png',
+  'textures/skybox/y-minus.png',
+  'textures/skybox/x-plus.png',
+  'textures/skybox/x-minus.png',
+]);
+scene.background = texture;
+
 
 /* ***************
 * Main Game Loop *
 **************** */
 const draw = () => {
-  updateParticleRotation();
   renderer.render(scene, camera);
   requestAnimationFrame(draw);
+  camera.lookAt(pig.position);
   updatePosition(pig);
+  updateCloudsPosition(clouds);
 };
 
-
-setInterval(() => {
-}, 10);
 
 /* *********************
 * MISC EVENT LISTENERS *

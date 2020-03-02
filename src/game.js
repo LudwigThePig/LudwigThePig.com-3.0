@@ -58,43 +58,12 @@ camera.position.set(0, 2, -8);
 camera.lookAt(scene.position);
 
 
-/* *********************
-* Background Particles *
-********************** */
-const geometry = new THREE.TetrahedronGeometry(2, 0);
-const particle = new THREE.Object3D();
-
-
-for (let i = 0; i < 1000; i++) {
-  const material = new THREE.MeshPhongMaterial({
-    color: [colors.blue, colors.white, colors.orange][Math.floor(Math.random() * 3)],
-    flatShading: true,
-  });
-  const mesh = new THREE.Mesh(geometry, material);
-  mesh.position.set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
-  mesh.position.multiplyScalar(90 + (Math.random() * 700));
-  mesh.rotation.set(Math.random() * 2, Math.random() * 2, Math.random() * 2);
-  particle.add(mesh);
-}
-scene.add(particle);
-
-let rotationSpeed = 1;
-let rotationDirection = 1;
-const updateParticleRotation = () => {
-  if (rotationSpeed >= 1) rotationDirection = -1;
-  if (rotationSpeed <= -1) rotationDirection = 1;
-  rotationSpeed += ((Math.cos(Math.PI * rotationSpeed) + 1) / 2 * rotationDirection);
-  particle.rotation.x += rotationSpeed * 0.002;
-  particle.rotation.y += rotationSpeed * 0.002;
-};
-
-
 /* 🐷🐷🐷🐷🐷
 * PIG MODEL *
 🐷🐷🐷🐷🐷🐷 */
 let pig;
 
-const loader = new GLTFLoader(loadingManager);
+const pigLoader = new GLTFLoader(loadingManager);
 
 const pigLoadCallback = gltf => { // TODO: ECS
   pig = gltf.scene;
@@ -114,7 +83,7 @@ const pigLoadCallback = gltf => { // TODO: ECS
 /* ********
 * LOADERS *
 ********** */
-loader.load( // pig
+pigLoader.load( // pig
   'models/pig.glb',
   pigLoadCallback,
   xhr => console.log(`${(xhr.loaded / xhr.total) * 100}% loaded`),
@@ -125,10 +94,10 @@ const skyboXloader = new THREE.CubeTextureLoader();
 const texture = skyboXloader.load([
   'textures/skybox/z-plus.png',
   'textures/skybox/z-minus.png', // should be minus
-  'textures/skybox/x-minus.png',
+  'textures/skybox/y-plus.png',
   'textures/skybox/y-minus.png',
   'textures/skybox/x-plus.png',
-  'textures/skybox/y-plus.png',
+  'textures/skybox/x-minus.png',
 ]);
 scene.background = texture;
 
@@ -136,9 +105,9 @@ scene.background = texture;
 * Main Game Loop *
 **************** */
 const draw = () => {
-  updateParticleRotation();
   renderer.render(scene, camera);
   requestAnimationFrame(draw);
+  camera.lookAt(pig.position);
   updatePosition(pig);
 };
 

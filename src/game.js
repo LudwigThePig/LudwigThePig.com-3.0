@@ -121,6 +121,17 @@ loader.load( // pig
   err => console.error(err),
 );
 
+const skyboXloader = new THREE.CubeTextureLoader();
+const texture = skyboXloader.load([
+  'textures/skybox/z-plus.png',
+  'textures/skybox/z-minus.png', // should be minus
+  'textures/skybox/x-minus.png',
+  'textures/skybox/y-minus.png',
+  'textures/skybox/x-plus.png',
+  'textures/skybox/y-plus.png',
+]);
+scene.background = texture;
+
 /* ***************
 * Main Game Loop *
 **************** */

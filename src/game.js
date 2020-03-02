@@ -6,6 +6,7 @@ import { degreesToRadians } from './utils/math';
 import { updatePosition } from './controllers/movement';
 import { hideLoadingScreen } from './views/loadingScreen';
 import inputHandler from './controllers/inputHandler';
+import updateCloudsPosition from './controllers/clouds';
 
 const loadingManager = new THREE.LoadingManager();
 loadingManager.onLoad = () => {
@@ -36,11 +37,12 @@ scene.background = new THREE.Color(colors.black);
 /* *******
 * Lights *
 ******** */
+
 const ambientLight = new THREE.AmbientLight(lightColors.softWhite, 1.2); // soft white light
 scene.add(ambientLight);
 
-const topRightLight = new THREE.PointLight(colors.orange, 1, 50);
-topRightLight.position.set(3, 2, -5);
+const topRightLight = new THREE.PointLight(colors.orange, 1, 50, 0);
+topRightLight.position.set(0, 5, 0);
 topRightLight.castShadow = true;
 scene.add(topRightLight);
 
@@ -136,13 +138,10 @@ const draw = () => {
   renderer.render(scene, camera);
   requestAnimationFrame(draw);
   camera.lookAt(pig.position);
-  clouds[0].position.z += 0.01;
   updatePosition(pig);
+  updateCloudsPosition(clouds);
 };
 
-
-setInterval(() => {
-}, 10);
 
 /* *********************
 * MISC EVENT LISTENERS *

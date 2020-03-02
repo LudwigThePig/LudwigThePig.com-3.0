@@ -97,9 +97,11 @@ const cloudLoadCallback = gltf => {
       bumpScale: 1,
       shininess: 0,
     });
+
     cloud.position.x = randomBoundedInt(-20, 20);
     cloud.position.y = randomBoundedInt(5, 8);
     cloud.position.z = randomBoundedInt(-20, 20);
+    cloud.rotation.y = degreesToRadians(randomBoundedInt(0, 360));
     clouds.push(cloud);
     scene.add(cloud);
   }

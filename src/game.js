@@ -64,6 +64,9 @@ camera.lookAt(scene.position);
 let pig;
 
 const pigLoader = new GLTFLoader(loadingManager);
+const skyboXloader = new THREE.CubeTextureLoader(loadingManager);
+const cloudLoader = new GLTFLoader(loadingManager);
+
 
 const pigLoadCallback = gltf => { // TODO: ECS
   pig = gltf.scene;
@@ -79,6 +82,24 @@ const pigLoadCallback = gltf => { // TODO: ECS
   scene.add(pig);
 };
 
+/* ☁☁☁☁☁☁☁☁
+ * CLOUD MODEL *
+ ☁☁☁☁☁☁☁☁ */
+const clouds = [];
+const cloudLoadCallback = gltf => {
+  const cloud = gltf.scene.clone();
+  cloud.children[2].material = new THREE.MeshToonMaterial({
+    color: 0xFFFFFF,
+    bumpScale: 1,
+    shininess: 0,
+  });
+  cloud.position.x = 1;
+  cloud.position.y = 1;
+  cloud.position.z = 3;
+  clouds.push(cloud);
+  scene.add(cloud);
+};
+
 
 /* ********
 * LOADERS *
@@ -86,11 +107,17 @@ const pigLoadCallback = gltf => { // TODO: ECS
 pigLoader.load( // pig
   'models/pig.glb',
   pigLoadCallback,
-  xhr => console.log(`${(xhr.loaded / xhr.total) * 100}% loaded`),
+  null,
   err => console.error(err),
 );
 
-const skyboXloader = new THREE.CubeTextureLoader();
+cloudLoader.load(
+  'models/cloud.glb',
+  cloudLoadCallback,
+  null,
+  err => console.error(err),
+);
+
 const texture = skyboXloader.load([
   'textures/skybox/z-plus.png',
   'textures/skybox/z-minus.png', // should be minus
@@ -101,6 +128,7 @@ const texture = skyboXloader.load([
 ]);
 scene.background = texture;
 
+
 /* ***************
 * Main Game Loop *
 **************** */
@@ -108,6 +136,7 @@ const draw = () => {
   renderer.render(scene, camera);
   requestAnimationFrame(draw);
   camera.lookAt(pig.position);
+  clouds[0].position.z += 0.01;
   updatePosition(pig);
 };
 

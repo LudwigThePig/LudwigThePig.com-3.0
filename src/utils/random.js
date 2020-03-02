@@ -5,4 +5,4 @@ export const randomArrayItem = arr => {
   return arr[index];
 };
 
-export const rnadomBoundedInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+export const randomBoundedInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;

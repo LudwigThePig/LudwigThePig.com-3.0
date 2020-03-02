@@ -7,6 +7,7 @@ import { updatePosition } from './controllers/movement';
 import { hideLoadingScreen } from './views/loadingScreen';
 import inputHandler from './controllers/inputHandler';
 import updateCloudsPosition from './controllers/clouds';
+import { randomBoundedInt } from './utils/random';
 
 const loadingManager = new THREE.LoadingManager();
 loadingManager.onLoad = () => {
@@ -89,17 +90,19 @@ const pigLoadCallback = gltf => { // TODO: ECS
  ☁☁☁☁☁☁☁☁ */
 const clouds = [];
 const cloudLoadCallback = gltf => {
-  const cloud = gltf.scene.clone();
-  cloud.children[2].material = new THREE.MeshToonMaterial({
-    color: 0xFFFFFF,
-    bumpScale: 1,
-    shininess: 0,
-  });
-  cloud.position.x = 1;
-  cloud.position.y = 1;
-  cloud.position.z = 3;
-  clouds.push(cloud);
-  scene.add(cloud);
+  for (let i = 0; i < 10; i++) {
+    const cloud = gltf.scene.clone();
+    cloud.children[2].material = new THREE.MeshToonMaterial({
+      color: 0xFFFFFF,
+      bumpScale: 1,
+      shininess: 0,
+    });
+    cloud.position.x = randomBoundedInt(-20, 20);
+    cloud.position.y = randomBoundedInt(5, 8);
+    cloud.position.z = randomBoundedInt(-20, 20);
+    clouds.push(cloud);
+    scene.add(cloud);
+  }
 };
 
 

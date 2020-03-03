@@ -4,15 +4,18 @@ class MenuHandler {
     this.togglerEl = toggler;
     this.toggleMenu = this.toggleMenu.bind(this);
     this.menuCtrEl = document.getElementById('menu');
+    this.menuContentEl = document.getElementById('menu-content');
   }
 
   toggleMenu() {
     if (this.isActive) {
       this.togglerEl.classList.remove('is-active');
       this.menuCtrEl.classList.remove('is-active');
+      setTimeout(() => this.menuContentEl.classList.add('hidden'), 1000);
     } else {
       this.togglerEl.classList.add('is-active');
       this.menuCtrEl.classList.add('is-active');
+      this.menuContentEl.classList.remove('hidden');
     }
     this.isActive = !this.isActive;
   }

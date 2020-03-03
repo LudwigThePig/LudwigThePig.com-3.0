@@ -109,6 +109,33 @@ const cloudLoadCallback = gltf => {
   }
 };
 
+const loader = new THREE.FontLoader();
+
+loader.load('fonts/gentilis_regular.typeface.json', font => {
+  const textGeometry = new THREE.TextGeometry('Ludwig The Pig', {
+    font,
+    size: 5,
+    height: 0.5,
+    curveSegments: 12,
+    bevelEnabled: true,
+    bevelThickness: 0.1,
+    bevelSize: 0.2,
+    bevelOffset: 0,
+    bevelSegments: 5,
+  });
+
+  const textMaterial = new THREE.MeshToonMaterial({
+    color: colors.white,
+    shininess: 0,
+  });
+
+  const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+  textMesh.position.z = 6;
+  textMesh.position.y = 5;
+  textMesh.position.x = 20;
+  textMesh.rotation.y = degreesToRadians(180);
+  scene.add(textMesh);
+});
 
 /* ********
 * LOADERS *

@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import showMenu from './views/menu';
 import colors, { lightColors } from './utils/colors';
-import { degreesToRadians, radiansToDegrees } from './utils/math';
+import { degreesToRadians } from './utils/math';
 import { updatePosition } from './controllers/movement';
 import { hideLoadingScreen } from './views/loadingScreen';
 import inputHandler from './controllers/inputHandler';
@@ -57,7 +57,7 @@ const camera = new THREE.PerspectiveCamera(
   1,
   1000,
 );
-camera.position.set(0, 2, -8);
+camera.position.set(0, 1, -8);
 camera.lookAt(scene.position);
 
 
@@ -176,13 +176,17 @@ scene.background = skyboxTexture;
 /* **************
  * Ground Model *
  ************** */
-const groundTexture = groundTextureLoader.load('textures/grass-texture.png');
-const groundGeometry = new THREE.PlaneGeometry(2000, 2000, 200, 200);
-const groundMaterial = new THREE.MeshBasicMaterial({ map: groundTexture });
+const groundTexture = groundTextureLoader.load('textures/water-texture.png');
+
+groundTexture.wrapS = THREE.RepeatWrapping;
+groundTexture.wrapT = THREE.RepeatWrapping;
+groundTexture.repeat.set(200, 200);
+const groundGeometry = new THREE.PlaneGeometry(2000, 2000);
+const groundMaterial = new THREE.MeshPhongMaterial({ map: groundTexture });
 const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
 
 groundMesh.rotation.x = degreesToRadians(-90);
-groundMesh.position.y = -1.4;
+groundMesh.position.y = -1;
 scene.add(groundMesh);
 
 /* ***************
@@ -190,6 +194,7 @@ scene.add(groundMesh);
 **************** */
 const draw = () => {
   renderer.render(scene, camera);
+  groundTexture.offset.y += 0.002;
   requestAnimationFrame(draw);
   camera.lookAt(pig.position);
   updatePosition(pig);

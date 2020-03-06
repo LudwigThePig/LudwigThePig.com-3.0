@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import showMenu from './views/menu';
 import colors, { lightColors } from './utils/colors';
-import { degreesToRadians } from './utils/math';
+import { degreesToRadians, radiansToDegrees } from './utils/math';
 import { updatePosition } from './controllers/movement';
 import { hideLoadingScreen } from './views/loadingScreen';
 import inputHandler from './controllers/inputHandler';
@@ -67,7 +67,8 @@ camera.lookAt(scene.position);
 let pig;
 
 const pigLoader = new GLTFLoader(loadingManager);
-const skyboXloader = new THREE.CubeTextureLoader(loadingManager);
+const skyboxLoader = new THREE.CubeTextureLoader(loadingManager);
+const groundTextureLoader = new THREE.TextureLoader(loadingManager);
 const cloudLoader = new GLTFLoader(loadingManager);
 const fontLoader = new THREE.FontLoader(loadingManager);
 
@@ -161,7 +162,7 @@ fontLoader.load(
   fontLoadCallback,
 );
 
-const texture = skyboXloader.load([
+const skyboxTexture = skyboxLoader.load([
   'textures/skybox/z-plus.png',
   'textures/skybox/z-minus.png', // should be minus
   'textures/skybox/y-plus.png',
@@ -169,8 +170,20 @@ const texture = skyboXloader.load([
   'textures/skybox/x-plus.png',
   'textures/skybox/x-minus.png',
 ]);
-scene.background = texture;
+scene.background = skyboxTexture;
 
+
+/* **************
+ * Ground Model *
+ ************** */
+const groundTexture = groundTextureLoader.load('textures/grass-texture.png');
+const groundGeometry = new THREE.PlaneGeometry(2000, 2000, 200, 200);
+const groundMaterial = new THREE.MeshBasicMaterial({ map: groundTexture });
+const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
+
+groundMesh.rotation.x = degreesToRadians(-90);
+groundMesh.position.y = -1.4;
+scene.add(groundMesh);
 
 /* ***************
 * Main Game Loop *

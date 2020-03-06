@@ -69,6 +69,7 @@ let pig;
 const pigLoader = new GLTFLoader(loadingManager);
 const skyboXloader = new THREE.CubeTextureLoader(loadingManager);
 const cloudLoader = new GLTFLoader(loadingManager);
+const fontLoader = new THREE.FontLoader(loadingManager);
 
 
 const pigLoadCallback = gltf => { // TODO: ECS
@@ -109,9 +110,10 @@ const cloudLoadCallback = gltf => {
   }
 };
 
-const loader = new THREE.FontLoader();
-
-loader.load('fonts/gentilis_regular.typeface.json', font => {
+/* *************
+ * Font Loader *
+ ************* */
+const fontLoadCallback = font => {
   const textGeometry = new THREE.TextGeometry('Ludwig The Pig', {
     font,
     size: 5,
@@ -135,7 +137,7 @@ loader.load('fonts/gentilis_regular.typeface.json', font => {
   textMesh.position.x = 20;
   textMesh.rotation.y = degreesToRadians(180);
   scene.add(textMesh);
-});
+};
 
 /* ********
 * LOADERS *
@@ -152,6 +154,11 @@ cloudLoader.load(
   cloudLoadCallback,
   null,
   err => console.error(err),
+);
+
+fontLoader.load(
+  'fonts/gentilis_regular.typeface.json',
+  fontLoadCallback,
 );
 
 const texture = skyboXloader.load([

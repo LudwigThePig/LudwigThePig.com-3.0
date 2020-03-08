@@ -71,15 +71,6 @@ h2 {
   99% { opacity: 0; }
 }
 
-@keyframes flip-arrow {
-  from {
-    transform: rotate(180deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
-}
-
 
 .hidden-animation { animation: hide 5s; }
 
@@ -173,8 +164,7 @@ main {
         .left { 
           transform: skewY(45deg);
         }
-        
-        // animation: flip-arrow 0.5s reverse;
+
       }
       transform: rotate(0deg);
       transition: transform 0.5s;

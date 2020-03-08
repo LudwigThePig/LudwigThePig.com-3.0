@@ -144,18 +144,20 @@ main {
     display: flex;
     justify-content: center;  
     width: 100%;
-    // height: 50px;
     
     button {
       padding: 10px 25px;
       background: none;
       border: none;
       cursor: pointer;
+
+      &:focus { outline: 0; }
       svg {
         height: 30px;
         width: auto;
         stroke-width: 12px;
         stroke: $white;
+        &:hover, &:active, &:focus { stroke: $salmon; }
         
         .right { 
           transform: skewY(-45deg)

@@ -57,7 +57,7 @@ const camera = new THREE.PerspectiveCamera(
   1,
   1000,
 );
-camera.position.set(0, 2, -8);
+camera.position.set(0, 1, -8);
 camera.lookAt(scene.position);
 
 
@@ -67,8 +67,10 @@ camera.lookAt(scene.position);
 let pig;
 
 const pigLoader = new GLTFLoader(loadingManager);
-const skyboXloader = new THREE.CubeTextureLoader(loadingManager);
+const skyboxLoader = new THREE.CubeTextureLoader(loadingManager);
+const groundTextureLoader = new THREE.TextureLoader(loadingManager);
 const cloudLoader = new GLTFLoader(loadingManager);
+const fontLoader = new THREE.FontLoader(loadingManager);
 
 
 const pigLoadCallback = gltf => { // TODO: ECS
@@ -81,6 +83,7 @@ const pigLoadCallback = gltf => { // TODO: ECS
   });
 
   pig.rotation.y += degreesToRadians(30);
+  pig.position.y = 0.2;
   camera.lookAt(pig.position);
   scene.add(pig);
 };
@@ -109,9 +112,10 @@ const cloudLoadCallback = gltf => {
   }
 };
 
-const loader = new THREE.FontLoader();
-
-loader.load('fonts/gentilis_regular.typeface.json', font => {
+/* *************
+ * Font Loader *
+ ************* */
+const fontLoadCallback = font => {
   const textGeometry = new THREE.TextGeometry('Ludwig The Pig', {
     font,
     size: 5,
@@ -135,7 +139,7 @@ loader.load('fonts/gentilis_regular.typeface.json', font => {
   textMesh.position.x = 20;
   textMesh.rotation.y = degreesToRadians(180);
   scene.add(textMesh);
-});
+};
 
 /* ********
 * LOADERS *
@@ -154,7 +158,12 @@ cloudLoader.load(
   err => console.error(err),
 );
 
-const texture = skyboXloader.load([
+fontLoader.load(
+  'fonts/gentilis_regular.typeface.json',
+  fontLoadCallback,
+);
+
+const skyboxTexture = skyboxLoader.load([
   'textures/skybox/z-plus.png',
   'textures/skybox/z-minus.png', // should be minus
   'textures/skybox/y-plus.png',
@@ -162,8 +171,24 @@ const texture = skyboXloader.load([
   'textures/skybox/x-plus.png',
   'textures/skybox/x-minus.png',
 ]);
-scene.background = texture;
+scene.background = skyboxTexture;
 
+
+/* **************
+ * Ground Model *
+ ************** */
+const groundTexture = groundTextureLoader.load('textures/sand.png');
+
+groundTexture.wrapS = THREE.RepeatWrapping;
+groundTexture.wrapT = THREE.RepeatWrapping;
+groundTexture.repeat.set(200, 200);
+const groundGeometry = new THREE.PlaneGeometry(2000, 2000);
+const groundMaterial = new THREE.MeshBasicMaterial({ map: groundTexture });
+const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
+
+groundMesh.rotation.x = degreesToRadians(-90);
+groundMesh.position.y = -1;
+scene.add(groundMesh);
 
 /* ***************
 * Main Game Loop *

@@ -4,6 +4,7 @@ $salmon: #ED6767;
 $purple: #793F5C;
 $desktop: 600px;
 
+
 // From LTP-2.0 style sheet
 $themes: (
   light: (
@@ -27,11 +28,15 @@ $themes: (
 );
 
 
-body {
+body, html {
   background: $black;
   color: $white;
   font-family: 'Sigmar One', cursive;
+  overflow: hidden;
+  position: fixed;
 }
+
+
 
 .desktop {
   display: none;
@@ -78,6 +83,9 @@ body {
 }
 canvas {
   display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 header {

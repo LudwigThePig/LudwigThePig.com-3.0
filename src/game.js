@@ -83,6 +83,7 @@ const pigLoadCallback = gltf => { // TODO: ECS
   });
 
   pig.rotation.y += degreesToRadians(30);
+  pig.position.y = 0.2;
   camera.lookAt(pig.position);
   scene.add(pig);
 };
@@ -176,13 +177,13 @@ scene.background = skyboxTexture;
 /* **************
  * Ground Model *
  ************** */
-const groundTexture = groundTextureLoader.load('textures/water-texture.png');
+const groundTexture = groundTextureLoader.load('textures/sand.png');
 
 groundTexture.wrapS = THREE.RepeatWrapping;
 groundTexture.wrapT = THREE.RepeatWrapping;
 groundTexture.repeat.set(200, 200);
 const groundGeometry = new THREE.PlaneGeometry(2000, 2000);
-const groundMaterial = new THREE.MeshPhongMaterial({ map: groundTexture });
+const groundMaterial = new THREE.MeshBasicMaterial({ map: groundTexture });
 const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
 
 groundMesh.rotation.x = degreesToRadians(-90);
@@ -194,7 +195,6 @@ scene.add(groundMesh);
 **************** */
 const draw = () => {
   renderer.render(scene, camera);
-  groundTexture.offset.y += 0.002;
   requestAnimationFrame(draw);
   camera.lookAt(pig.position);
   updatePosition(pig);

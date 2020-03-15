@@ -84,8 +84,7 @@ const pigLoadCallback = gltf => { // TODO: ECS
 
   pig.rotation.y += degreesToRadians(30);
   pig.position.y = 0.2;
-  console.log(pig);
-  pigParticles = new ParticleEffect({}, pig);
+  pigParticles = new ParticleEffect(pig, null);
 
   camera.lookAt(pig.position);
   scene.add(pig);

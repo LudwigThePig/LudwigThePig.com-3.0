@@ -10,10 +10,11 @@ const defaultOptions = {
   minParticleSize: 0.1,
   maxParticleSize: 0.1,
   color: 0xedaa67,
+  playOnLoad: true,
 };
 
 class ParticleEffect {
-  constructor(options = {}, target) {
+  constructor(target, options = {}) {
     options = { ...defaultOptions, options };
     this.maxTime = options.maxTime;
     this.maxParticles = options.maxParticles;
@@ -24,7 +25,7 @@ class ParticleEffect {
     this.color = options.color;
 
     this.target = target;
-
+    this.play = options.playOnLoad;
     this.particleQueue = [];
 
     this.geometry = new THREE.BoxBufferGeometry(1, 1, 1);
@@ -49,6 +50,8 @@ class ParticleEffect {
   }
 
   update(deltaTime = 0.02 /* 50fps */) {
+    if (!this.play) return;
+
     // create new particles
     for (let i = 0; i < this.particlesPerSecond * deltaTime; i++) {
       this.createPaticle();
@@ -65,6 +68,24 @@ class ParticleEffect {
     this.particleQueue.forEach(particle => {
       particle.position.y += this.particleVelocity * deltaTime;
     });
+  }
+
+  play() {
+    this.play = true;
+  }
+
+  pause() {
+    this.play = false;
+  }
+
+  clear() {
+    this.target.remove(...this.particleQueue);
+    this.particleQueue = [];
+  }
+
+  stop() {
+    this.pause();
+    this.clear();
   }
 }
 

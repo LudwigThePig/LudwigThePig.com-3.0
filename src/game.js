@@ -8,6 +8,7 @@ import { hideLoadingScreen } from './views/loadingScreen';
 import inputHandler from './controllers/inputHandler';
 import updateCloudsPosition from './controllers/clouds';
 import { randomBoundedInt } from './utils/random';
+import ParticleEffect from './assets/particleEffects';
 
 const loadingManager = new THREE.LoadingManager();
 loadingManager.onLoad = () => {
@@ -184,11 +185,14 @@ groundTexture.repeat.set(200, 200);
 const groundGeometry = new THREE.PlaneGeometry(2000, 2000);
 const groundMaterial = new THREE.MeshBasicMaterial({ map: groundTexture });
 const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
-
 groundMesh.rotation.x = degreesToRadians(-90);
 groundMesh.position.y = -1;
 scene.add(groundMesh);
 
+/* 💥💥💥💥💥💥💥💥
+💥 Particle Effects 💥
+💥💥💥💥💥💥💥💥 */
+const particles = new ParticleEffect({}, scene);
 /* ***************
 * Main Game Loop *
 **************** */
@@ -198,6 +202,8 @@ const draw = () => {
   camera.lookAt(pig.position);
   updatePosition(pig);
   updateCloudsPosition(clouds);
+
+  particles.update();
 };
 
 

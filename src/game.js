@@ -8,6 +8,7 @@ import { hideLoadingScreen } from './views/loadingScreen';
 import inputHandler from './controllers/inputHandler';
 import updateCloudsPosition from './controllers/clouds';
 import { randomBoundedInt } from './utils/random';
+import ParticleEffect from './assets/particleEffects';
 
 const loadingManager = new THREE.LoadingManager();
 loadingManager.onLoad = () => {
@@ -33,7 +34,6 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 ******* */
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(colors.black);
-
 
 /* *******
 * Lights *
@@ -65,7 +65,7 @@ camera.lookAt(scene.position);
 * PIG MODEL *
 🐷🐷🐷🐷🐷🐷 */
 let pig;
-
+let pigParticles;
 const pigLoader = new GLTFLoader(loadingManager);
 const skyboxLoader = new THREE.CubeTextureLoader(loadingManager);
 const groundTextureLoader = new THREE.TextureLoader(loadingManager);
@@ -84,6 +84,8 @@ const pigLoadCallback = gltf => { // TODO: ECS
 
   pig.rotation.y += degreesToRadians(30);
   pig.position.y = 0.2;
+  pigParticles = new ParticleEffect(pig, null);
+
   camera.lookAt(pig.position);
   scene.add(pig);
 };
@@ -185,11 +187,13 @@ groundTexture.repeat.set(200, 200);
 const groundGeometry = new THREE.PlaneGeometry(2000, 2000);
 const groundMaterial = new THREE.MeshBasicMaterial({ map: groundTexture });
 const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
-
 groundMesh.rotation.x = degreesToRadians(-90);
 groundMesh.position.y = -1;
 scene.add(groundMesh);
 
+/* 💥💥💥💥💥💥💥💥
+💥 Particle Effects 💥
+💥💥💥💥💥💥💥💥 */
 /* ***************
 * Main Game Loop *
 **************** */
@@ -199,6 +203,8 @@ const draw = () => {
   camera.lookAt(pig.position);
   updatePosition(pig);
   updateCloudsPosition(clouds);
+
+  pigParticles.update();
 };
 
 

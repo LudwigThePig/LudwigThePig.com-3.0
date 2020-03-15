@@ -65,7 +65,7 @@ camera.lookAt(scene.position);
 * PIG MODEL *
 🐷🐷🐷🐷🐷🐷 */
 let pig;
-
+let pigParticles;
 const pigLoader = new GLTFLoader(loadingManager);
 const skyboxLoader = new THREE.CubeTextureLoader(loadingManager);
 const groundTextureLoader = new THREE.TextureLoader(loadingManager);
@@ -84,6 +84,9 @@ const pigLoadCallback = gltf => { // TODO: ECS
 
   pig.rotation.y += degreesToRadians(30);
   pig.position.y = 0.2;
+  console.log(pig);
+  pigParticles = new ParticleEffect({}, pig);
+
   camera.lookAt(pig.position);
   scene.add(pig);
 };
@@ -192,7 +195,6 @@ scene.add(groundMesh);
 /* 💥💥💥💥💥💥💥💥
 💥 Particle Effects 💥
 💥💥💥💥💥💥💥💥 */
-const particles = new ParticleEffect({}, scene);
 /* ***************
 * Main Game Loop *
 **************** */
@@ -203,7 +205,7 @@ const draw = () => {
   updatePosition(pig);
   updateCloudsPosition(clouds);
 
-  particles.update();
+  pigParticles.update();
 };
 
 

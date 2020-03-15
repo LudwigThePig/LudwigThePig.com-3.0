@@ -13,7 +13,7 @@ const defaultOptions = {
 };
 
 class ParticleEffect {
-  constructor(options = {}, scene) {
+  constructor(options = {}, target) {
     options = { ...defaultOptions, options };
     this.maxTime = options.maxTime;
     this.maxParticles = options.maxParticles;
@@ -23,7 +23,7 @@ class ParticleEffect {
     this.maxParticleSize = options.maxParticleSize || options.minParticleSize || 0.1;
     this.color = options.color;
 
-    this.scene = scene;
+    this.target = target;
 
     this.particleQueue = [];
 
@@ -44,7 +44,7 @@ class ParticleEffect {
     newParticle.rotation.y = randomBoundedInt(0, Math.PI * 2);
     newParticle.rotation.z = randomBoundedInt(0, Math.PI * 2);
 
-    this.scene.add(newParticle);
+    this.target.add(newParticle);
     this.particleQueue.push(newParticle);
   }
 
@@ -58,7 +58,7 @@ class ParticleEffect {
     const overThreshold = this.particleQueue.length - this.maxParticles;
     if (overThreshold > 0) {
       const removed = this.particleQueue.splice(0, overThreshold);
-      this.scene.remove(...removed);
+      this.target.remove(...removed);
     }
 
     // update current particles

@@ -8,7 +8,7 @@ const defaultOptions = {
   particlesPerSecond: 50,
   particleVelocity: 1, // Meters per Second
   particleSize: 0.1,
-  color: 0xFEDCBA,
+  color: 0xED6767,
 };
 
 class ParticleEffect {
@@ -17,6 +17,7 @@ class ParticleEffect {
     this.maxTime = options.maxTime;
     this.maxParticles = options.maxParticles;
     this.particlesPerSecond = options.particlesPerSecond;
+    this.particleVelocity = options.particleVelocity;
     this.particleSize = options.particleSize;
     this.color = options.color;
 
@@ -29,17 +30,13 @@ class ParticleEffect {
   }
 
   createPaticle() {
-    const geometry = new THREE.BoxBufferGeometry(1, 1, 1);
+    const geometry = new THREE.BoxBufferGeometry(0.1, 0.1, 0.1);
     const material = new THREE.MeshBasicMaterial({ color: this.color });
 
     const newParticle = new THREE.Mesh(geometry, material);
-    // newParticle.direction = {
-    //   x: randomBoundedInt(-1, 1),
-    //   y: randomBoundedInt(-1, 1),
-    //   z: randomBoundedInt(-1, 1),
-    // };
     newParticle.position.z = randomBoundedInt(-1, 1);
     newParticle.position.y = 1;
+
     newParticle.position.x = randomBoundedInt(-1, 1);
 
     this.scene.add(newParticle);
@@ -60,11 +57,8 @@ class ParticleEffect {
     }
 
     // update current particles
-    console.log(this.particleQueue.length);
     this.particleQueue.forEach(particle => {
-    //   // particle.position.x += this.particleVelocity * particle.direction.x;
-      particle.position.y += 0.01;// this.particleVelocity * particle.direction.y;
-    //   // particle.position.z += this.particleVelocity * particle.direction.z;
+      particle.position.y += this.particleVelocity * deltaTime;
     });
   }
 }

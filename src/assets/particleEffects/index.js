@@ -7,8 +7,9 @@ const defaultOptions = {
   maxTime: 1000, // in MS
   particlesPerSecond: 50,
   particleVelocity: 1, // Meters per Second
-  particleSize: 0.1,
-  color: 0xED6767,
+  minParticleSize: 0.1,
+  maxParticleSize: 0.1,
+  color: 0xedaa67,
 };
 
 class ParticleEffect {
@@ -18,7 +19,8 @@ class ParticleEffect {
     this.maxParticles = options.maxParticles;
     this.particlesPerSecond = options.particlesPerSecond;
     this.particleVelocity = options.particleVelocity;
-    this.particleSize = options.particleSize;
+    this.minParticleSize = options.minParticleSize || options.maxParticleSize || 0.1;
+    this.maxParticleSize = options.maxParticleSize || options.minParticleSize || 0.1;
     this.color = options.color;
 
     this.scene = scene;
@@ -30,14 +32,17 @@ class ParticleEffect {
   }
 
   createPaticle() {
-    const geometry = new THREE.BoxBufferGeometry(0.1, 0.1, 0.1);
+    const size = randomBoundedInt(this.minParticleSize, this.maxParticleSize);
+    const geometry = new THREE.BoxBufferGeometry(size, size, size);
     const material = new THREE.MeshBasicMaterial({ color: this.color });
 
     const newParticle = new THREE.Mesh(geometry, material);
     newParticle.position.z = randomBoundedInt(-1, 1);
     newParticle.position.y = 1;
-
     newParticle.position.x = randomBoundedInt(-1, 1);
+    newParticle.rotation.x = randomBoundedInt(0, Math.PI * 2);
+    newParticle.rotation.y = randomBoundedInt(0, Math.PI * 2);
+    newParticle.rotation.z = randomBoundedInt(0, Math.PI * 2);
 
     this.scene.add(newParticle);
     this.particleQueue.push(newParticle);

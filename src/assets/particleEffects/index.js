@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { randomBoundedInt } from '../../utils/random';
 
 
 const defaultOptions = {
@@ -11,7 +12,7 @@ const defaultOptions = {
 };
 
 class ParticleEffect {
-  constructor(options = {}) {
+  constructor(options = {}, scene) {
     options = { ...defaultOptions, options };
     this.maxTime = options.maxTime;
     this.maxParticles = options.maxParticles;
@@ -19,24 +20,43 @@ class ParticleEffect {
     this.particleSize = options.particleSize;
     this.color = options.color;
 
-    this.particles = [];
+    this.scene = scene;
+
+    this.particleQueue = [];
 
     this.geometry = new THREE.BoxBufferGeometry(1, 1, 1);
     this.material = new THREE.Material(this.color);
   }
 
   createPaticle() {
-    this.particles.push(new THREE.Mesh(this.geometry, this.material));
+    const newParticle = new THREE.Mesh(this.geometry, this.material);
+    newParticle.direction = {
+      x: randomBoundedInt(-1, 1),
+      y: randomBoundedInt(-1, 1),
+      z: randomBoundedInt(-1, 1),
+    };
+    this.particleQueue.push(newParticle);
   }
 
   update(deltaTime = 0.02 /* 50fps */) {
     // create new particles
-
-
-    const overThreshold = this.maxParticles - this.particles.length;
-    if (overThreshold > 0) {
-      // cull old particles
+    for (let i = 0; i < this.particlesPerSecond * deltaTime; i++) {
+      this.createPaticle();
     }
+
+    // cull excess particles
+    const overThreshold = this.particleQueue.length - this.maxParticles;
+    if (overThreshold > 0) {
+      const removed = this.particleQueue.splice(0, overThreshold);
+      this.scene.remove(...removed);
+    }
+
+    // update current particles
+    this.particleQueue.forEach(particle => {
+      particle.position.x += this.particleVelocity * particle.direction.x;
+      particle.position.y += this.particleVelocity * particle.direction.y;
+      particle.position.z += this.particleVelocity * particle.direction.z;
+    });
   }
 }
 

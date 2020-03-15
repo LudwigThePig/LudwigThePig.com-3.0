@@ -34,7 +34,6 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(colors.black);
 
-
 /* *******
 * Lights *
 ******** */

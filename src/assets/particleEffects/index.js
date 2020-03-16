@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { randomBoundedInt } from '../../utils/random';
+import { randomBoundedInt, randomBoundedFloat } from '../../utils/random';
 
 
 const defaultOptions = {
@@ -7,6 +7,8 @@ const defaultOptions = {
   maxTime: 1000, // in MS
   particlesPerSecond: 50,
   particleVelocity: 1, // Meters per Second
+  rotationRate: 0,
+  radius: new THREE.Vector3(1, 1, 1),
   minParticleSize: 0.1,
   maxParticleSize: 0.1,
   color: 0xedaa67,
@@ -16,20 +18,18 @@ const defaultOptions = {
 class ParticleEffect {
   constructor(target, options = {}) {
     options = { ...defaultOptions, options };
-    this.maxTime = options.maxTime;
+    this.color = options.color;
+    this.minParticleSize = options.minParticleSize || options.maxParticleSize || 0.1;
     this.maxParticles = options.maxParticles;
+    this.maxParticleSize = options.maxParticleSize || options.minParticleSize || 0.1;
+    this.maxTime = options.maxTime;
     this.particlesPerSecond = options.particlesPerSecond;
     this.particleVelocity = options.particleVelocity;
-    this.minParticleSize = options.minParticleSize || options.maxParticleSize || 0.1;
-    this.maxParticleSize = options.maxParticleSize || options.minParticleSize || 0.1;
-    this.color = options.color;
-
-    this.target = target;
-    this.play = options.playOnLoad;
     this.particleQueue = [];
-
-    this.geometry = new THREE.BoxBufferGeometry(1, 1, 1);
-    this.material = new THREE.MeshBasicMaterial({ color: this.color });
+    this.play = options.playOnLoad;
+    this.radius = options.radius;
+    this.rotationRate = options.rotationRate;
+    this.target = target;
   }
 
   createPaticle() {
@@ -38,12 +38,12 @@ class ParticleEffect {
     const material = new THREE.MeshBasicMaterial({ color: this.color });
 
     const newParticle = new THREE.Mesh(geometry, material);
-    newParticle.position.z = randomBoundedInt(-1, 1);
-    newParticle.position.y = 1;
-    newParticle.position.x = randomBoundedInt(-1, 1);
-    newParticle.rotation.x = randomBoundedInt(0, Math.PI * 2);
-    newParticle.rotation.y = randomBoundedInt(0, Math.PI * 2);
-    newParticle.rotation.z = randomBoundedInt(0, Math.PI * 2);
+    newParticle.position.x = randomBoundedFloat(-this.radius.x, this.radius.x);
+    newParticle.position.y = randomBoundedFloat(-this.radius.y, this.radius.y);
+    newParticle.position.z = randomBoundedFloat(-this.radius.z, this.radius.z);
+    newParticle.rotation.x = randomBoundedFloat(0, Math.PI * 2);
+    newParticle.rotation.y = randomBoundedFloat(0, Math.PI * 2);
+    newParticle.rotation.z = randomBoundedFloat(0, Math.PI * 2);
 
     this.target.add(newParticle);
     this.particleQueue.push(newParticle);

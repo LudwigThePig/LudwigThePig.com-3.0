@@ -8,7 +8,7 @@ const defaultOptions = {
     new THREE.Vector3(Math.PI * 2, Math.PI * 2, Math.PI * 2),
   ],
   maxParticles: 100,
-  maxTime: 1000, // in MS
+  maxTime: 2000, // in MS
   particlesPerSecond: 50,
   particleVelocity: 1, // units per second
   rotationRate: 0, // in radians
@@ -41,6 +41,7 @@ class ParticleEffect {
 
     // Member Variables
     this.elapsedTime = 0;
+    this.startTime = Date.now();
   }
 
 
@@ -68,6 +69,10 @@ class ParticleEffect {
 
   update(deltaTime = 0.02 /* 50fps */) {
     if (!this.play) return;
+    if (!this.loop && this.elapsedTime > this.maxTime) {
+      this.stop();
+      return;
+    }
 
     // create new particles
     for (let i = 0; i < this.particlesPerSecond * deltaTime; i++) {
@@ -86,7 +91,7 @@ class ParticleEffect {
       particle.position.y += this.particleVelocity * deltaTime;
     });
 
-    this.elapsedTime = 0;
+    this.elapsedTime = Date.now() - this.startTime;
   }
 
   play() {

@@ -3,22 +3,30 @@ import { randomBoundedInt, randomBoundedFloat } from '../../utils/random';
 
 
 const defaultOptions = {
+  initialRotation: [ // one of tuple of vec3<float> or vec3<float>. Values in radians
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(Math.PI * 2, Math.PI * 2, Math.PI * 2),
+  ],
   maxParticles: 100,
   maxTime: 1000, // in MS
   particlesPerSecond: 50,
-  particleVelocity: 1, // Meters per Second
-  rotationRate: 0,
+  particleVelocity: 1, // units per second
+  rotationRate: 0, // in radians
   radius: new THREE.Vector3(1, 1, 1),
   minParticleSize: 0.1,
   maxParticleSize: 0.1,
-  color: 0xedaa67,
+  color: 0xEDAA67,
   playOnLoad: true,
+  loop: true,
 };
 
 class ParticleEffect {
   constructor(target, options = {}) {
+    // User Defined Values
     options = { ...defaultOptions, options };
     this.color = options.color;
+    this.initialRotation = options.initialRotation;
+    this.loop = options.loop;
     this.minParticleSize = options.minParticleSize || options.maxParticleSize || 0.1;
     this.maxParticles = options.maxParticles;
     this.maxParticleSize = options.maxParticleSize || options.minParticleSize || 0.1;
@@ -30,7 +38,11 @@ class ParticleEffect {
     this.radius = options.radius;
     this.rotationRate = options.rotationRate;
     this.target = target;
+
+    // Member Variables
+    this.elapsedTime = 0;
   }
+
 
   createPaticle() {
     const size = randomBoundedInt(this.minParticleSize, this.maxParticleSize);
@@ -41,9 +53,14 @@ class ParticleEffect {
     newParticle.position.x = randomBoundedFloat(-this.radius.x, this.radius.x);
     newParticle.position.y = randomBoundedFloat(-this.radius.y, this.radius.y);
     newParticle.position.z = randomBoundedFloat(-this.radius.z, this.radius.z);
-    newParticle.rotation.x = randomBoundedFloat(0, Math.PI * 2);
-    newParticle.rotation.y = randomBoundedFloat(0, Math.PI * 2);
-    newParticle.rotation.z = randomBoundedFloat(0, Math.PI * 2);
+
+    if (Array.isArray(this.initialRotation)) {
+      newParticle.rotation.x = randomBoundedFloat(this.initialRotation[0].x, this.initialRotation[1].x);
+      newParticle.rotation.y = randomBoundedFloat(this.initialRotation[0].y, this.initialRotation[1].y);
+      newParticle.rotation.z = randomBoundedFloat(this.initialRotation[0].z, this.initialRotation[1].z);
+    } else {
+      newParticle.rotation = this.initialRotation;
+    }
 
     this.target.add(newParticle);
     this.particleQueue.push(newParticle);
@@ -68,6 +85,8 @@ class ParticleEffect {
     this.particleQueue.forEach(particle => {
       particle.position.y += this.particleVelocity * deltaTime;
     });
+
+    this.elapsedTime = 0;
   }
 
   play() {

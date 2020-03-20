@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { randomBoundedInt, randomBoundedFloat } from '../../utils/random';
-
+import ConeShape from './ConeShape';
 
 const defaultOptions = {
   initialRotation: [ // one of tuple of vec3<float> or vec3<float>. Values in radians
@@ -18,6 +18,7 @@ const defaultOptions = {
   color: 0xEDAA67,
   playOnLoad: true,
   loop: true,
+  shape: new ConeShape(),
 };
 
 class ParticleEffect {
@@ -38,6 +39,7 @@ class ParticleEffect {
     this.radius = options.radius;
     this.rotationRate = options.rotationRate;
     this.target = target;
+    this.shape = options.shape;
 
     // Member Variables
     this.elapsedTime = 0;

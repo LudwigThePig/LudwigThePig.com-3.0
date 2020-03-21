@@ -75,7 +75,6 @@ const fontLoader = new THREE.FontLoader(loadingManager);
 
 const pigLoadCallback = gltf => { // TODO: ECS
   pig = gltf.scene;
-
   pig.children[2].material = new THREE.MeshToonMaterial({
     color: colors.pink,
     bumpScale: 1,

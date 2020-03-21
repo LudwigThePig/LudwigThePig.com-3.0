@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { randomArrayItem, randomBoundedFloat } from '../../utils/random';
 
 export default class BaseShape {
   constructor(mesh, ΘX, ΘY, ΘZ, fast) {
@@ -12,7 +13,15 @@ export default class BaseShape {
     if (this.fast) {
       return this.randomPoints[Math.random() * (this.randomPoints.length - 1)];
     }
-    return this;
+
+    // Get two random verticies and draw a line between them and pick a spot on that line
+    const a = randomArrayItem(this.mesh.geometry.verticies);
+    const b = randomArrayItem(this.mesh.geometry.verticies);
+
+    const d = Math.random();
+
+    // (x1, y1, z1) + d * ((x2, y2, z2) - (x1, y1, z1))
+    return a.add(b.add(a.negate()).multiply(new THREE.Vector3(d, d, d)));
   }
 
   generateRandomPoint() {

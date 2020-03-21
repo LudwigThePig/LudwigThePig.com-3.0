@@ -41,6 +41,7 @@ class ParticleEffect {
     this.target = target;
     this.shape = options.shape;
 
+
     // Member Variables
     this.elapsedTime = 0;
     this.startTime = Date.now();

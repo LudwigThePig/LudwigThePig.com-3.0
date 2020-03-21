@@ -14,19 +14,24 @@ export default class BaseShape {
       return this.randomPoints[Math.random() * (this.randomPoints.length - 1)];
     }
 
-    // Get two random verticies and draw a line between them and pick a spot on that line
-    const a = randomArrayItem(this.mesh.geometry.verticies);
+    return this.generateRandomPoint();
+  }
+
+
+  /**
+   * This method only works with enclosed shapes. So, if you provide a donut,
+   * it will not have a whole... That is a problem that I would like to solve but
+   * am not smaht enough for
+   */
+  generateRandomPoint() {
+    // Get two random verticies to lerp a value between
+    const a = randomBoundedFloat(this.mesh.geometry.verticies);
     const b = randomArrayItem(this.mesh.geometry.verticies);
 
-    const d = Math.random();
+    const d = Math.random(); // Where the value is in the lerp
 
     // (x1, y1, z1) + d * ((x2, y2, z2) - (x1, y1, z1))
     return a.add(b.add(a.negate()).multiply(new THREE.Vector3(d, d, d)));
-  }
-
-  generateRandomPoint() {
-    const vertex = this.getVertex();
-    return [new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0)];
   }
 
   bakeRandomValues() {

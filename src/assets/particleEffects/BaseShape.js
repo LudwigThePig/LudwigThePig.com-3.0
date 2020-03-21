@@ -1,18 +1,16 @@
 import * as THREE from 'three';
-import { randomArrayItem, randomBoundedFloat } from '../../utils/random';
+import { randomArrayItem } from '../../utils/random';
 
 export default class BaseShape {
-  constructor(mesh, ΘX, ΘY, ΘZ, fast) {
+  constructor(mesh, ΘX, ΘY, ΘZ, bakedVerticies = 100) {
     this.mesh = mesh;
-    this.fast = fast;
+    this.bakedVerticies = bakedVerticies;
     this.randomPoints = [];
-    if (this.fast) this.bakeRandomValues();
+    if (this.bakedVerticies) this.bakeRandomValues(this.bakedVerticies);
   }
 
   getVertex() {
-    if (this.fast) {
-      return this.randomPoints[Math.random() * (this.randomPoints.length - 1)];
-    }
+    if (this.bakedVerticies) return randomArrayItem(this.randomPoints);
 
     return this.generateRandomPoint();
   }
@@ -25,7 +23,7 @@ export default class BaseShape {
    */
   generateRandomPoint() {
     // Get two random verticies to lerp a value between
-    const a = randomBoundedFloat(this.mesh.geometry.verticies);
+    const a = randomArrayItem(this.mesh.geometry.verticies);
     const b = randomArrayItem(this.mesh.geometry.verticies);
 
     const d = Math.random(); // Where the value is in the lerp
@@ -34,8 +32,8 @@ export default class BaseShape {
     return a.add(b.add(a.negate()).multiply(new THREE.Vector3(d, d, d)));
   }
 
-  bakeRandomValues() {
-    for (let i = 0; i < 100; i++) {
+  bakeRandomValues(verts) {
+    for (let i = 0; i < verts; i++) {
       this.randomPoints.push(this.generateRandomPoint());
     }
   }

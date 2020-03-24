@@ -1,36 +1,52 @@
 import * as THREE from 'three';
-import { randomBoundedInt } from '../../utils/random';
-
+import { randomBoundedInt, randomBoundedFloat } from '../../utils/random';
+import ConeShape from './ConeShape';
 
 const defaultOptions = {
+  initialRotation: [ // one of tuple of vec3<float> or vec3<float>. Values in radians
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(Math.PI * 2, Math.PI * 2, Math.PI * 2),
+  ],
   maxParticles: 100,
-  maxTime: 1000, // in MS
+  maxTime: 2000, // in MS
   particlesPerSecond: 50,
-  particleVelocity: 1, // Meters per Second
+  particleVelocity: 1, // units per second
+  rotationRate: 0, // in radians
+  radius: new THREE.Vector3(1, 1, 1),
   minParticleSize: 0.1,
   maxParticleSize: 0.1,
-  color: 0xedaa67,
+  color: 0xEDAA67,
   playOnLoad: true,
+  loop: true,
+  shape: new ConeShape(),
 };
 
 class ParticleEffect {
   constructor(target, options = {}) {
+    // User Defined Values
     options = { ...defaultOptions, options };
-    this.maxTime = options.maxTime;
+    this.color = options.color;
+    this.initialRotation = options.initialRotation;
+    this.loop = options.loop;
+    this.minParticleSize = options.minParticleSize || options.maxParticleSize || 0.1;
     this.maxParticles = options.maxParticles;
+    this.maxParticleSize = options.maxParticleSize || options.minParticleSize || 0.1;
+    this.maxTime = options.maxTime;
     this.particlesPerSecond = options.particlesPerSecond;
     this.particleVelocity = options.particleVelocity;
-    this.minParticleSize = options.minParticleSize || options.maxParticleSize || 0.1;
-    this.maxParticleSize = options.maxParticleSize || options.minParticleSize || 0.1;
-    this.color = options.color;
-
-    this.target = target;
-    this.play = options.playOnLoad;
     this.particleQueue = [];
+    this.isPlaying = options.playOnLoad;
+    this.radius = options.radius;
+    this.rotationRate = options.rotationRate;
+    this.target = target;
+    this.shape = options.shape;
 
-    this.geometry = new THREE.BoxBufferGeometry(1, 1, 1);
-    this.material = new THREE.MeshBasicMaterial({ color: this.color });
+
+    // Member Variables
+    this.elapsedTime = 0;
+    this.startTime = Date.now();
   }
+
 
   createPaticle() {
     const size = randomBoundedInt(this.minParticleSize, this.maxParticleSize);
@@ -38,19 +54,28 @@ class ParticleEffect {
     const material = new THREE.MeshBasicMaterial({ color: this.color });
 
     const newParticle = new THREE.Mesh(geometry, material);
-    newParticle.position.z = randomBoundedInt(-1, 1);
-    newParticle.position.y = 1;
-    newParticle.position.x = randomBoundedInt(-1, 1);
-    newParticle.rotation.x = randomBoundedInt(0, Math.PI * 2);
-    newParticle.rotation.y = randomBoundedInt(0, Math.PI * 2);
-    newParticle.rotation.z = randomBoundedInt(0, Math.PI * 2);
+    newParticle.position.x = randomBoundedFloat(-this.radius.x, this.radius.x);
+    newParticle.position.y = randomBoundedFloat(-this.radius.y, this.radius.y);
+    newParticle.position.z = randomBoundedFloat(-this.radius.z, this.radius.z);
+
+    if (Array.isArray(this.initialRotation)) {
+      newParticle.rotation.x = randomBoundedFloat(this.initialRotation[0].x, this.initialRotation[1].x);
+      newParticle.rotation.y = randomBoundedFloat(this.initialRotation[0].y, this.initialRotation[1].y);
+      newParticle.rotation.z = randomBoundedFloat(this.initialRotation[0].z, this.initialRotation[1].z);
+    } else {
+      newParticle.rotation = this.initialRotation;
+    }
 
     this.target.add(newParticle);
     this.particleQueue.push(newParticle);
   }
 
   update(deltaTime = 0.02 /* 50fps */) {
-    if (!this.play) return;
+    if (!this.isPlaying) return;
+    if (!this.loop && this.elapsedTime > this.maxTime) {
+      this.stop();
+      return;
+    }
 
     // create new particles
     for (let i = 0; i < this.particlesPerSecond * deltaTime; i++) {
@@ -68,14 +93,16 @@ class ParticleEffect {
     this.particleQueue.forEach(particle => {
       particle.position.y += this.particleVelocity * deltaTime;
     });
+
+    this.elapsedTime = Date.now() - this.startTime;
   }
 
   play() {
-    this.play = true;
+    this.isPlaying = true;
   }
 
   pause() {
-    this.play = false;
+    this.isPlaying = false;
   }
 
   clear() {

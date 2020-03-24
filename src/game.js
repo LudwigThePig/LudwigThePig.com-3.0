@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import ParticleSystem from 'three-particle-system';
 import showMenu from './views/menu';
 import colors, { lightColors } from './utils/colors';
 import { degreesToRadians } from './utils/math';
@@ -8,7 +9,7 @@ import { hideLoadingScreen } from './views/loadingScreen';
 import inputHandler from './controllers/inputHandler';
 import updateCloudsPosition from './controllers/clouds';
 import { randomBoundedInt } from './utils/random';
-import ParticleEffect from './assets/particleEffects';
+// import ParticleEffect from './assets/particleEffects';
 
 const loadingManager = new THREE.LoadingManager();
 loadingManager.onLoad = () => {
@@ -83,7 +84,23 @@ const pigLoadCallback = gltf => { // TODO: ECS
 
   pig.rotation.y += degreesToRadians(30);
   pig.position.y = 0.2;
-  pigParticles = new ParticleEffect(pig, null);
+
+  const particleTarget = new THREE.Object3D();
+  particleTarget.position.x = -0.7;
+  particleTarget.position.y = 0.2;
+  particleTarget.position.z = 0;
+  particleTarget.rotateX(Math.PI / 3);
+  particleTarget.rotateY(Math.PI / 3);
+  pig.add(particleTarget);
+  pigParticles = new ParticleSystem(particleTarget, {
+    particleVelocity: 1,
+    playOnLoad: false,
+    loop: false,
+    color: colors.purple,
+    maxParticles: 100,
+    particleLifetime: 5000,
+    particlesPerSecond: 100,
+  });
 
   camera.lookAt(pig.position);
   scene.add(pig);
@@ -200,7 +217,7 @@ const draw = () => {
   renderer.render(scene, camera);
   requestAnimationFrame(draw);
   camera.lookAt(pig.position);
-  updatePosition(pig);
+  updatePosition(pig, pigParticles); // kind of hacky, will clean up with an store and ECS soon!
   updateCloudsPosition(clouds);
 
   pigParticles.update();

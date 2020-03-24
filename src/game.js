@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import ParticleSystem from 'three-particle-system';
 import showMenu from './views/menu';
 import colors, { lightColors } from './utils/colors';
 import { degreesToRadians } from './utils/math';
@@ -8,6 +9,7 @@ import { hideLoadingScreen } from './views/loadingScreen';
 import inputHandler from './controllers/inputHandler';
 import updateCloudsPosition from './controllers/clouds';
 import { randomBoundedInt } from './utils/random';
+// import ParticleEffect from './assets/particleEffects';
 
 const loadingManager = new THREE.LoadingManager();
 loadingManager.onLoad = () => {
@@ -33,7 +35,6 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 ******* */
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(colors.black);
-
 
 /* *******
 * Lights *
@@ -65,7 +66,7 @@ camera.lookAt(scene.position);
 * PIG MODEL *
 🐷🐷🐷🐷🐷🐷 */
 let pig;
-
+let pigParticles;
 const pigLoader = new GLTFLoader(loadingManager);
 const skyboxLoader = new THREE.CubeTextureLoader(loadingManager);
 const groundTextureLoader = new THREE.TextureLoader(loadingManager);
@@ -75,7 +76,6 @@ const fontLoader = new THREE.FontLoader(loadingManager);
 
 const pigLoadCallback = gltf => { // TODO: ECS
   pig = gltf.scene;
-
   pig.children[2].material = new THREE.MeshToonMaterial({
     color: colors.pink,
     bumpScale: 1,
@@ -84,6 +84,24 @@ const pigLoadCallback = gltf => { // TODO: ECS
 
   pig.rotation.y += degreesToRadians(30);
   pig.position.y = 0.2;
+
+  const particleTarget = new THREE.Object3D();
+  particleTarget.position.x = -0.7;
+  particleTarget.position.y = 0.2;
+  particleTarget.position.z = 0;
+  particleTarget.rotateX(Math.PI / 3);
+  particleTarget.rotateY(Math.PI / 3);
+  pig.add(particleTarget);
+  pigParticles = new ParticleSystem(particleTarget, {
+    particleVelocity: 1,
+    playOnLoad: false,
+    loop: false,
+    color: colors.purple,
+    maxParticles: 100,
+    particleLifetime: 5000,
+    particlesPerSecond: 100,
+  });
+
   camera.lookAt(pig.position);
   scene.add(pig);
 };
@@ -185,11 +203,13 @@ groundTexture.repeat.set(200, 200);
 const groundGeometry = new THREE.PlaneGeometry(2000, 2000);
 const groundMaterial = new THREE.MeshBasicMaterial({ map: groundTexture });
 const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
-
 groundMesh.rotation.x = degreesToRadians(-90);
 groundMesh.position.y = -1;
 scene.add(groundMesh);
 
+/* 💥💥💥💥💥💥💥💥
+💥 Particle Effects 💥
+💥💥💥💥💥💥💥💥 */
 /* ***************
 * Main Game Loop *
 **************** */
@@ -197,8 +217,10 @@ const draw = () => {
   renderer.render(scene, camera);
   requestAnimationFrame(draw);
   camera.lookAt(pig.position);
-  updatePosition(pig);
+  updatePosition(pig, pigParticles); // kind of hacky, will clean up with an store and ECS soon!
   updateCloudsPosition(clouds);
+
+  pigParticles.update();
 };
 
 

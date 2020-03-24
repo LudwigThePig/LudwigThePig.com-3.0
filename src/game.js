@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import ParticleSystem from 'three-particle-system';
 import showMenu from './views/menu';
 import colors, { lightColors } from './utils/colors';
 import { degreesToRadians } from './utils/math';
@@ -8,7 +9,7 @@ import { hideLoadingScreen } from './views/loadingScreen';
 import inputHandler from './controllers/inputHandler';
 import updateCloudsPosition from './controllers/clouds';
 import { randomBoundedInt } from './utils/random';
-import ParticleEffect from './assets/particleEffects';
+// import ParticleEffect from './assets/particleEffects';
 
 const loadingManager = new THREE.LoadingManager();
 loadingManager.onLoad = () => {
@@ -83,7 +84,9 @@ const pigLoadCallback = gltf => { // TODO: ECS
 
   pig.rotation.y += degreesToRadians(30);
   pig.position.y = 0.2;
-  pigParticles = new ParticleEffect(pig, null);
+  console.log(pig);
+  pigParticles = new ParticleSystem(pig, { particleVelocity: 1 });
+  console.log(pigParticles);
 
   camera.lookAt(pig.position);
   scene.add(pig);

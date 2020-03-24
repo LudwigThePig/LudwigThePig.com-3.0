@@ -2,15 +2,15 @@ import * as THREE from 'three';
 import { randomArrayItem } from '../../utils/random';
 
 export default class BaseShape {
-  constructor(geometry, ΘX, ΘY, ΘZ, bakedVerticies = 100) {
+  constructor(geometry, ΘX, ΘY, ΘZ, bakedVertices = 100) {
     this.geometry = geometry;
-    this.bakedVerticies = bakedVerticies;
+    this.bakedVertices = bakedVertices;
     this.randomPoints = [];
-    if (this.bakedVerticies) this.bakeRandomValues(this.bakedVerticies);
+    if (this.bakedVertices) this.bakeRandomValues(this.bakedVertices);
   }
 
   getVertex() {
-    if (this.bakedVerticies) return randomArrayItem(this.randomPoints);
+    if (this.bakedVertices) return randomArrayItem(this.randomPoints);
 
     return this.generateRandomPoint();
   }
@@ -22,9 +22,9 @@ export default class BaseShape {
    * am not smaht enough for
    */
   generateRandomPoint() {
-    // Get two random verticies to lerp a value between
-    const a = randomArrayItem(this.geometry.verticies);
-    const b = randomArrayItem(this.geometry.verticies);
+    // Get two random vertices to lerp a value between
+    const a = randomArrayItem(this.geometry.vertices);
+    const b = randomArrayItem(this.geometry.vertices);
 
     const d = Math.random(); // Where the value is in the lerp
 

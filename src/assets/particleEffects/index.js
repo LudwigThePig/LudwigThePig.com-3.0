@@ -35,7 +35,7 @@ class ParticleEffect {
     this.particlesPerSecond = options.particlesPerSecond;
     this.particleVelocity = options.particleVelocity;
     this.particleQueue = [];
-    this.play = options.playOnLoad;
+    this.isPlaying = options.playOnLoad;
     this.radius = options.radius;
     this.rotationRate = options.rotationRate;
     this.target = target;
@@ -71,7 +71,7 @@ class ParticleEffect {
   }
 
   update(deltaTime = 0.02 /* 50fps */) {
-    if (!this.play) return;
+    if (!this.isPlaying) return;
     if (!this.loop && this.elapsedTime > this.maxTime) {
       this.stop();
       return;
@@ -98,11 +98,11 @@ class ParticleEffect {
   }
 
   play() {
-    this.play = true;
+    this.isPlaying = true;
   }
 
   pause() {
-    this.play = false;
+    this.isPlaying = false;
   }
 
   clear() {

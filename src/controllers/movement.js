@@ -23,13 +23,15 @@ export const inputState = {
 };
 
 
-export const updatePosition = player => {
+export const updatePosition = (player, particles) => {
   // Forwards And Backwards
   if (inputState.down) {
+    if (!particles.isPlaying) particles.play();
     player.position.x += Math.sin(player.rotation.y) * forwardVelocity;
     player.position.z += Math.cos(player.rotation.y) * forwardVelocity;
   }
   if (inputState.up) {
+    if (!particles.isPlaying) particles.play();
     player.position.x -= Math.sin(player.rotation.y) * forwardVelocity;
     player.position.z -= Math.cos(player.rotation.y) * forwardVelocity;
   }

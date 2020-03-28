@@ -96,9 +96,10 @@ const pigLoadCallback = gltf => { // TODO: ECS
     particleVelocity: 1,
     playOnLoad: false,
     loop: false,
-    color: colors.purple,
-    maxParticles: 100,
-    particleLifetime: 5000,
+    color: colors.white,
+    maxParticles: 1000,
+    particleLifetime: 2000,
+    duration: 1000,
     particlesPerSecond: 100,
   });
 

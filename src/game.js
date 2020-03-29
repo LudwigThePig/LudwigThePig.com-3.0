@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import ParticleSystem from 'three-particle-system';
+import { Vector3 } from 'three';
 import showMenu from './views/menu';
 import colors, { lightColors } from './utils/colors';
 import { degreesToRadians } from './utils/math';
@@ -84,6 +85,8 @@ const pigLoadCallback = gltf => { // TODO: ECS
 
   pig.rotation.y += degreesToRadians(30);
   pig.position.y = 0.2;
+  camera.lookAt(pig.position);
+  scene.add(pig);
 
   const particleTarget = new THREE.Object3D();
   particleTarget.position.x = -0.7;
@@ -101,10 +104,8 @@ const pigLoadCallback = gltf => { // TODO: ECS
     particleLifetime: 2000,
     duration: 1000,
     particlesPerSecond: 100,
+    worldSpace: true,
   });
-
-  camera.lookAt(pig.position);
-  scene.add(pig);
 };
 
 /* ☁☁☁☁☁☁☁☁
@@ -215,6 +216,7 @@ scene.add(groundMesh);
 * Main Game Loop *
 **************** */
 const draw = () => {
+  // console.log(scene.children.length);
   renderer.render(scene, camera);
   requestAnimationFrame(draw);
   camera.lookAt(pig.position);

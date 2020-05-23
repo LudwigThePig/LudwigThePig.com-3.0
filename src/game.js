@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import ParticleSystem from 'three-particle-system';
-import { Vector3 } from 'three';
 import showMenu from './views/menu';
 import colors, { lightColors } from './utils/colors';
 import { degreesToRadians } from './utils/math';
@@ -219,7 +218,13 @@ const draw = () => {
   // console.log(scene.children.length);
   renderer.render(scene, camera);
   requestAnimationFrame(draw);
+  // if (pig.position.x > 0) {
+  camera.position.x = pig.position.x;
+  camera.position.y = pig.position.y;
+  camera.position.z = pig.position.z - 5;
+  // } else {
   camera.lookAt(pig.position);
+  // }
   updatePosition(pig, pigParticles); // kind of hacky, will clean up with an store and ECS soon!
   updateCloudsPosition(clouds);
 

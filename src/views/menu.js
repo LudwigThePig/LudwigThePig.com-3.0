@@ -1,3 +1,5 @@
+import initParticles from './menuParticles';
+
 class MenuHandler {
   constructor(toggler) {
     this.isActive = false;
@@ -28,6 +30,7 @@ const init = () => {
 
   document.getElementsByClassName('ui');
   toggleMenuButton.addEventListener('click', menuHandler.toggleMenu);
+  initParticles();
 };
 
 export default init;

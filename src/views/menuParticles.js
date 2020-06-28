@@ -4,22 +4,24 @@ class Particle {
   constructor(src) {
     this.element = document.createElement('img');
     this.element.src = src;
-    this.element.alt = 'particle'`<img src="${src}" alt="particle">`;
+    this.element.alt = 'particle';
+    this.element.classList = 'menu-particles-ctr';
+    document.getElementById('menu-particles-ctr').appendChild(this.element);
   }
 
   update() {
-    this.element;
+    this.element.style.left += 10;
   }
 }
 
 const initParticles = () => {
   const particles = [];
-  createNewParticle();
 
   const animate = () => {
-    const sources = ['/assets/cloud1', '/assets/cloud2'];
-    const newParicle = new Particle(randomArrayItem(sources));
-
+    const sources = ['/assets/cloud1.png', '/assets/cloud2.png'];
+    const newSrc = randomArrayItem(sources);
+    const newParicle = new Particle(newSrc);
+    particles.unshift(newParicle);
 
     const culledParticles = particles.splice(15); // cull excessive elements
     culledParticles.forEach(({ element }) => element.remove());

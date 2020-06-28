@@ -28,6 +28,9 @@ module.exports = {
         ],
       },
     ],
+    loaders: [
+      { test: /\.vue$/, loader: 'vue' },
+    ],
   },
   plugins: [
     // new BundleAnalyzerPlugin(), // Uncomment and restart webpack to get a bundle.js report

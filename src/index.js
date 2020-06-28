@@ -1,2 +1,2 @@
 import './webgl/index';
-import './ui/index.js';
+import './ui/index.vue';

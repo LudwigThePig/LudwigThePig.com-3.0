@@ -2,12 +2,18 @@ require('dotenv');
 const path = require('path');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
+const environment = (process.env.NODE_ENV || 'development').trim();
+
+
 module.exports = {
   entry: {
     main: './src/index.js',
   },
   resolve: {
     extensions: ['.js'],
+    alias: {
+      vue$: 'vue/dist/vue.esm.js',
+    },
   },
   output: {
     filename: '[name]-bundle.js',
@@ -26,6 +32,14 @@ module.exports = {
           'css-loader',
           'sass-loader',
         ],
+      },
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        options: {
+          loaders: {
+          },
+        },
       },
     ],
     loaders: [

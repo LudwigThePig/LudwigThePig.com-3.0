@@ -6,4 +6,4 @@ export const randomArrayItem = arr => {
 };
 
 export const randomBoundedInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-export const randomBoundedFloat = (min, max) => (Math.random() * (max - min + 1)) + min;
+export const randomBoundedFloat = (min, max) => (Math.random() * (max - min)) + min;

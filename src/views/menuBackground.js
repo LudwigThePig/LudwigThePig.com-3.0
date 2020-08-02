@@ -1,31 +1,34 @@
-import { randomArrayItem } from '../utils/random';
-import { easeInOutSine, fullSineEase, easeInExpo } from '../utils/easing';
+import { randomArrayItem, randomBoundedFloat } from '../utils/random';
+import { easeOutQuad, fullSineEase, easeInExpo } from '../utils/easing';
 
-const MAX_AGE = 2000;
+const MAX_AGE = 4000;
 
 class Particle {
-  constructor(el, height = 0, width = 0) {
+  constructor(el, height, width) {
     this.t = 0;
     this.element = el;
     this.height = el.height;
     this.width = el.width;
-    this.maxY = 0;
-    this.maxX = width;
-    this.x = 0; // current x, also lower bound
-    this.y = height; // current y, also lower bound
+    this.minX = (el.width / 2);
+    this.minY = (el.height / 2);
+    this.maxX = randomBoundedFloat(width - 40, width) - (el.width / 2);
+    this.maxY = randomBoundedFloat(height - 60, height) - (el.height / 2);
+    this.x = 0;
+    this.y = 0;
     this.r = 0;
-    this.scale = 0.1;
-
+    this.scale = 0.3;
+    this.minScale = 0.3;
+    this.maxScale = randomBoundedFloat(0.8, 1);
     this.update = this.update.bind(this);
     this.draw = this.draw.bind(this);
   }
 
   update(dt) {
     this.t += dt;
-    this.x = easeInOutSine(this.t, 0, this.maxX, MAX_AGE);
-    this.y = this.height - easeInExpo(this.t, 0, this.height, MAX_AGE);
-    this.scale = fullSineEase(this.t, 0, 1, MAX_AGE);
-    this.r -= (Math.PI / 20) % (Math.PI * 2); // 40 frames per rotation
+    this.x = easeOutQuad(this.t, this.minX, this.maxX, MAX_AGE);
+    this.y = this.maxY - easeInExpo(this.t, this.minY, this.maxY, MAX_AGE);
+    this.scale = fullSineEase(this.t, this.minScale, this.maxScale, MAX_AGE);
+    this.r -= (Math.PI / 40) % (Math.PI * 2); // 40 frames per full rotation
   }
 
   draw(ctx) {
@@ -80,7 +83,7 @@ const initBackground = () => {
     particles.push(newParicle);
   };
 
-  setInterval(spawnAndCull, 300);
+  setInterval(spawnAndCull, 350);
   requestAnimationFrame(animate);
 };
 

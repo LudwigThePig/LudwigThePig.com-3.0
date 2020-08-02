@@ -1,3 +1,5 @@
+import initBackground from './menuBackground';
+
 /**
  * @param {boolean} showMenu if true, will blur game and show menu
  * if false, will hide menu and unblur game
@@ -24,6 +26,8 @@ const init = () => {
 
   startGameButton.addEventListener('click', toggleMenu(false));
   showMenuButton.addEventListener('click', toggleMenu(true));
+
+  initBackground();
 };
 
 export default init;

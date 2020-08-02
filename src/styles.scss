@@ -177,9 +177,11 @@ main {
   text-align: center;
 
   #menu-ctr {
+    position: relative;
     padding: 2em;
     background: #53535388;
     box-sizing: border-box;
+    canvas { position: absolute; }
   }
 
   #hud-ctr {

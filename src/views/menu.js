@@ -1,36 +1,29 @@
-import initParticles from './menuParticles';
-
-class MenuHandler {
-  constructor(toggler) {
-    this.isActive = false;
-    this.togglerEl = toggler;
-    this.toggleMenu = this.toggleMenu.bind(this);
-    this.menuCtrEl = document.getElementById('menu');
-    this.menuContentEl = document.getElementById('menu-content');
+/**
+ * @param {boolean} showMenu if true, will blur game and show menu
+ * if false, will hide menu and unblur game
+ */
+const toggleMenu = (showMenu = false) => e => {
+  const menu = document.querySelector('#menu-ctr');
+  const hud = document.querySelector('#hud-ctr');
+  const canvasContainer = document.querySelector('#canvas-container');
+  if (showMenu) {
+    canvasContainer.classList.add('blur');
+    hud.classList.add('hidden');
+    menu.classList.remove('hidden');
+  } else {
+    canvasContainer.classList.remove('blur');
+    hud.classList.remove('hidden');
+    menu.classList.add('hidden');
   }
-
-  toggleMenu() {
-    if (this.isActive) {
-      this.togglerEl.classList.remove('is-active');
-      this.menuCtrEl.classList.remove('is-active');
-      setTimeout(() => this.menuContentEl.classList.add('hidden'), 1000);
-    } else {
-      this.togglerEl.classList.add('is-active');
-      this.menuCtrEl.classList.add('is-active');
-      this.menuContentEl.classList.remove('hidden');
-    }
-    this.isActive = !this.isActive;
-  }
-}
+};
 
 
 const init = () => {
-  const toggleMenuButton = document.getElementById('menu-button');
-  const menuHandler = new MenuHandler(toggleMenuButton);
+  const startGameButton = document.getElementById('start-game-button');
+  const showMenuButton = document.getElementById('show-menu-button');
 
-  document.getElementsByClassName('ui');
-  toggleMenuButton.addEventListener('click', menuHandler.toggleMenu);
-  initParticles();
+  startGameButton.addEventListener('click', toggleMenu(false));
+  showMenuButton.addEventListener('click', toggleMenu(true));
 };
 
 export default init;

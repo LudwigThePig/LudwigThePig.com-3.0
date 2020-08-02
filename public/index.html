@@ -98,20 +98,23 @@
       
       
     </div>
-    <div id="canvas-container"></div>
+    <div id="canvas-container" class="blurable blur"></div>
     <script src="js/main-bundle.js"></script>
 
-    <main id="menu">
-      <canvas id="menu-background"></canvas>
-      <div>
-        <h2>Controls</h2>  
-        <p class="mobile">
-          Drag your finger across the screen to move the pig.
-        </p>
-        <p class="desktop">
-          Use the <span class="key">W</span>, <span class="key">A</span>, <span class="key">S</span>, and <span class="key">D</span> keys to move the pig.
-        </p>        
-      </div>
+    <main>
+      <div id="menu-ctr">
+
+        <canvas id="menu-background-canvas"></canvas>
+        <div>
+          <h2>Controls</h2>  
+          <p class="mobile">
+            Drag your finger across the screen to move the pig.
+          </p>
+          <p class="desktop">
+            Use the <span class="key">W</span>, <span class="key">A</span>, <span class="key">S</span>, and <span class="key">D</span> keys to move the pig.
+          </p>        
+        </div>
+      <button id="start-game-button">Start Game</button>
       <footer>
         <!-- LinkedIn -->
         <a href="https://www.linkedin.com/in/morgangalvin">
@@ -135,6 +138,16 @@
         </a>
       </footer>
     </div>
-    </main>
+
+    <div id="hud-ctr" class="hidden">
+      <button class="badge" id="show-menu-button" role="button">
+        <svg viewBox="0 0 100 80">
+            <rect width="100" height="20"></rect>
+            <rect y="30" width="100" height="20"></rect>
+            <rect y="60" width="100" height="20"></rect>
+          </svg>
+        </button>
+    </div>
+  </main>
   </body>
   </html>

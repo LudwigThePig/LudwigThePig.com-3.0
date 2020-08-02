@@ -50,6 +50,17 @@ h2 {
   text-shadow: 1px -1px #ED6767, 2px -2px #ED6767, 2px -2px #ED6767, 2px -2px #ED6767, 2px -2px #ED6767, 2px -2px #ED6767, 2px -2px #ED6767, 2px -2px #ED6767;
 }
 
+button {
+  border: none;
+  color: $white;
+  background: $salmon;
+  padding: 1em;
+  cursor: pointer;
+  &:hover {
+    background: #e95959; /* slightly darker salmon */
+  }
+}
+
 .desktop {
   display: none;
 }
@@ -71,11 +82,41 @@ h2 {
   99% { opacity: 0; }
 }
 
+.blurable { transition: all 1.5s; }
+.blurable.blur {
+  filter: blur(4px);
+  -webkit-transition: 1.5s -webkit-filter linear;
+  -moz-transition: 1.5s -moz-filter linear;
+  -moz-transition: 1.5s filter linear;
+  -ms-transition: 1.5s -ms-filter linear;
+  -o-transition: 1.5s -o-filter linear;
+  transition: 1.5s filter linear, 1.5s -webkit-filter linear;
+}
+
 
 .hidden-animation { animation: hide 5s; }
 
 .hidden { display: none; }
 
+/* Badge is an SVG button */
+button.badge {
+  border-radius: 50%;
+  fill: #fff;
+  height: 40px;
+  width: 40px;
+  box-sizing: border-box;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg { /* Assumes viewbox is 1x1 */
+    height: 18px;
+    width: 18px;
+  }
+  -webkit-box-shadow: 0px 0px 10px 0px $black;
+  -moz-box-shadow: 0px 0px 10px 0px $black;
+  box-shadow: 0px 0px 10px 0px $black;}
 
 #canvas-container{
   width: 100vw;
@@ -121,27 +162,27 @@ header {
 /* Menu Container */
 main {
   position: fixed;
-  display: flex;
+  display: flex !important;
   justify-content: center;
+  align-items: center;
   box-sizing: border-box;
   padding-bottom: 2em;
-  top: calc(100vh - 130px);
   overflow-y: auto;
-  @media screen and (min-width: $desktop) { top: calc(100vh - 80px); }
   width: 100vw;
+  top: 0;
   height: 100vh;
   padding: 0 10vw;
   margin-top: auto;
-  background-color: #12345600;
   text-align: center;
-  transition: top 1s ease-in, background-color 1s ease-in;
-  &.is-active { 
-    top: 0vh;
-    transition: top 1s ease-out, background-color 1s ease-out; 
-    background-color: #323846EF;
+
+  #menu-ctr {
+    padding: 2em;
+    background: #53535388;
+    box-sizing: border-box;
   }
   
-  .key {
+  /* A keyboard key like style*/
+  .key { 
     font-size: 1.3rem;
     background: rgb(143,143,143);
     background: linear-gradient(149deg, #848484 0%, #C9C9C9 17%, #FAFAFA 100%);

@@ -117,6 +117,7 @@ header {
   }
 }
 
+
 /* Menu Container */
 main {
   position: fixed;
@@ -140,62 +141,6 @@ main {
     background-color: #323846EF;
   }
   
-  #menu-button-ctr {
-    display: flex;
-    justify-content: center;  
-    width: 100%;
-    
-    button {
-      padding: 10px 25px;
-      background: none;
-      border: none;
-      cursor: pointer;
-
-      &:focus { outline: 0; }
-      svg {
-        height: 30px;
-        width: auto;
-        stroke-width: 12px;
-        stroke: $white;
-        &:hover, &:active, &:focus { stroke: $salmon; }
-        
-        .right { 
-          transform: skewY(-45deg)
-          translateY(50px);
-        }
-        .left { 
-          transform: skewY(45deg);
-        }
-
-      }
-      transform: rotate(0deg);
-      transition: transform 0.5s;
-    }
-    .is-active {
-      transform: rotate(180deg);
-      transition: transform 0.5s;
-    }
-    
-  }
-
-  #menu-content:not(.hidden) {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    box-sizing: border-box;
-    padding-bottom: 2em;
-    top: calc(100vh - 130px); // Avoid the arrow
-    width: 100%;
-    margin-bottom: 3em; // Prevent icons hiding under iOS Safari navbar
-    @media screen and  (min-width: $desktop) {
-      width: 50vw;
-      margin: 3em auto;
-    }
-    div {
-      margin-bottom: 1.2em; 
-    }
-  }
-
   .key {
     font-size: 1.3rem;
     background: rgb(143,143,143);

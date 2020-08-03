@@ -1,7 +1,6 @@
 /* eslint-disable max-classes-per-file */
 import { randomArrayItem, randomBoundedFloat } from '../utils/random';
 import { easeInOutQuad, fullSineEase, easeInExpo } from '../utils/easing';
-import { degreesToRadians } from '../utils/math';
 
 const MAX_AGE = 4000;
 
@@ -57,14 +56,14 @@ class PigBoat {
     this.vertSkew = 0;
     this.horizSkew = 0;
     this.t = 0;
-    this.r = degreesToRadians(-2);
   }
 
   update(dt) {
-    this.t = (this.t + dt) % MAX_AGE;
-    this.r = fullSineEase(this.t, this.r, degreesToRadians(2), 2000);
-    this.horizSkew = fullSineEase(this.t, this.horizSkew, 0.01, 1400);
-    this.vertSkew = fullSineEase(this.t, this.vertSkew, 0.01, 1800);
+    const hDuration = 2000;
+    const vDuration = 4500;
+    this.t += dt % 18000; // 18000 is LCD of hD and vD
+    this.horizSkew = fullSineEase(this.t, this.horizSkew, 0.03, hDuration);
+    this.vertSkew = fullSineEase(this.t, this.vertSkew, 0.03, vDuration);
   }
 
   draw(ctx) {
@@ -72,7 +71,6 @@ class PigBoat {
       this.scale, this.horizSkew, this.vertSkew, // horiz scale, vert skew, horz, skew
       this.scale, this.x, this.y, // vert scale, horiz translation, vert translation
     );
-    ctx.rotate(this.r);
     ctx.drawImage(this.element, this.x, this.y);
   }
 }
@@ -91,7 +89,7 @@ const initBackground = () => {
     // remove old particles
     if (particles.length) {
       let i = 0;
-      while (particles[i++].t >= MAX_AGE) {}
+      while (particles[i].t >= MAX_AGE) { i++; }
       particles.splice(0, i - 1); // cull excessive elements
     }
 

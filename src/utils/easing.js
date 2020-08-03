@@ -10,7 +10,7 @@ export const easeInExpo = (
   elapsed, initialValue, amountOfChange, duration,
 ) => (elapsed === 0 ? initialValue : amountOfChange * (2 ** (10 * (elapsed / duration - 1))) + initialValue);
 
-export const easeOutQuad = (
+export const easeInOutQuad = (
   elapsed, initialValue, amountOfChange, duration,
 ) => {
   if ((elapsed /= duration / 2) < 1) {

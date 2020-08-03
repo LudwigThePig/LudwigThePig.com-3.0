@@ -1,5 +1,5 @@
 import { randomArrayItem, randomBoundedFloat } from '../utils/random';
-import { easeOutQuad, fullSineEase, easeInExpo } from '../utils/easing';
+import { easeInOutQuad, fullSineEase, easeInExpo } from '../utils/easing';
 
 const MAX_AGE = 4000;
 
@@ -25,7 +25,7 @@ class Particle {
 
   update(dt) {
     this.t += dt;
-    this.x = easeOutQuad(this.t, this.minX, this.maxX, MAX_AGE);
+    this.x = easeInOutQuad(this.t, this.minX, this.maxX, MAX_AGE);
     this.y = this.maxY - easeInExpo(this.t, this.minY, this.maxY, MAX_AGE);
     this.scale = fullSineEase(this.t, this.minScale, this.maxScale, MAX_AGE);
     this.r -= (Math.PI / 40) % (Math.PI * 2); // 40 frames per full rotation

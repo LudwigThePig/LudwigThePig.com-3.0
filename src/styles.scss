@@ -84,7 +84,7 @@ button {
 
 .blurable { transition: all 1.5s; }
 .blurable.blur {
-  filter: blur(4px);
+  filter: blur(4px) brightness(40%);
   -webkit-transition: 1.5s -webkit-filter linear;
   -moz-transition: 1.5s -moz-filter linear;
   -moz-transition: 1.5s filter linear;
@@ -167,24 +167,27 @@ main {
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  padding-bottom: 2em;
   overflow-y: auto;
   width: 100vw;
   top: 0;
   height: 100vh;
-  padding: 0 10vw;
   margin-top: auto;
   text-align: center;
 
   #menu-ctr {
-    #menu-background-canvas {
-      z-index: -1;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 90vw;
+    @media screen and (min-width: $desktop) {
+      width: 50vw;
     }
+    // #menu-background-canvas { z-index: -1; }
     position: relative;
-    padding: 2em;
-    background: #53535388;
-    box-sizing: border-box;
-    canvas { position: absolute; }
+    canvas {
+      position: relative;
+      width: 100%;
+    }
   }
 
   #hud-ctr {

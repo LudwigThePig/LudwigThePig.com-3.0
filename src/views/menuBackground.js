@@ -1,18 +1,20 @@
+/* eslint-disable max-classes-per-file */
 import { randomArrayItem, randomBoundedFloat } from '../utils/random';
 import { easeInOutQuad, fullSineEase, easeInExpo } from '../utils/easing';
+import { degreesToRadians } from '../utils/math';
 
 const MAX_AGE = 4000;
 
 class Particle {
-  constructor(el, height, width) {
+  constructor(el, cHeight, cWidth) {
     this.t = 0;
     this.element = el;
     this.height = el.height;
     this.width = el.width;
     this.minX = (el.width / 2);
-    this.minY = (el.height / 2);
-    this.maxX = randomBoundedFloat(width - 40, width) - (el.width / 2);
-    this.maxY = randomBoundedFloat(height - 60, height) - (el.height / 2);
+    this.minY = 0;// (el.height / 2);
+    this.maxX = randomBoundedFloat(cWidth - 40, cWidth) - (el.width / 2);
+    this.maxY = randomBoundedFloat(cHeight - 60, cHeight) - (el.height / 4);
     this.x = 0;
     this.y = 0;
     this.r = 0;
@@ -42,12 +44,47 @@ class Particle {
   }
 }
 
+class PigBoat {
+  constructor(el, cHeight, cWidth) {
+    this.element = el;
+    this.height = el.height;
+    this.width = el.width;
+    this.cHeight = cHeight;
+    this.cWidth = cWidth;
+    this.x = 0;
+    this.y = 0;
+    this.scale = 0.9;
+    this.vertSkew = 0;
+    this.horizSkew = 0;
+    this.t = 0;
+    this.r = degreesToRadians(-2);
+  }
+
+  update(dt) {
+    this.t = (this.t + dt) % MAX_AGE;
+    this.r = fullSineEase(this.t, this.r, degreesToRadians(2), 2000);
+    this.horizSkew = fullSineEase(this.t, this.horizSkew, 0.01, 1400);
+    this.vertSkew = fullSineEase(this.t, this.vertSkew, 0.01, 1800);
+  }
+
+  draw(ctx) {
+    ctx.setTransform(
+      this.scale, this.horizSkew, this.vertSkew, // horiz scale, vert skew, horz, skew
+      this.scale, this.x, this.y, // vert scale, horiz translation, vert translation
+    );
+    ctx.rotate(this.r);
+    ctx.drawImage(this.element, this.x, this.y);
+  }
+}
+
 const initBackground = () => {
   const canvas = document.getElementById('menu-background-canvas');
   const { height, width } = canvas;
   const ctx = canvas.getContext('2d');
   ctx.imageSmoothingEnabled = false;
 
+  const pigBoatEl = document.getElementById('img-pigboat');
+  const pigBoat = new PigBoat(pigBoatEl, height, width);
   const particles = [];
   let prevDate = Date.now();
   const animate = () => {
@@ -66,8 +103,9 @@ const initBackground = () => {
     // Clear Canvas
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, width, height);
-    // Draw Static Items
     // Update and draw dynamic items
+    pigBoat.update(dt);
+    pigBoat.draw(ctx);
     particles.forEach(p => {
       p.update(dt);
       p.draw(ctx);

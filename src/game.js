@@ -90,8 +90,8 @@ const pigLoadCallback = gltf => { // TODO: ECS
 
   const particleTarget = new THREE.Object3D();
   particleTarget.position.x = -0.7;
-  particleTarget.position.y = 0.2;
-  particleTarget.position.z = 0;
+  particleTarget.position.y = -2.4;
+  particleTarget.position.z = -2.4;
   particleTarget.rotateX(Math.PI / 3);
   particleTarget.rotateY(Math.PI / 3);
   pig.add(particleTarget);

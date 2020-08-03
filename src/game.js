@@ -68,6 +68,7 @@ camera.lookAt(scene.position);
 let pig;
 let pigParticles;
 const pigLoader = new GLTFLoader(loadingManager);
+const pigBoatLoader = new GLTFLoader(loadingManager);
 const skyboxLoader = new THREE.CubeTextureLoader(loadingManager);
 const groundTextureLoader = new THREE.TextureLoader(loadingManager);
 const cloudLoader = new GLTFLoader(loadingManager);
@@ -105,6 +106,30 @@ const pigLoadCallback = gltf => { // TODO: ECS
     particlesPerSecond: 100,
     worldSpace: true,
   });
+};
+
+let pigBoat;
+const pigBoatLoadCallback = gltf => {
+  if (!pig) return pigBoatLoadCallback;
+  gltf.scene.traverse(child => {
+    if (child.isMesh) child.material.side = THREE.DoubleSide;
+  });
+  pigBoat = gltf.scene;
+  pigBoat.name = 'PigBoat';
+
+  pig.doubleSided = true;
+  pig.add(pigBoat);
+  pigBoat.position.y = -1.3;
+  pigBoat.position.z = -1.3;
+  const scale = 1.5;
+  pigBoat.scale.x = scale;
+  pigBoat.scale.y = scale;
+  pigBoat.scale.z = scale;
+
+  // pigBoat.rotation.y += degreesToRadians(30);
+  // pigBoat.position.x = -0.7;
+  // pigBoat.position.y = 0.2;
+  // scene.add(pigBoat);
 };
 
 /* ☁☁☁☁☁☁☁☁
@@ -167,14 +192,21 @@ pigLoader.load( // pig
   'models/pig.glb',
   pigLoadCallback,
   null,
-  err => console.error(err),
+  console.error,
+);
+
+pigBoatLoader.load(
+  'models/pigboat.glb',
+  pigBoatLoadCallback,
+  null,
+  console.error,
 );
 
 cloudLoader.load(
   'models/cloud.glb',
   cloudLoadCallback,
   null,
-  err => console.error(err),
+  console.error,
 );
 
 fontLoader.load(
@@ -196,7 +228,7 @@ scene.background = skyboxTexture;
 /* **************
  * Ground Model *
  ************** */
-const groundTexture = groundTextureLoader.load('textures/sand.png');
+const groundTexture = groundTextureLoader.load('textures/water.png');
 
 groundTexture.wrapS = THREE.RepeatWrapping;
 groundTexture.wrapT = THREE.RepeatWrapping;

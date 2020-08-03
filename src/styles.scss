@@ -177,6 +177,9 @@ main {
   text-align: center;
 
   #menu-ctr {
+    #menu-background-canvas {
+      z-index: -1;
+    }
     position: relative;
     padding: 2em;
     background: #53535388;

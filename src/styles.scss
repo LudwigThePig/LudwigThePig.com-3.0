@@ -155,24 +155,30 @@ main {
   height: 100vh;
   margin-top: auto;
   text-align: center;
-
   #menu-ctr {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     flex-direction: column;
     height: 100%;
     width: 90vw;
     @media screen and (min-width: $desktop) {
       width: 50vw;
     }
-    // #menu-background-canvas { z-index: -1; }
     position: relative;
     canvas {
       position: relative;
-      max-width: 100%;
+      width: 100%;
     }
   }
+  .menu-section {
+    height: 60vh;
+    width: 90%;
+    @media screen and (min-width: $desktop) {
+      height: 90%;
+      width: 70%;
+    }
 
+  }
   #hud-ctr {
     #hud-buttons {
       position: fixed;

@@ -1,3 +1,8 @@
+/**
+ * I know what you are thinking... this css is awful.
+ * Sorry.
+ */
+
 $black: #001011;
 $white: #F2F2E6;
 $salmon: #ED6767;
@@ -5,7 +10,7 @@ $purple: #793F5C;
 $desktop: 600px;
 
 
-// From LTP-2.0 style sheet
+/* From LTP-2.0 style sheet */
 $themes: (
   light: (
     primary: #f9f3ed,
@@ -50,12 +55,13 @@ h2 {
   text-shadow: 1px -1px #ED6767, 2px -2px #ED6767, 2px -2px #ED6767, 2px -2px #ED6767, 2px -2px #ED6767, 2px -2px #ED6767, 2px -2px #ED6767, 2px -2px #ED6767;
 }
 
-button {
+body button {
   border: none;
   color: $white;
   background: $salmon;
   padding: 1em;
   cursor: pointer;
+  margin: 0.5em auto;
   &:hover {
     background: #e95959; /* slightly darker salmon */
   }
@@ -82,6 +88,12 @@ button {
   99% { opacity: 0; }
 }
 
+.col {
+  display: flex;
+  flex-direction: column;
+  flex: 0;
+}
+
 .blurable { transition: all 1.5s; }
 .blurable.blur {
   filter: blur(4px) brightness(40%);
@@ -92,7 +104,6 @@ button {
   -o-transition: 1.5s -o-filter linear;
   transition: 1.5s filter linear, 1.5s -webkit-filter linear;
 }
-
 
 .hidden-animation { animation: hide 5s; }
 
@@ -159,25 +170,26 @@ main {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    height: 100%;
-    width: 90vw;
-    @media screen and (min-width: $desktop) {
-      width: 50vw;
-    }
+    height: 100vh;
+    width: 100vw;
     position: relative;
     canvas {
       position: relative;
+      display: initial;
       width: 100%;
+      @media screen and (min-width: $desktop) {
+        max-width: 40%;
+      }
+
     }
   }
   .menu-section {
-    height: 60vh;
-    width: 90%;
-    @media screen and (min-width: $desktop) {
-      height: 90%;
-      width: 70%;
-    }
-
+    height: 100vh;
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
   }
   #hud-ctr {
     #hud-buttons {

@@ -5,7 +5,7 @@ const HIDDEN_CLASS = 'hidden';
  * @param {boolean} showMenu if true, will blur game and show menu
  * if false, will hide menu and unblur game
  */
-const toggleMenu = (showMenu = false) => (e) => {
+const toggleMenu = (showMenu = false) => e => {
   const menu = document.getElementById('menu-ctr');
   const hud = document.getElementById('hud-ctr');
   const canvasContainer = document.getElementById('canvas-container');

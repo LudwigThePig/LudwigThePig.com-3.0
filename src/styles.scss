@@ -4,25 +4,24 @@
  */
 
 $black: #001011;
-$white: #F2F2E6;
-$salmon: #ED6767;
-$purple: #793F5C;
+$white: #f2f2e6;
+$salmon: #ed6767;
+$purple: #793f5c;
 $desktop: 600px;
-
 
 /* From LTP-2.0 style sheet */
 $themes: (
   light: (
     primary: #f9f3ed,
     secondary: #342e37,
-    active-color: #A43A4B,
-    alt-color: #e57853, 
+    active-color: #a43a4b,
+    alt-color: #e57853,
   ),
   dark: (
     primary: #001011,
-    secondary: #F2F2E6,
-    active-color: #ED6767,
-    alt-color: #793F5C,
+    secondary: #f2f2e6,
+    active-color: #ed6767,
+    alt-color: #793f5c,
   ),
   blue: (
     primary: #323846,
@@ -32,18 +31,17 @@ $themes: (
   ),
 );
 
-
-body, html {
+body,
+html {
   background: $black;
   color: $white;
-  font-family: 'Sigmar One', cursive;
+  font-family: "Roboto", cursive;
   overflow: hidden;
   position: fixed;
 }
 
-
 p {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 1.2em;
   margin: 0.2em;
 }
@@ -52,7 +50,9 @@ h2 {
   font-size: 1.8rem;
   margin: 0.3em;
   color: $white;
-  text-shadow: 1px -1px #ED6767, 2px -2px #ED6767, 2px -2px #ED6767, 2px -2px #ED6767, 2px -2px #ED6767, 2px -2px #ED6767, 2px -2px #ED6767, 2px -2px #ED6767;
+  text-shadow: 1px -1px #ed6767, 2px -2px #ed6767, 2px -2px #ed6767,
+    2px -2px #ed6767, 2px -2px #ed6767, 2px -2px #ed6767, 2px -2px #ed6767,
+    2px -2px #ed6767;
 }
 
 body button {
@@ -65,6 +65,7 @@ body button {
   &:hover {
     background: #e95959; /* slightly darker salmon */
   }
+  min-width: 10em;
 }
 
 .desktop {
@@ -83,9 +84,15 @@ body button {
 }
 
 @keyframes hide {
-  0% { opacity: 1; }
-  50% { opacity: 0; }
-  99% { opacity: 0; }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  99% {
+    opacity: 0;
+  }
 }
 
 .col {
@@ -94,7 +101,9 @@ body button {
   flex: 0;
 }
 
-.blurable { transition: all 1.5s; }
+.blurable {
+  transition: all 1.5s;
+}
 .blurable.blur {
   filter: blur(4px) brightness(40%);
   -webkit-transition: 1.5s -webkit-filter linear;
@@ -105,9 +114,13 @@ body button {
   transition: 1.5s filter linear, 1.5s -webkit-filter linear;
 }
 
-.hidden-animation { animation: hide 5s; }
+.hidden-animation {
+  animation: hide 5s;
+}
 
-.hidden { display: none !important; }
+.hidden {
+  display: none !important;
+}
 
 /* Badge is an SVG button */
 button.badge {
@@ -120,8 +133,10 @@ button.badge {
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: initial;
 
-  svg { /* Assumes viewbox is 1x1 */
+  svg {
+    /* Assumes viewbox is 1x1 */
     height: 18px;
     width: 18px;
   }
@@ -130,7 +145,7 @@ button.badge {
   box-shadow: 0px 0px 10px 0px $black;
 }
 
-#canvas-container{
+#canvas-container {
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -145,11 +160,11 @@ canvas {
 }
 
 body h1 {
-  @media screen and (min-width: $desktop){
-    font-size: 4.0em;
+  @media screen and (min-width: $desktop) {
+    font-size: 4em;
   }
   font-size: 2.8em;
-  
+
   color: $white;
 }
 
@@ -180,7 +195,6 @@ main {
       @media screen and (min-width: $desktop) {
         max-width: 40%;
       }
-
     }
   }
   .menu-section {
@@ -198,19 +212,18 @@ main {
       bottom: 10px;
     }
   }
-  
+
   /* A keyboard key like style*/
-  .key { 
+  .key {
     font-size: 1.3rem;
-    background: rgb(143,143,143);
-    background: linear-gradient(149deg, #848484 0%, #C9C9C9 17%, #FAFAFA 100%);
+    background: rgb(143, 143, 143);
+    background: linear-gradient(149deg, #848484 0%, #c9c9c9 17%, #fafafa 100%);
     border-radius: 4px;
     box-shadow: inset 6px 0px 15px 6px #848484, 0px 0px 0px 2px #737373;
     color: $black;
     padding: 2px 5px;
     font-family: Helvetica, sans-serif;
   }
-  
 
   footer {
     display: flex;

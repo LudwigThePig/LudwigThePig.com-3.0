@@ -5,7 +5,6 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 module.exports = {
   entry: {
     main: './src/index.js',
-    loaderThread: './loaderWorker/index.js',
   },
   resolve: {
     extensions: ['.js'],

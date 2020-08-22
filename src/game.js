@@ -15,9 +15,6 @@ import { randomBoundedInt } from './utils/random';
  * Bootstraps the scene and returns the renderer
  */
 const init = () => {
-  const worker = new Worker('js/loaderThread-bundle.js');
-  worker.onmessage = console.log;
-  worker.postMessage('Sup son');
   const loadingManager = new THREE.LoadingManager();
   loadingManager.onLoad = () => {
     hideLoadingScreen();
@@ -38,15 +35,14 @@ const init = () => {
 
 
   /* ******
- * Scene *
- ******* */
+   * Scene *
+   ******* */
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(colors.black);
 
   /* *******
-* Lights *
-******** */
-
+  * Lights *
+  ******** */
   const ambientLight = new THREE.AmbientLight(lightColors.white, 0.8); // soft white light
   scene.add(ambientLight);
 
@@ -57,8 +53,8 @@ const init = () => {
 
 
   /* *******
-* Camera *
-******** */
+  * Camera *
+  ******** */
   const camera = new THREE.PerspectiveCamera(
     90,
     window.innerWidth / window.innerHeight,
@@ -70,8 +66,8 @@ const init = () => {
 
 
   /* 🐷🐷🐷🐷🐷
-  * PIG MODEL *
-  🐷🐷🐷🐷🐷🐷 */
+    * PIG MODEL *
+    🐷🐷🐷🐷🐷🐷 */
   let pig;
   let pigParticles;
   const pigLoader = new GLTFLoader(loadingManager);
@@ -133,15 +129,15 @@ const init = () => {
     pigBoat.scale.y = scale;
     pigBoat.scale.z = scale;
 
-    // pigBoat.rotation.y += degreesToRadians(30);
-    // pigBoat.position.x = -0.7;
-    // pigBoat.position.y = 0.2;
-    // scene.add(pigBoat);
+    pigBoat.rotation.y += degreesToRadians(30);
+    pigBoat.position.x = -0.7;
+    pigBoat.position.y = 0.2;
+    scene.add(pigBoat);
   };
 
   /* ☁☁☁☁☁☁☁☁
-  * CLOUD MODEL *
-  ☁☁☁☁☁☁☁☁ */
+    * CLOUD MODEL *
+    ☁☁☁☁☁☁☁☁ */
   const clouds = [];
   const cloudLoadCallback = gltf => {
     for (let i = 0; i < 20; i++) {
@@ -164,8 +160,8 @@ const init = () => {
   };
 
   /* *************
-* Font Loader *
-************* */
+  * Font Loader *
+  ************* */
   const fontLoadCallback = font => {
     const textGeometry = new THREE.TextGeometry('Ludwig The Pig', {
       font,
@@ -193,8 +189,8 @@ const init = () => {
   };
 
   /* ********
-* LOADERS *
-********** */
+  * LOADERS *
+  ********** */
   pigLoader.load( // pig
     'models/pig.glb',
     pigLoadCallback,
@@ -233,8 +229,8 @@ const init = () => {
 
 
   /* **************
-        * Ground Model *
-        ************** */
+          * Ground Model *
+          ************** */
   const groundTexture = groundTextureLoader.load('textures/water.png');
 
   groundTexture.wrapS = THREE.RepeatWrapping;
@@ -248,11 +244,11 @@ const init = () => {
   scene.add(groundMesh);
 
   /* 💥💥💥💥💥💥💥💥
-💥 Particle Effects 💥
-💥💥💥💥💥💥💥💥 */
+  💥 Particle Effects 💥
+  💥💥💥💥💥💥💥💥 */
   /* ***************
-* Main Game Loop *
-**************** */
+  * Main Game Loop *
+  **************** */
   const draw = () => {
     renderer.render(scene, camera);
     requestAnimationFrame(draw);
@@ -266,8 +262,8 @@ const init = () => {
 
 
   /* *********************
-* MISC EVENT LISTENERS *
-********************** */
+  * MISC EVENT LISTENERS *
+  ********************** */
   const onWindowResize = () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     camera.aspect = window.innerWidth / window.innerHeight;

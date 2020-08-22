@@ -89,7 +89,7 @@ const initBackground = () => {
     // remove old particles
     if (particles.length) {
       let i = 0;
-      while (particles[i].t >= MAX_AGE) { i++; }
+      while (i < particles.length && particles[i].t >= MAX_AGE) { i++; }
       particles.splice(0, i - 1); // cull excessive elements
     }
 

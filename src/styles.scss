@@ -35,13 +35,19 @@ body,
 html {
   background: $white;
   color: $white;
-  font-family: "Roboto", cursive;
+  font-family: "Sigmar One", "Roboto", sans-serif;
   overflow: hidden;
   position: fixed;
 }
 
+h1,
+h2,
+h3 {
+  font-family: "Sigmar One", "Roboto", sans-serif;
+}
+
 p {
-  font-family: "Roboto", sans-serif;
+  font-family: "Sigmar One", "Roboto", sans-serif;
   font-size: 1.2em;
   margin: 0.2em;
 }
@@ -49,10 +55,6 @@ p {
 h2 {
   font-size: 1.8rem;
   margin: 0.3em;
-  color: $black;
-  // text-shadow: 1px -1px #ed6767, 2px -2px #ed6767, 2px -2px #ed6767,
-  //   2px -2px #ed6767, 2px -2px #ed6767, 2px -2px #ed6767, 2px -2px #ed6767,
-  //   2px -2px #ed6767;
 }
 
 body button {

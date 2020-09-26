@@ -41,20 +41,33 @@
     <style>
       /* PRE LOAD CSS SETTINGS */
       body {
-        background: #000;
+        background: #f2f2e6;
         overflow: hidden;
+      }
+      #loading-screen {
+        height: 100vh;
+        width: 100vw;
+        position: absolute;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      #loading-screen img {
+        max-width: 90vw;
       }
     </style>
 
     <title>Ludwig The Pig</title>
   </head>
   <body>
-    <div id="loading-screen" class="col center">
+    <div id="loading-screen">
       <img
         src="assets/loading-animation.gif"
         alt="loading animation ludiwg the pig painted"
       />
-      <h2>loading...</h2>
+      <h2>loading your pig</h2>
     </div>
 
     <div id="canvas-container" class="blurable blur"></div>
@@ -120,7 +133,7 @@
         </div>
       </div>
       <div id="hud-ctr">
-        <div id="hud-buttons">
+        <div id="hud-buttons" class="hidden">
           <button class="badge" id="show-menu-button" role="button">
             <svg viewBox="0 0 100 80">
               <rect width="100" height="20"></rect>

@@ -14,15 +14,8 @@ import { randomBoundedInt } from './utils/random';
 /**
  * Bootstraps the scene and returns the renderer
  */
-const init = () => {
+const init = resolver => {
   const loadingManager = new THREE.LoadingManager();
-  loadingManager.onLoad = () => {
-    hideLoadingScreen();
-    // eslint-disable-next-line no-use-before-define
-    draw();
-    showMenu();
-    setTimeout(() => inputHandler(), 500); // Must wait for the canvas to render
-  };
 
   /* *********
   * Renderer *
@@ -188,6 +181,7 @@ const init = () => {
     scene.add(textMesh);
   };
 
+
   /* ********
   * LOADERS *
   ********** */
@@ -243,9 +237,7 @@ const init = () => {
   groundMesh.position.y = -1;
   scene.add(groundMesh);
 
-  /* 💥💥💥💥💥💥💥💥
-  💥 Particle Effects 💥
-  💥💥💥💥💥💥💥💥 */
+
   /* ***************
   * Main Game Loop *
   **************** */
@@ -261,6 +253,17 @@ const init = () => {
   };
 
 
+  /** **************************************
+   * * After load, before appending canvas *
+   *************************************** */
+  loadingManager.onLoad = () => {
+    hideLoadingScreen();
+    draw();
+    showMenu();
+    resolver(renderer);
+  };
+
+
   /* *********************
   * MISC EVENT LISTENERS *
   ********************** */
@@ -270,7 +273,6 @@ const init = () => {
     camera.updateProjectionMatrix();
   };
   window.addEventListener('resize', onWindowResize);
-  return renderer;
 };
 
-export default init;
+export default () => new Promise(resolver => init(resolver));

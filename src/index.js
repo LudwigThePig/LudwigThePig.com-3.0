@@ -2,12 +2,13 @@ import './styles.scss';
 import 'normalize.css';
 import initGame from './game';
 import showMenu from './views/menu';
+import inputHandler from './controllers/inputHandler';
 
 
-window.onload = () => {
+window.onload = async () => {
   showMenu();
-  setTimeout(() => {
-    const renderer = initGame();
-    document.getElementById('canvas-container').appendChild(renderer.domElement);
-  }, 1000);
+  const renderer = await initGame();
+  console.log(renderer);
+  document.getElementById('canvas-container').appendChild(renderer.domElement);
+  inputHandler();
 };

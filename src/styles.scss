@@ -9,16 +9,6 @@ $salmon: #ed6767;
 $purple: #793f5c;
 $desktop: 600px;
 
-#loading-screen {
-  height: 100vh;
-  width: 100vw;
-  position: absolute;
-  z-index: 1;
-  display: flex;
-  img {
-  }
-}
-
 /* From LTP-2.0 style sheet */
 $themes: (
   light: (
@@ -43,7 +33,7 @@ $themes: (
 
 body,
 html {
-  background: $black;
+  background: $white;
   color: $white;
   font-family: "Roboto", cursive;
   overflow: hidden;
@@ -59,7 +49,7 @@ p {
 h2 {
   font-size: 1.8rem;
   margin: 0.3em;
-  color: $white;
+  color: $black;
   // text-shadow: 1px -1px #ed6767, 2px -2px #ed6767, 2px -2px #ed6767,
   //   2px -2px #ed6767, 2px -2px #ed6767, 2px -2px #ed6767, 2px -2px #ed6767,
   //   2px -2px #ed6767;

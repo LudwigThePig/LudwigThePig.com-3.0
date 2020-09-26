@@ -1,33 +1,52 @@
-class MenuHandler {
-  constructor(toggler) {
-    this.isActive = false;
-    this.togglerEl = toggler;
-    this.toggleMenu = this.toggleMenu.bind(this);
-    this.menuCtrEl = document.getElementById('menu');
-    this.menuContentEl = document.getElementById('menu-content');
-  }
+import initBackground from './menuBackground';
 
-  toggleMenu() {
-    if (this.isActive) {
-      this.togglerEl.classList.remove('is-active');
-      this.menuCtrEl.classList.remove('is-active');
-      setTimeout(() => this.menuContentEl.classList.add('hidden'), 1000);
-    } else {
-      this.togglerEl.classList.add('is-active');
-      this.menuCtrEl.classList.add('is-active');
-      this.menuContentEl.classList.remove('hidden');
-    }
-    this.isActive = !this.isActive;
+const HIDDEN_CLASS = 'hidden';
+/**
+ * @param {boolean} showMenu if true, will blur game and show menu
+ * if false, will hide menu and unblur game
+ */
+const toggleMenu = (showMenu = false) => e => {
+  const menu = document.getElementById('menu-ctr');
+  const hud = document.getElementById('hud-ctr');
+  const canvasContainer = document.getElementById('canvas-container');
+  if (showMenu) {
+    canvasContainer.classList.add('blur');
+    hud.classList.add(HIDDEN_CLASS);
+    menu.classList.remove(HIDDEN_CLASS);
+  } else {
+    canvasContainer.classList.remove('blur');
+    hud.classList.remove(HIDDEN_CLASS);
+    menu.classList.add(HIDDEN_CLASS);
   }
-}
+};
 
+const toggleAbout = menuState => e => {
+  const getSectionEl = section => document.getElementById(`menu-section-${section}`);
+  const mainEl = getSectionEl('main');
+  const aboutEl = getSectionEl('about');
+  if (menuState.isShowingAbout) {
+    aboutEl.classList.add(HIDDEN_CLASS);
+    mainEl.classList.remove(HIDDEN_CLASS);
+  } else {
+    aboutEl.classList.remove(HIDDEN_CLASS);
+    mainEl.classList.add(HIDDEN_CLASS);
+  }
+  menuState.isShowingAbout = !menuState.isShowingAbout;
+};
 
 const init = () => {
-  const toggleMenuButton = document.getElementById('menu-button');
-  const menuHandler = new MenuHandler(toggleMenuButton);
+  const menuState = {
+    isShowingAbout: false,
+  };
+  const startGameButton = document.getElementById('start-game-button');
+  const showMenuButton = document.getElementById('show-menu-button');
+  const showAboutButtons = document.querySelectorAll('.toggle-about-button');
 
-  document.getElementsByClassName('ui');
-  toggleMenuButton.addEventListener('click', menuHandler.toggleMenu);
+  startGameButton.addEventListener('click', toggleMenu(false));
+  showMenuButton.addEventListener('click', toggleMenu(true));
+  showAboutButtons.forEach(el => el.addEventListener('click', toggleAbout(menuState)));
+
+  initBackground();
 };
 
 export default init;

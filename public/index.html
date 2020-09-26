@@ -1,170 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta charset="UTF-8">
-  <meta name="description" content="Dream on little piggy">
-  <meta name="keywords" content="JavaScript, 3D, Game, THREE.js, WebGL">
-  <meta name="author" content="Morgan Galvin">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125739166-1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'UA-125739166-1');
-  </script>
-
-
-
-  <link href="https://fonts.googleapis.com/css?family=Sigmar+One&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-  <link rel="apple-touch-icon" sizes="180x180" href="/static/assets/apple-touch-icon.png">
-  <link rel="manifest" href="/mainfest.json">
-  <link rel="icon" href="/assets/favicon.ico">
-  <meta name="theme-color" content="#001011">
-  <title>Ludwig the Pig</title>
-  <style>
-    /* PRE LOAD CSS SETTINGS */
-    body{
-      background: #000;
-      overflow: hidden;
-    }
-
-    @keyframes color-pulse {
-      0% { stroke: #F2F2E6; }
-      100% { stroke: #ED6767; }
-    }
-
-    @keyframes draw-pig {
-      from {
-        stroke-dashoffset: 0;
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta charset="UTF-8" />
+    <meta name="description" content="Dream on little piggy" />
+    <meta name="keywords" content="JavaScript, 3D, Game, THREE.js, WebGL" />
+    <meta name="author" content="Morgan Galvin" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-125739166-1"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
       }
-      to {
-        stroke-dashoffset: 500;
+      gtag("js", new Date());
+      gtag("config", "UA-125739166-1");
+    </script>
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Sigmar+One&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/static/assets/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="/mainfest.json" />
+    <link rel="icon" href="/assets/favicon.ico" />
+    <meta name="theme-color" content="#001011" />
+    <title>Ludwig the Pig</title>
+    <style>
+      /* PRE LOAD CSS SETTINGS */
+      body {
+        background: #f2f2e6;
+        overflow: hidden;
       }
-    }
+      #loading-screen {
+        height: 100vh;
+        width: 100vw;
+        position: absolute;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      #loading-screen img {
+        max-width: 90vw;
+      }
+    </style>
 
-    @keyframes text-animation {
-  0% {
-    text-shadow: 0 0 #ED6767, 0 0 #ED6767, 0 0 #ED6767, 0 0 #ED6767, 0 0 #ED6767, 0 0 #ED6767, 0 0 #ED6767, 0 0 #ED6767;
-    transform: translateX(0) translateY(0);
-  }
-  100% {
-    text-shadow: 1px -1px #ED6767, 2px -2px #ED6767, 3px -3px #ED6767, 4px -4px #ED6767, 5px -5px #ED6767, 6px -6px #ED6767, 7px -7px #ED6767, 8px -8px #ED6767;
-    transform: translateX(-8px) translateY(8px);
-  }
-}
-
-    #loading-screen {
-      position: fixed;
-      z-index: 1;
-      width: 100vw;
-      height: 100vh;
-      background: #001011;
-    }
-    #loading-screen svg {
-      height: 100vh;
-      width: 100vw;
-      position: fixed;
-      left: 0;
-      top: 0;
-      animation:color-pulse 2s linear infinite alternate both; 
-    }
-    #loading-screen path { 
-      stroke-dasharray: 250;
-      animation:draw-pig 5s linear infinite; 
-    }
-    #loading-screen h2 { 
-      text-align: center;
-      font-size: 3em;
-      position: fixed;
-      top: 80vh;
-      width: 100%;
-      color: white;
-      animation:text-animation 1.5s linear infinite alternate; 
-    }
-  </style>
-
-  <title>Ludwig The Pig</title>
-</head>
-<body>
-  <div id="loading-screen">
-    <h2>Loading...</h3>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" class="pig-svg" overflow="visible">
-        <path fill="none" stroke-width="3px" class="b" d="M20,127s-9.1-53.2-2-57S-8.1,74.2,4,61s8,11,8,11l6-2S31,42.1,52.5,41.5s77.2-7.6,79.5,2V61l-6,5s17-2,17,0V82L99,126s-3,3-3-3V95H54L25,124S20,131,20,127Z" />
-      </svg>
-      
-      
-      
+    <title>Ludwig The Pig</title>
+  </head>
+  <body>
+    <div id="loading-screen">
+      <img
+        src="assets/loading-animation.gif"
+        alt="loading animation ludiwg the pig painted"
+      />
+      <h2>loading your pig</h2>
     </div>
-    <div id="canvas-container"></div>
+
+    <div id="canvas-container" class="blurable blur"></div>
     <script src="js/main-bundle.js"></script>
-
-    <main id="menu">
-
-      <div id="menu-button-ctr">
-        <button type="button" id="menu-button">
-          <svg viewbox="0 0 50 30">
-            <g>
-              <line x1="0" y1="0" x2="25" y2="0" class="left" />
-              <line x1="24" y1="0" x2="50" y2="0" class="right" />
-            </g>
-  
-          </svg>
-        </button>
-      </div>
-      <div id="menu-content" class="hidden">
-
-        <div>
-          <h2>About the Site</h2>
-          <p>
-            Welcome to my website! This is a creative outlet that allows me to explore technologies and ideas that pique my interest. Beyond that, I do not have any strong intentions for this website.
-          </p>
+    <main>
+      <div id="menu-ctr" class="hidden">
+        <div class="menu-section" id="menu-section-main">
+          <h1>Ludwig The Pig</h1>
+          <canvas height="400" width="600" id="menu-background-canvas"></canvas>
+          <div class="col">
+            <button id="start-game-button">Start</button>
+            <button class="toggle-about-button">About</button>
+          </div>
         </div>
-
-        <div>
-          <h2>About Me</h2>
-          <p>
-            My name is Morgan. I am a Software Engineer on the Robotics team at StoneAge Tools. When I am not wrangling robots, I like to write WebGL code, study philosophy, and climb mountains.
-          </p>
-        </div>
-
-        <div>
-          <h2>Controls</h2>  
+        <div class="menu-section hidden" id="menu-section-about">
           <p class="mobile">
             Drag your finger across the screen to move the pig.
           </p>
           <p class="desktop">
-            Use the <span class="key">W</span>, <span class="key">A</span>, <span class="key">S</span>, and <span class="key">D</span> keys to move the pig.
-          </p>        
+            Use the <span class="key">W</span>, <span class="key">A</span>,
+            <span class="key">S</span>, and <span class="key">D</span> keys to
+            move the pig.
+          </p>
+          <button class="toggle-about-button">Back</button>
+          <footer>
+            <!-- LinkedIn -->
+            <a href="https://www.linkedin.com/in/morgangalvin">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+                />
+              </svg>
+            </a>
+            <!-- Github -->
+            <a href="https://github.com/LudwigThePig/LudwigThePig.com-3.0">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                />
+              </svg>
+            </a>
+            <!-- Strava -->
+            <a href="https://www.strava.com/athletes/5897641">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"
+                ></path>
+              </svg>
+            </a>
+          </footer>
         </div>
-      
-
-      
-      <footer>
-        <!-- LinkedIn -->
-        <a href="https://www.linkedin.com/in/morgangalvin">
-          <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 24 24">
-            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-          </svg>
-        </a>
-        
-        <!-- Github -->
-        <a href="https://github.com/LudwigThePig/LudwigThePig.com-3.0">
-          <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 24 24">
-            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-          </svg>
-        </a>
-        
-        <!-- Strava -->
-        <a href="https://www.strava.com/athletes/5897641">
-          <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 24 24">
-            <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"></path>
-          </svg>
-        </a>
-      </footer>
-    </div>
+      </div>
+      <div id="hud-ctr" class="hidden">
+        <div id="hud-buttons">
+          <button class="badge" id="show-menu-button" role="button">
+            <svg viewBox="0 0 100 80">
+              <rect width="100" height="20"></rect>
+              <rect y="30" width="100" height="20"></rect>
+              <rect y="60" width="100" height="20"></rect>
+            </svg>
+          </button>
+        </div>
+      </div>
     </main>
+
+    <div id="canvas-image-sources" class="hidden">
+      <img
+        src="/assets/cloud1.png"
+        alt="Cloud One, canvas image"
+        height="149"
+        width="143"
+        id="img-cloud1"
+      />
+      <img
+        src="/assets/cloud2.png"
+        alt="Cloud Two, canvas image"
+        height="147"
+        width="130"
+        id="img-cloud2"
+      />
+      <img
+        src="/assets/pigboat.png"
+        alt="Pig Boat, canvas image"
+        height="147"
+        width="130"
+        id="img-pigboat"
+      />
+    </div>
   </body>
-  </html>
+</html>

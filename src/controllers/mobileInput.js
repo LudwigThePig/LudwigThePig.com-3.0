@@ -6,7 +6,7 @@ class MobileInputManager {
   constructor() {
     this.origin = null;
 
-    const el = document.getElementById('canvas-container').children[0];
+    const el = document.getElementById('touch-register-canvas');
     el.addEventListener('touchstart', this.handleStart, false);
     el.addEventListener('touchend', this.handleEnd, false);
     el.addEventListener('touchmove', this.handleMove, false);
@@ -27,6 +27,7 @@ class MobileInputManager {
   }
 
   handleStart(e) {
+    console.log('HANDLE START');
     this.origin = MobileInputManager.getTouchPos(e);
   }
 

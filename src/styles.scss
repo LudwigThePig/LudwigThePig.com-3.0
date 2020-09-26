@@ -159,6 +159,7 @@ button.badge {
   justify-content: center;
   align-items: center;
 }
+
 canvas {
   display: block;
   position: absolute;
@@ -171,49 +172,59 @@ body h1 {
     font-size: 4em;
   }
   font-size: 2.8em;
-
   color: $white;
 }
 
-/* Menu Container */
 main {
-  position: fixed;
-  display: flex !important;
-  justify-content: center;
-  align-items: center;
-  box-sizing: border-box;
-  overflow-y: auto;
-  width: 100vw;
+  position: absolute;
   top: 0;
+  width: 100vw;
   height: 100vh;
-  margin-top: auto;
   text-align: center;
   #menu-ctr {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+    top: 0;
     height: 100vh;
     width: 100vw;
-    position: relative;
+  }
+  .menu-section {
+    height: 100vh;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+
+    display: flex;
+    flex-direction: column;
+  }
+  #menu-section-main {
+    // super hacky fix for ios. I'm not here to build menus man...
+    div {
+      min-height: 150px;
+      margin-bottom: 15vh;
+      @media screen and (min-width: $desktop) {
+        margin-bottom: 0;
+      }
+    }
     canvas {
       position: relative;
-      display: initial;
       width: 100%;
       @media screen and (min-width: $desktop) {
         max-width: 40%;
       }
     }
   }
-  .menu-section {
-    height: 100vh;
-    width: 100vw;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
-  }
   #hud-ctr {
+    /* The canvas that captures the touch events on mobile */
+    #touch-register-canvas {
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+      top: 0;
+      left: 0;
+      /* IMPORTANT, must be above everything, except hud buttons */
+      z-index: 5;
+    }
     #hud-buttons {
+      z-index: 6;
       position: fixed;
       right: 10px;
       bottom: 10px;

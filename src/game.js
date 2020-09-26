@@ -192,13 +192,14 @@ const init = resolver => {
     console.error,
   );
 
+  /** Future Feature :)
   pigBoatLoader.load(
     'models/pigboat.glb',
     pigBoatLoadCallback,
     null,
     console.error,
   );
-
+  */
   cloudLoader.load(
     'models/cloud.glb',
     cloudLoadCallback,

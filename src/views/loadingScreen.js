@@ -1,8 +1,7 @@
-// const loadingScreenCtr = document.getElementById('loading-screen');
 export const showLoadingScreen = () => {};
 export const hideLoadingScreen = () => {
-  // loadingScreenCtr.classList.add('hidden-animation');
-  // setTimeout(() => {
-  //   loadingScreenCtr.classList.add('hidden');
-  // }, 1000);
+  const loadingScreenCtr = document.getElementById('loading-screen');
+  const menuCtr = document.getElementById('menu-ctr');
+  menuCtr.classList.remove('hidden');
+  loadingScreenCtr.classList.add('hidden');
 };

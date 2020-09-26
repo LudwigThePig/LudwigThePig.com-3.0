@@ -44,76 +44,23 @@
         background: #000;
         overflow: hidden;
       }
-
-      @keyframes color-pulse {
-        0% {
-          stroke: #f2f2e6;
-        }
-        100% {
-          stroke: #ed6767;
-        }
-      }
-
-      @keyframes draw-pig {
-        from {
-          stroke-dashoffset: 0;
-        }
-        to {
-          stroke-dashoffset: 500;
-        }
-      }
-
-      @keyframes text-animation {
-        0% {
-          text-shadow: 0 0 #ed6767, 0 0 #ed6767, 0 0 #ed6767, 0 0 #ed6767,
-            0 0 #ed6767, 0 0 #ed6767, 0 0 #ed6767, 0 0 #ed6767;
-          transform: translateX(0) translateY(0);
-        }
-        100% {
-          text-shadow: 1px -1px #ed6767, 2px -2px #ed6767, 3px -3px #ed6767,
-            4px -4px #ed6767, 5px -5px #ed6767, 6px -6px #ed6767,
-            7px -7px #ed6767, 8px -8px #ed6767;
-          transform: translateX(-8px) translateY(8px);
-        }
-      }
-
-      #loading-screen {
-        position: fixed;
-        z-index: 1;
-        width: 100vw;
-        height: 100vh;
-        background: #001011;
-      }
-      #loading-screen svg {
-        height: 100vh;
-        width: 100vw;
-        position: fixed;
-        left: 0;
-        top: 0;
-        animation: color-pulse 2s linear infinite alternate both;
-      }
-      #loading-screen path {
-        stroke-dasharray: 250;
-        animation: draw-pig 5s linear infinite;
-      }
-      #loading-screen h2 {
-        text-align: center;
-        font-size: 3em;
-        position: fixed;
-        top: 80vh;
-        width: 100%;
-        color: white;
-        animation: text-animation 1.5s linear infinite alternate;
-      }
     </style>
 
     <title>Ludwig The Pig</title>
   </head>
   <body>
+    <div id="loading-screen" class="col center">
+      <img
+        src="assets/loading-animation.gif"
+        alt="loading animation ludiwg the pig painted"
+      />
+      <h2>loading...</h2>
+    </div>
+
     <div id="canvas-container" class="blurable blur"></div>
     <script src="js/main-bundle.js"></script>
     <main>
-      <div id="menu-ctr">
+      <div id="menu-ctr" class="hidden">
         <div class="menu-section" id="menu-section-main">
           <h1>Ludwig The Pig</h1>
           <canvas height="400" width="600" id="menu-background-canvas"></canvas>

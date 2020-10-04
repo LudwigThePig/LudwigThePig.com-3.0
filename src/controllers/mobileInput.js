@@ -1,4 +1,4 @@
-import { inputState } from './movement';
+import game from '../gameState';
 
 
 // This is more of a giant function than a class, but this is easier to read
@@ -13,10 +13,10 @@ class MobileInputManager {
   }
 
   static clearInput() {
-    inputState.up = false;
-    inputState.down = false;
-    inputState.left = false;
-    inputState.right = false;
+    game.inputs.up = false;
+    game.inputs.down = false;
+    game.inputs.left = false;
+    game.inputs.right = false;
   }
 
   static getTouchPos(e) {
@@ -27,7 +27,6 @@ class MobileInputManager {
   }
 
   handleStart(e) {
-    console.log('HANDLE START');
     this.origin = MobileInputManager.getTouchPos(e);
   }
 
@@ -38,14 +37,14 @@ class MobileInputManager {
     MobileInputManager.clearInput();
 
     if (this.origin.x < x - tolerance)
-      inputState.right = true;
+      game.inputs.right = true;
     else if (this.origin.x > x + tolerance)
-      inputState.left = true;
+      game.inputs.left = true;
 
     if (this.origin.y < y - tolerance)
-      inputState.down = true;
+      game.inputs.down = true;
     else if (this.origin.y > y + tolerance)
-      inputState.up = true;
+      game.inputs.up = true;
   }
 
 

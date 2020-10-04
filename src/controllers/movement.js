@@ -1,15 +1,6 @@
 import game from '../gameState';
 import { forwardVelocity, rotationVelocity } from '../utils/velocities';
 
-const keys = {
-  forward: 87, // W
-  backwards: 83, // S
-  left: 65, // A
-  right: 68, // A
-  spacebar: 32,
-  shift: 16,
-  c: 67,
-};
 
 export const inputState = {
   left: false,
@@ -65,11 +56,11 @@ export const movePlayer = (player, inputs) => {
   const pigPhy = game.physics[game.pig];
 
   // Forwards And Backwards
-  if (inputs.up && game.isGrounded && !game.isSliding) {
+  if (inputs.down && game.isGrounded && !game.isSliding) {
     pigPhy.a.x += Math.sin(player.rotation.y) * forwardVelocity;
     pigPhy.a.z += Math.cos(player.rotation.y) * forwardVelocity;
   }
-  if (inputs.down && game.isGrounded && !game.isSliding) {
+  if (inputs.up && game.isGrounded && !game.isSliding) {
     pigPhy.a.x -= Math.sin(player.rotation.y) * forwardVelocity;
     pigPhy.a.z -= Math.cos(player.rotation.y) * forwardVelocity;
   }

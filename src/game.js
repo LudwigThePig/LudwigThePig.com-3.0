@@ -104,29 +104,6 @@ const init = resolver => {
     });
   };
 
-  let pigBoat;
-  const pigBoatLoadCallback = gltf => {
-    if (!pig) return pigBoatLoadCallback;
-    gltf.scene.traverse(child => {
-      if (child.isMesh) child.material.side = THREE.DoubleSide;
-    });
-    pigBoat = gltf.scene;
-    pigBoat.name = 'PigBoat';
-
-    pig.doubleSided = true;
-    pig.add(pigBoat);
-    pigBoat.position.y = -1.3;
-    pigBoat.position.z = -1.3;
-    const scale = 1.5;
-    pigBoat.scale.x = scale;
-    pigBoat.scale.y = scale;
-    pigBoat.scale.z = scale;
-
-    pigBoat.rotation.y += degreesToRadians(30);
-    pigBoat.position.x = -0.7;
-    pigBoat.position.y = 0.2;
-    scene.add(pigBoat);
-  };
 
   /* ☁☁☁☁☁☁☁☁
     * CLOUD MODEL *
@@ -192,14 +169,6 @@ const init = resolver => {
     console.error,
   );
 
-  /** Future Feature :)
-  pigBoatLoader.load(
-    'models/pigboat.glb',
-    pigBoatLoadCallback,
-    null,
-    console.error,
-  );
-  */
   cloudLoader.load(
     'models/cloud.glb',
     cloudLoadCallback,

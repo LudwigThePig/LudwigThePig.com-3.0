@@ -1,4 +1,4 @@
-import { inputState } from './movement';
+import game from '../gameState';
 
 const keyboardDictionary = {
   87: 'up', // W
@@ -13,11 +13,11 @@ const keyboardDictionary = {
 const getKeyCode = event => event.which;
 const keydown = event => {
   const command = keyboardDictionary[getKeyCode(event)];
-  inputState[command] = true;
+  game.inputs[command] = true;
 };
 const keyup = event => {
   const command = keyboardDictionary[getKeyCode(event)];
-  inputState[command] = false;
+  game.inputs[command] = false;
 };
 
 const initializeKeyboard = () => {

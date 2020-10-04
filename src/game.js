@@ -2,7 +2,8 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import ParticleSystem from 'three-particle-system';
 
-import { updatePosition } from './controllers/movement';
+import { updatePosition, movePlayer } from './controllers/movement';
+
 import Player from './entities/player';
 import game from './gameState';
 import { isBroadCollision, isNarrowCollision, handleCollision } from './physics/collisionDetection';
@@ -243,14 +244,15 @@ const init = resolver => {
     requestAnimationFrame(draw);
 
     camera.lookAt(pig.position);
-    updatePosition(pig, pigParticles); // kind of hacky, will clean up with an store and ECS soon!
+    // updatePosition(pig, pigParticles); // kind of hacky, will clean up with an store and ECS soon!
     updateCloudsPosition(clouds);
 
-    // TODO: movePlayer()
+    movePlayer(game.meshes[game.pig], game.inputs);
 
     for (let ptr = 0; ptr < game.physics.length; ptr++) {
       applyForces(ptr);
     }
+
 
     pigParticles.update();
   };

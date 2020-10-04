@@ -12,7 +12,14 @@ class Game {
     this.meshes = [];
     this.collidables = [];
     this.physics = [];
-    this.inputs = {};
+    this.inputs = {
+      left: false,
+      right: false,
+      up: false,
+      down: false,
+      jump: false,
+      slide: false,
+    };
 
     // Player specific stuff
     this.pig = undefined; // pointer for the pig

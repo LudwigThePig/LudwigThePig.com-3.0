@@ -1,7 +1,5 @@
 import game from '../gameState';
-
-const forwardVelocity = 0.2;
-const rotationVelocity = 0.08;
+import { forwardVelocity, rotationVelocity } from '../utils/velocities';
 
 const keys = {
   forward: 87, // W
@@ -49,6 +47,52 @@ export const updatePosition = (player, particles) => {
 
   // Slide the Pig :)
   if (inputState.slide) {
+    game.isSliding = true;
+  } else if (game.isSliding) { // Avoid redundant reassignment
+    game.isSliding = false;
+  }
+};
+
+
+/**
+ * @param { Three.Mesh } player
+ * @param { object } keyboard Object where keys are keycodes and values are booleans.
+ *  If true, the key is pressedbundleRenderer.renderToStream
+ * @returns { void } function mutates the player param
+ */
+export const movePlayer = (player, inputs) => {
+  player.rotation.z = 0;
+  const pigPhy = game.physics[game.pig];
+
+  // Forwards And Backwards
+  if (inputs.up && game.isGrounded && !game.isSliding) {
+    pigPhy.a.x += Math.sin(player.rotation.y) * forwardVelocity;
+    pigPhy.a.z += Math.cos(player.rotation.y) * forwardVelocity;
+  }
+  if (inputs.down && game.isGrounded && !game.isSliding) {
+    pigPhy.a.x -= Math.sin(player.rotation.y) * forwardVelocity;
+    pigPhy.a.z -= Math.cos(player.rotation.y) * forwardVelocity;
+  }
+
+  // Y Rotation
+  if (inputs.right) {
+    player.rotation.y -= rotationVelocity;
+    player.rotation.z = -25;
+  }
+  if (inputs.left) {
+    player.rotation.y += rotationVelocity;
+    player.rotation.z = 25;
+  }
+
+  // Jump Impulse Force
+  if (game.isGrounded && inputs.jump) {
+    game.isGrounded = false;
+    pigPhy.v.y += (game.jumpForce / player.mass); // Jump force is really just velocity change
+  }
+
+
+  // Slide the Pig :)
+  if (inputs.slide) {
     game.isSliding = true;
   } else if (game.isSliding) { // Avoid redundant reassignment
     game.isSliding = false;

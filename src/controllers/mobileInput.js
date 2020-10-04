@@ -1,4 +1,5 @@
 import game from '../gameState';
+import { getCanvasDimensions } from '../utils/dimensions';
 
 
 // This is more of a giant function than a class, but this is easier to read
@@ -17,34 +18,51 @@ class MobileInputManager {
     game.inputs.down = false;
     game.inputs.left = false;
     game.inputs.right = false;
+    game.inputs.jump = false;
+    game.inputs.slide = false;
   }
 
-  static getTouchPos(e) {
+  static getTouchesPos(e) {
+    const getPos = touch => ({ x: touch.screenX, y: touch.screenY })
+    const [firstTouch, secondTouch] = e.touches;
     return {
-      x: e.touches[0].screenX,
-      y: e.touches[0].screenY,
+      primary: getPos(firstTouch),
+      secondary: secondTouch ? getPos(secondTouch) : null,
     };
   }
 
+  static isInTopHalfOfScreen(yPos) {
+    const { height } = getCanvasDimensions();
+    return yPos < (height / 2);
+  }
+
   handleStart(e) {
-    this.origin = MobileInputManager.getTouchPos(e);
+    this.origin = MobileInputManager.getTouchesPos(e).primary;
   }
 
 
   handleMove(e) {
-    const tolerance = 100;
-    const { x, y } = MobileInputManager.getTouchPos(e);
+    const tolerance = 50;
+    const { primary, secondary } = MobileInputManager.getTouchesPos(e);
     MobileInputManager.clearInput();
 
-    if (this.origin.x < x - tolerance)
+    if (this.origin.x < primary.x - tolerance)
       game.inputs.right = true;
-    else if (this.origin.x > x + tolerance)
+    else if (this.origin.x > primary.x + tolerance)
       game.inputs.left = true;
 
-    if (this.origin.y < y - tolerance)
+    if (this.origin.y < primary.y - tolerance)
       game.inputs.down = true;
-    else if (this.origin.y > y + tolerance)
+    else if (this.origin.y > primary.y + tolerance)
       game.inputs.up = true;
+
+    if (secondary !== null) {
+      if (MobileInputManager.isInTopHalfOfScreen(secondary.y))
+        game.inputs.jump = true;
+      else // in bottom half of screen...
+        game.inputs.slide = true;
+    }
+
   }
 
 

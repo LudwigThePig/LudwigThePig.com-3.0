@@ -81,7 +81,6 @@ export const movePlayer = (player, inputs) => {
     pigPhy.v.y += (game.jumpForce / player.mass); // Jump force is really just velocity change
   }
 
-
   // Slide the Pig :)
   if (inputs.slide) {
     game.isSliding = true;

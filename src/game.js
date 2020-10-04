@@ -1,14 +1,18 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import ParticleSystem from 'three-particle-system';
-import showMenu from './views/menu';
+
+import { updatePosition } from './controllers/movement';
+import Player from './entities/player';
+import game from './gameState';
+import { isBroadCollision, isNarrowCollision, handleCollision } from './physics/collisionDetection';
+import { applyForces } from './physics/forces';
 import colors, { lightColors } from './utils/colors';
 import { degreesToRadians } from './utils/math';
-import { updatePosition } from './controllers/movement';
-import { hideLoadingScreen } from './views/loadingScreen';
-import inputHandler from './controllers/inputHandler';
-import updateCloudsPosition from './controllers/clouds';
 import { randomBoundedInt } from './utils/random';
+import { hideLoadingScreen } from './views/loadingScreen';
+import showMenu from './views/menu';
+import updateCloudsPosition from './controllers/clouds';
 
 
 /**
@@ -71,6 +75,7 @@ const init = resolver => {
   const fontLoader = new THREE.FontLoader(loadingManager);
 
 
+  let pigPointer;
   const pigLoadCallback = gltf => { // TODO: ECS
     pig = gltf.scene;
     pig.children[2].material = new THREE.MeshToonMaterial({
@@ -78,7 +83,16 @@ const init = resolver => {
       bumpScale: 1,
       shininess: 1,
     });
+    const pigObj = new Player(pig, 40);
+    pigObj.mesh.name = 'pig';
+    pigObj.mesh.type = 'pig';
 
+    pigPointer = game.createEntity();
+    game.pig = pigPointer;
+    game.meshes[pigPointer] = pigObj.mesh;
+    game.collidables[pigPointer] = pigObj.mesh;
+    game.physics[pigPointer] = pigObj.physics;
+  
     pig.rotation.y += degreesToRadians(30);
     pig.position.y = 0.2;
     camera.lookAt(pig.position);
@@ -193,8 +207,8 @@ const init = resolver => {
 
 
   /* **************
-          * Ground Model *
-          ************** */
+  * Ground Model *
+  ************** */
   const groundTexture = groundTextureLoader.load('textures/water.png');
 
   groundTexture.wrapS = THREE.RepeatWrapping;
@@ -212,12 +226,31 @@ const init = resolver => {
   * Main Game Loop *
   **************** */
   const draw = () => {
+    game.updateDeltaTime();
+
+    // Collision Detection
+    for (let i = 0; i < game.collidables.length - 1; i++) {
+      for (let j = i + 1; j < game.collidables.length; j++) {
+        if (isBroadCollision(game.collidables[i], game.collidables[j])
+        && isNarrowCollision(game.collidables[i], game.collidables[j])) {
+          handleCollision(game.physics[i], game.physics[j]);
+        }
+      }
+    }
+
+
     renderer.render(scene, camera);
     requestAnimationFrame(draw);
 
     camera.lookAt(pig.position);
     updatePosition(pig, pigParticles); // kind of hacky, will clean up with an store and ECS soon!
     updateCloudsPosition(clouds);
+
+    // TODO: movePlayer()
+
+    for (let ptr = 0; ptr < game.physics.length; ptr++) {
+      applyForces(ptr);
+    }
 
     pigParticles.update();
   };

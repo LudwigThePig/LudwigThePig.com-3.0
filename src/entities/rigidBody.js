@@ -6,7 +6,6 @@ export default class RigidBody {
    */
   constructor(mesh, mass = 10) {
     this.physics = {
-
       d: new Vector3(), // Displacement
       f: new Vector3(), // Force
       v: new Vector3(), // Velocity

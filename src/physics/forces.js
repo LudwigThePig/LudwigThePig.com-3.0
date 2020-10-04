@@ -1,4 +1,4 @@
-import game from '../gameManager';
+import game from '../gameState';
 
 
 export default class Force {

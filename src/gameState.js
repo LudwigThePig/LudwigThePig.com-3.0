@@ -1,3 +1,5 @@
+import { getCanvasDimensions } from './utils/dimensions';
+
 class Game {
   constructor() {
     this.isSliding = false;

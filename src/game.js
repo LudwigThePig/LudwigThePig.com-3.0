@@ -75,6 +75,36 @@ const init = resolver => {
   const cloudLoader = new GLTFLoader(loadingManager);
   const fontLoader = new THREE.FontLoader(loadingManager);
 
+  let pigBoat;
+  const pigBoatLoadCallback = async gltf => {
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    while (!pig) {
+      await sleep(200);
+    }
+    gltf.scene.traverse(child => {
+      if (child.isMesh) child.material.side = THREE.DoubleSide;
+    });
+    pigBoat = gltf.scene;
+    pigBoat.name = 'PigBoat';
+    pig.add(pigBoat);
+    console.log(pig, pigBoat);
+    window.items = [pig, pigBoat];
+    pig.doubleSided = true;
+    pig.add(pigBoat);
+    pigBoat.position.y = -10.3;
+    pigBoat.position.z = -1.3;
+    const scale = 1.5;
+    pigBoat.scale.x = scale;
+    pigBoat.scale.y = scale;
+    pigBoat.scale.z = scale;
+
+    pigBoat.rotation.y += degreesToRadians(30);
+    pigBoat.position.x = -0.7;
+    pigBoat.position.y = 0.2;
+  };
 
   let pigPointer;
   const pigLoadCallback = gltf => { // TODO: ECS
@@ -141,6 +171,7 @@ const init = resolver => {
       cloud.rotation.y = degreesToRadians(randomBoundedInt(0, 360));
       clouds.push(cloud);
       scene.add(cloud);
+
     }
   };
 
@@ -177,6 +208,13 @@ const init = resolver => {
   /* ********
   * LOADERS *
   ********** */
+  pigBoatLoader.load(
+    'models/pigboat.glb',
+    pigBoatLoadCallback,
+    null,
+    console.error,
+  );
+
   pigLoader.load( // pig
     'models/pig.glb',
     pigLoadCallback,

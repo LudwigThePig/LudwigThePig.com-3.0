@@ -14,6 +14,7 @@ import { randomBoundedInt } from './utils/random';
 import { hideLoadingScreen } from './views/loadingScreen';
 import showMenu from './views/menu';
 import updateCloudsPosition from './controllers/clouds';
+import { sleep } from './utils/misc';
 
 
 /**
@@ -77,33 +78,18 @@ const init = resolver => {
 
   let pigBoat;
   const pigBoatLoadCallback = async gltf => {
-    function sleep(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
-    while (!pig) {
-      await sleep(200);
-    }
-    gltf.scene.traverse(child => {
-      if (child.isMesh) child.material.side = THREE.DoubleSide;
-    });
     pigBoat = gltf.scene;
     pigBoat.name = 'PigBoat';
+    pigBoat.traverse(child => {
+      if (child.isMesh) child.material.side = THREE.DoubleSide;
+    });
+    // eslint-disable-next-line no-await-in-loop
+    while (!pig) await sleep(200); // wait until pig is here
     pig.add(pigBoat);
-    console.log(pig, pigBoat);
-    window.items = [pig, pigBoat];
-    pig.doubleSided = true;
-    pig.add(pigBoat);
-    pigBoat.position.y = -10.3;
-    pigBoat.position.z = -1.3;
     const scale = 1.5;
-    pigBoat.scale.x = scale;
-    pigBoat.scale.y = scale;
-    pigBoat.scale.z = scale;
-
-    pigBoat.rotation.y += degreesToRadians(30);
-    pigBoat.position.x = -0.7;
-    pigBoat.position.y = 0.2;
+    pigBoat.position.set(0, -1, -1);
+    pigBoat.scale.set(scale, scale, scale);
+    pigBoat.rotation.set(0, 0, 0);
   };
 
   let pigPointer;

@@ -115,9 +115,7 @@ const init = resolver => {
     scene.add(pig);
 
     const particleTarget = new THREE.Object3D();
-    particleTarget.position.x = -0.7;
-    particleTarget.position.y = -2.4;
-    particleTarget.position.z = -2.4;
+    particleTarget.position.set(-0.7, -2.4, -2.4);
     particleTarget.rotateX(Math.PI / 3);
     particleTarget.rotateY(Math.PI / 3);
     pig.add(particleTarget);

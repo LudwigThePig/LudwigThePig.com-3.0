@@ -54,7 +54,8 @@ export const updatePosition = (player, particles) => {
 export const movePlayer = (player, inputs) => {
   player.rotation.z = 0;
   const pigPhy = game.physics[game.pig];
-
+  const hasInput = inputs.up || inputs.down || inputs.left || inputs.right;
+  if (hasInput && game.isGrounded && game.pigParticles) game.pigParticles.play();
   // Forwards And Backwards
   if (inputs.down && game.isGrounded && !game.isSliding) {
     pigPhy.a.x += Math.sin(player.rotation.y) * forwardVelocity;

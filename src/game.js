@@ -68,7 +68,6 @@ const init = resolver => {
     * PIG MODEL *
     🐷🐷🐷🐷🐷🐷 */
   let pig;
-  let pigParticles;
   const pigLoader = new GLTFLoader(loadingManager);
   const pigBoatLoader = new GLTFLoader(loadingManager);
   const skyboxLoader = new THREE.CubeTextureLoader(loadingManager);
@@ -122,13 +121,13 @@ const init = resolver => {
     particleTarget.rotateX(Math.PI / 3);
     particleTarget.rotateY(Math.PI / 3);
     pig.add(particleTarget);
-    pigParticles = new ParticleSystem(particleTarget, {
+    game.pigParticles = new ParticleSystem(particleTarget, {
       particleVelocity: 1,
       playOnLoad: false,
       loop: false,
-      color: colors.white,
+      color: colors.blue,
       maxParticles: 1000,
-      particleLifetime: 2000,
+      particleLifetime: 1000,
       duration: 1000,
       particlesPerSecond: 100,
       worldSpace: true,
@@ -268,7 +267,6 @@ const init = resolver => {
     requestAnimationFrame(draw);
 
     camera.lookAt(pig.position);
-    // updatePosition(pig, pigParticles); // kind of hacky, will clean up with an store and ECS soon!
     updateCloudsPosition(clouds);
 
     movePlayer(game.meshes[game.pig], game.inputs);
@@ -277,8 +275,7 @@ const init = resolver => {
       applyForces(ptr);
     }
 
-
-    pigParticles.update();
+    game.pigParticles.update();
   };
 
 

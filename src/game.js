@@ -14,6 +14,7 @@ import { randomBoundedInt } from './utils/random';
 import { hideLoadingScreen } from './views/loadingScreen';
 import showMenu from './views/menu';
 import updateCloudsPosition from './controllers/clouds';
+import { sleep } from './utils/misc';
 
 
 /**
@@ -67,7 +68,6 @@ const init = resolver => {
     * PIG MODEL *
     🐷🐷🐷🐷🐷🐷 */
   let pig;
-  let pigParticles;
   const pigLoader = new GLTFLoader(loadingManager);
   const pigBoatLoader = new GLTFLoader(loadingManager);
   const skyboxLoader = new THREE.CubeTextureLoader(loadingManager);
@@ -75,6 +75,21 @@ const init = resolver => {
   const cloudLoader = new GLTFLoader(loadingManager);
   const fontLoader = new THREE.FontLoader(loadingManager);
 
+  let pigBoat;
+  const pigBoatLoadCallback = async gltf => {
+    pigBoat = gltf.scene;
+    pigBoat.name = 'PigBoat';
+    pigBoat.traverse(child => {
+      if (child.isMesh) child.material.side = THREE.DoubleSide;
+    });
+    // eslint-disable-next-line no-await-in-loop
+    while (!pig) await sleep(200); // wait until pig is here
+    pig.add(pigBoat);
+    const scale = 1.5;
+    pigBoat.position.set(0, -1, -1);
+    pigBoat.scale.set(scale, scale, scale);
+    pigBoat.rotation.set(0, 0, 0);
+  };
 
   let pigPointer;
   const pigLoadCallback = gltf => { // TODO: ECS
@@ -100,20 +115,18 @@ const init = resolver => {
     scene.add(pig);
 
     const particleTarget = new THREE.Object3D();
-    particleTarget.position.x = -0.7;
-    particleTarget.position.y = -2.4;
-    particleTarget.position.z = -2.4;
+    particleTarget.position.set(-0.7, -2.4, -3.4);
     particleTarget.rotateX(Math.PI / 3);
     particleTarget.rotateY(Math.PI / 3);
     pig.add(particleTarget);
-    pigParticles = new ParticleSystem(particleTarget, {
+    game.pigParticles = new ParticleSystem(particleTarget, {
       particleVelocity: 1,
       playOnLoad: false,
       loop: false,
-      color: colors.white,
+      color: colors.blue,
       maxParticles: 1000,
-      particleLifetime: 2000,
-      duration: 1000,
+      particleLifetime: 1000,
+      duration: 200,
       particlesPerSecond: 100,
       worldSpace: true,
     });
@@ -141,6 +154,7 @@ const init = resolver => {
       cloud.rotation.y = degreesToRadians(randomBoundedInt(0, 360));
       clouds.push(cloud);
       scene.add(cloud);
+
     }
   };
 
@@ -177,6 +191,13 @@ const init = resolver => {
   /* ********
   * LOADERS *
   ********** */
+  pigBoatLoader.load(
+    'models/pigboat.glb',
+    pigBoatLoadCallback,
+    null,
+    console.error,
+  );
+
   pigLoader.load( // pig
     'models/pig.glb',
     pigLoadCallback,
@@ -244,7 +265,6 @@ const init = resolver => {
     requestAnimationFrame(draw);
 
     camera.lookAt(pig.position);
-    // updatePosition(pig, pigParticles); // kind of hacky, will clean up with an store and ECS soon!
     updateCloudsPosition(clouds);
 
     movePlayer(game.meshes[game.pig], game.inputs);
@@ -253,8 +273,7 @@ const init = resolver => {
       applyForces(ptr);
     }
 
-
-    pigParticles.update();
+    game.pigParticles.update();
   };
 
 

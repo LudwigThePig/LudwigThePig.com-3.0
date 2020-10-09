@@ -115,7 +115,7 @@ const init = resolver => {
     scene.add(pig);
 
     const particleTarget = new THREE.Object3D();
-    particleTarget.position.set(-0.7, -2.4, -2.4);
+    particleTarget.position.set(-0.7, -2.4, -3.4);
     particleTarget.rotateX(Math.PI / 3);
     particleTarget.rotateY(Math.PI / 3);
     pig.add(particleTarget);
@@ -126,7 +126,7 @@ const init = resolver => {
       color: colors.blue,
       maxParticles: 1000,
       particleLifetime: 1000,
-      duration: 1000,
+      duration: 200,
       particlesPerSecond: 100,
       worldSpace: true,
     });

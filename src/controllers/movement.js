@@ -12,39 +12,6 @@ export const inputState = {
 };
 
 
-export const updatePosition = (player, particles) => {
-  // Forwards And Backwards
-  if (inputState.down) {
-    particles.play();
-    player.position.x += Math.sin(player.rotation.y) * forwardVelocity;
-    player.position.z += Math.cos(player.rotation.y) * forwardVelocity;
-  }
-  if (inputState.up) {
-    particles.play();
-    player.position.x -= Math.sin(player.rotation.y) * forwardVelocity;
-    player.position.z -= Math.cos(player.rotation.y) * forwardVelocity;
-  }
-
-  player.rotation.z = 0;
-  // Y Rotation
-  if (inputState.right) {
-    player.rotation.y -= rotationVelocity;
-    player.rotation.z = -25;
-  }
-  if (inputState.left) {
-    player.rotation.y += rotationVelocity;
-    player.rotation.z = 25;
-  }
-
-  // Slide the Pig :)
-  if (inputState.slide) {
-    game.isSliding = true;
-  } else if (game.isSliding) { // Avoid redundant reassignment
-    game.isSliding = false;
-  }
-};
-
-
 /**
  * @param { Three.Mesh } player
  * @param { object } keyboard Object where keys are keycodes and values are booleans.
@@ -54,8 +21,8 @@ export const updatePosition = (player, particles) => {
 export const movePlayer = (player, inputs) => {
   player.rotation.z = 0;
   const pigPhy = game.physics[game.pig];
-  const hasInput = inputs.up || inputs.down || inputs.left || inputs.right;
-  if (hasInput && game.isGrounded && game.pigParticles) game.pigParticles.play();
+  const isMoving = (Math.abs(pigPhy.a.x) > 0.2 || Math.abs(pigPhy.a.z) > 0.2); // better than relying on inputs
+  if ((isMoving) && game.isGrounded && game.pigParticles) game.pigParticles.play();
   // Forwards And Backwards
   if (inputs.down && game.isGrounded && !game.isSliding) {
     pigPhy.a.x += Math.sin(player.rotation.y) * forwardVelocity;

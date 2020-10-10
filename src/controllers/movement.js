@@ -36,12 +36,14 @@ export const movePlayer = (player, inputs) => {
   }
 
   // Y Rotation
+  const rotationForce = rotationAcceleration * Math.abs((pigPhy.a.x + pigPhy.a.x) / 12);
+  // 12 is a totally random number. This is hacky but it feels so goooood
   if (inputs.right) {
-    pigPhy.rv = Math.max(-maxRotationVelocity, pigPhy.rv - rotationAcceleration);
+    pigPhy.rv = Math.max(-maxRotationVelocity, pigPhy.rv - rotationForce);
     player.rotation.z = 25;
   }
   if (inputs.left) {
-    pigPhy.rv = Math.min(maxRotationVelocity, pigPhy.rv + rotationAcceleration);
+    pigPhy.rv = Math.min(maxRotationVelocity, pigPhy.rv + rotationForce);
     player.rotation.z = -25;
   }
 

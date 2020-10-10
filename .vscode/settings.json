@@ -1,4 +1,5 @@
 {
-  "editor.codeActionsOnSave": null,
-  "workbench.colorTheme": "Nord"
+  "editor.codeActionsOnSave": { "source.fixAll.eslint": true },
+  "workbench.colorTheme": "Nord",
+  "eslint.alwaysShowStatus": true
 }

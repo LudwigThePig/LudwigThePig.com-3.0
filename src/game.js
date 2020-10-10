@@ -108,7 +108,7 @@ const init = resolver => {
     game.meshes[pigPointer] = pigObj.mesh;
     game.collidables[pigPointer] = pigObj.mesh;
     game.physics[pigPointer] = pigObj.physics;
-  
+
     pig.rotation.y += degreesToRadians(30);
     pig.position.y = 0.2;
     camera.lookAt(pig.position);
@@ -154,7 +154,6 @@ const init = resolver => {
       cloud.rotation.y = degreesToRadians(randomBoundedInt(0, 360));
       clouds.push(cloud);
       scene.add(cloud);
-
     }
   };
 
@@ -259,7 +258,6 @@ const init = resolver => {
         }
       }
     }
-
 
     renderer.render(scene, camera);
     requestAnimationFrame(draw);

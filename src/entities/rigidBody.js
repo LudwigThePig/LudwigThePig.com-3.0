@@ -10,6 +10,7 @@ export default class RigidBody {
       f: new Vector3(), // Force
       v: new Vector3(), // Velocity
       a: new Vector3(), // Acceleration
+      rv: 0, // rotation velocity
       mass,
     };
   }

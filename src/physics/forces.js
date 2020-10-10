@@ -35,6 +35,7 @@ export default class Force {
 }
 
 const calcAirResistance = v => -0.5 * game.rho * game.coefficientAir * game.meshes[game.pig].area * (v ** 2);
+const calcRotationResistance = v => v - (game.coefficientRotation * v);
 
 const calcNewVelocity = (a, v, terminalV) => {
   const newVelocity = v + (a * game.dt);
@@ -128,4 +129,11 @@ export const applyForces = entityPtr => {
     }
     mesh.position.y = groundPos;
   }
+
+
+  // * _______Rotational Force_______ *
+  // Only handling y rotation at the moment and doing this very crudely, just to give it some
+  // weightiness to it.
+  phy.rv = calcRotationResistance(phy.rv);
+  mesh.rotation.y += phy.rv;
 };

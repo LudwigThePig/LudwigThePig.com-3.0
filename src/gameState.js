@@ -1,3 +1,4 @@
+import { Material, World } from 'cannon-es';
 import { getCanvasDimensions } from './utils/dimensions';
 
 class Game {
@@ -6,7 +7,8 @@ class Game {
     const { height, width } = getCanvasDimensions();
     this.height = height;
     this.width = width;
-
+    this.world = new World();
+    this.world.gravity.set(0, -9.82, 0); // m/s²
 
     // * Entity Components
     this.meshes = [];

@@ -204,7 +204,9 @@ export const applyForces = entityPtr => {
 
   if (!phy || !mesh) return;
 
-  phy.f.y += game.gravityForce * phy.mass;
+  const drag = (mesh.position.y <= game.groundPos) ? 0.01 : 0.99;
+
+  phy.f.y += game.gravityForce * drag;
 
   // last_acceleration = acceleration
   const lastAcceleration = phy.a.clone();

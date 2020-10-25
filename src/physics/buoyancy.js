@@ -3,7 +3,7 @@ import { clamp } from '../utils/math';
 
 // https://www.youtube.com/watch?v=eL_zHQEju8s&ab_channel=TomWeiland
 
-const depthBeforeSubmerged = 2;
+const depthBeforeSubmerged = 1;
 const displacementAmount = 3;
 /**
  *
@@ -15,11 +15,9 @@ export const applyBuoyancy = entityPtr => {
   const mesh = game.meshes[entityPtr];
   if (!phy) throw new Error('Must have physics to have buoyancy!');
 
-  // if (mesh.position.y <= game.groundPos) {
   const displacementMultiplier = clamp(0, 1)(-mesh.position.y / depthBeforeSubmerged) * displacementAmount;
-  const newForce = Math.abs((game.gravityForce * phy.mass) * displacementMultiplier);
+  const newForce = Math.abs((game.gravityForce) * displacementMultiplier);
   phy.f.y += newForce;
-  // }
 
 
   if (Math.random() > 0.95) console.log(`displacementMultiplier: ${displacementMultiplier},

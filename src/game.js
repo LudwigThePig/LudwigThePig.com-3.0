@@ -15,6 +15,7 @@ import { hideLoadingScreen } from './views/loadingScreen';
 import showMenu from './views/menu';
 import updateCloudsPosition from './controllers/clouds';
 import { sleep } from './utils/misc';
+import { applyBuoyancy } from './physics/buoyancy';
 
 
 /**
@@ -108,11 +109,12 @@ const init = resolver => {
     game.meshes[pigPointer] = pigObj.mesh;
     game.collidables[pigPointer] = pigObj.mesh;
     game.physics[pigPointer] = pigObj.physics;
+    game.buoyant[pigPointer] = pigPointer;
 
     pig.rotation.y += degreesToRadians(30);
-    pig.position.y = 0.2;
     camera.lookAt(pig.position);
     scene.add(pig);
+    pig.position.y = game.groundPos;
 
     const particleTarget = new THREE.Object3D();
     particleTarget.position.set(-0.7, -2.4, -3.4);
@@ -267,9 +269,12 @@ const init = resolver => {
 
     movePlayer(game.meshes[game.pig], game.inputs);
 
+    applyBuoyancy(game.buoyant[pigPointer]);
     for (let ptr = 0; ptr < game.physics.length; ptr++) {
       applyForces(ptr);
     }
+    // for (let ptr = 0; ptr < game.buoyant.length; ptr++) {
+    // }
 
     game.pigParticles.update();
   };

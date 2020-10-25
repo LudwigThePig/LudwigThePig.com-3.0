@@ -12,6 +12,7 @@ class Game {
     this.meshes = [];
     this.collidables = [];
     this.physics = [];
+    this.buoyant = [];
     this.inputs = {
       left: false,
       right: false,
@@ -29,6 +30,8 @@ class Game {
     // Entity Stuff
     this.pointer = -1;
     this.entities = [];
+    this.groundPos = 1;
+
 
     //*  Misc Settings
     // Time

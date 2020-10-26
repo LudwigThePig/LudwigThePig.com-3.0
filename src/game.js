@@ -117,15 +117,17 @@ const init = resolver => {
     scene.add(pig);
     pig.position.y = game.groundPos;
 
-    const pigBody = new CANNON.Body({
+    const pigPhy = new CANNON.Body({
       mass: 5,
       position: new CANNON.Vec3(pig.position.x, pig.position.y, pig.position.z),
-      shape: new CANNON.Box(new CANNON.Vec3(1, 1, 1)),
+      shape: new CANNON.Box(new CANNON.Vec3(0.5, 0.5, 0.5)),
+      collisionResponse: false,
+      angularDamping: 0.5,
     });
-    pigBody.angularDamping = 0.5;
-    game.world.addBody(pigBody);
 
-    game.physics[pigPointer] = pigBody;
+    game.world.addBody(pigPhy);
+
+    game.physics[pigPointer] = pigPhy;
 
 
     const particleTarget = new THREE.Object3D();
@@ -278,14 +280,14 @@ const init = resolver => {
 
     camera.lookAt(pig.position);
     updateCloudsPosition(clouds);
-    game.meshes[pigPointer].position.copy(game.physics[pigPointer].position);
-    game.meshes[pigPointer].quaternion.copy(game.physics[pigPointer].quaternion);
     movePlayer(game.meshes[game.pig], game.inputs);
 
     applyBuoyancy(game.buoyant[pigPointer]);
     // for (let ptr = 0; ptr < game.physics.length; ptr++) {
     //   applyForces(ptr);
     // }
+    game.meshes[pigPointer].quaternion.copy(game.physics[pigPointer].quaternion);
+    game.meshes[pigPointer].position.copy(game.physics[pigPointer].position);
 
     game.pigParticles.update();
   };

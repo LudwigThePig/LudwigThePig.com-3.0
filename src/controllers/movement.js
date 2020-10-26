@@ -22,7 +22,6 @@ export const inputState = {
  * @returns { void } function mutates the player param
  */
 export const movePlayer = (player, inputs) => {
-  player.rotation.z = 0;
   const pigPhy = game.physics[game.pig];
   const isMoving = (Math.abs(pigPhy.velocity.x) > 0.2 || Math.abs(pigPhy.velocity.z) > 0.2); // better than relying on inputs
   if (isMoving && game.isGrounded && game.pigParticles) game.pigParticles.play();
@@ -40,10 +39,11 @@ export const movePlayer = (player, inputs) => {
   if (inputs.right) {
     pigPhy.angularVelocity.set(0, -1, 0);
     player.rotation.z = 25;
-  }
-  if (inputs.left) {
+  } else if (inputs.left) {
     pigPhy.angularVelocity.set(0, 1, 0);
     player.rotation.z = -25;
+  } else {
+    player.rotation.z = 0;
   }
 
   // Jump Impulse Force

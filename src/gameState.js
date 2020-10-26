@@ -42,7 +42,7 @@ class Game {
     this.dt = 0.00; // delta time between frames
 
     // Forces
-    this.jumpForce = 500;
+    this.jumpForce = 100;
     this.gravityForce = -9.81; // meters per second
 
     this.terminalVelocity = { xz: 30 };

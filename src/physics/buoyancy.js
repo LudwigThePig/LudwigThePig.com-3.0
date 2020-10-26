@@ -18,13 +18,15 @@ export const applyBuoyancy = entityPtr => {
 
   if (mesh.position.y <= game.groundPos) {
     phy.linearDamping = 0.8;
+    game.isGrounded = true;
   } else {
+    game.isGrounded = false;
     phy.linearDamping = 0.1;
   }
   const displacementMultiplier = clamp(0, 1)(-mesh.position.y / depthBeforeSubmerged) * displacementAmount;
   const newForce = Math.abs((game.gravityForce * 5 /** Mass */) * displacementMultiplier);
 
   const forceVec = new Vec3(0, newForce, 0);
-  const relPoint = new Vec3(mesh.position.x, mesh.position.y - 1, mesh.position.z);
-  phy.applyForce(forceVec, relPoint);
+  const relPoint = new Vec3(0, -1, 0);
+  phy.applyLocalForce(forceVec, relPoint);
 };

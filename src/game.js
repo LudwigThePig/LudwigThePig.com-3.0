@@ -122,8 +122,8 @@ const init = resolver => {
       position: new CANNON.Vec3(pig.position.x, pig.position.y, pig.position.z),
       shape: new CANNON.Box(new CANNON.Vec3(1, 1, 1)),
     });
+    pigBody.angularDamping = 0.5;
     game.world.addBody(pigBody);
-    pigBody.angularVelocity.set(0, 10, 0);
 
     game.physics[pigPointer] = pigBody;
 
@@ -279,7 +279,8 @@ const init = resolver => {
     camera.lookAt(pig.position);
     updateCloudsPosition(clouds);
     game.meshes[pigPointer].position.copy(game.physics[pigPointer].position);
-    // movePlayer(game.meshes[game.pig], game.inputs);
+    game.meshes[pigPointer].quaternion.copy(game.physics[pigPointer].quaternion);
+    movePlayer(game.meshes[game.pig], game.inputs);
 
     applyBuoyancy(game.buoyant[pigPointer]);
     // for (let ptr = 0; ptr < game.physics.length; ptr++) {

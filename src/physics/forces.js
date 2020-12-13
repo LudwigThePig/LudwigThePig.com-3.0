@@ -204,7 +204,8 @@ export const applyForces = entityPtr => {
 
   if (!phy || !mesh) return;
 
-  const drag = (mesh.position.y <= game.groundPos) ? 0.01 : 0.99;
+  const isSubmerged = mesh.position.y <= game.groundPos - 1;
+  const drag = isSubmerged ? 0.01 : 1;
 
   phy.f.y += game.gravityForce * drag;
 

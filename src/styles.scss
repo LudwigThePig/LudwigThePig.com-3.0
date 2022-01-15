@@ -266,5 +266,14 @@ main {
         fill: $salmon;
       }
     }
+    a > span {
+      font-size: 2em;
+    }
+    a {
+      color: $white;
+    }
+    a:hover {
+      color: $salmon;
+    }
   }
 }

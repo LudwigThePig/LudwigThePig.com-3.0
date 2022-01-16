@@ -2,7 +2,7 @@
 
 [See Ludwig The Pig 2.0](https://github.com/LudwigThePig/LudwigThePig.com-2.0)
 
-This is the third iteration of my website. It's better than the second iteration but probably worse than the forth iteration.
+This is the third iteration of my website. It's better than the second iteration but probably worse than the fourth iteration.
 
 # Some Features
 

@@ -50,6 +50,7 @@ p {
   font-family: "Sigmar One", "Roboto", sans-serif;
   font-size: 1.2em;
   margin: 0.2em;
+  line-height: 1.4em;
 }
 
 h2 {
@@ -186,6 +187,10 @@ main {
     height: 100vh;
     width: 100vw;
   }
+  #menu-section-about {
+    max-width: 600px;
+    margin: auto;
+  }
   .menu-section {
     height: 100vh;
     width: 100%;
@@ -241,6 +246,7 @@ main {
     color: $black;
     padding: 2px 5px;
     font-family: Helvetica, sans-serif;
+    line-height: 1.8em;
   }
 
   footer {
@@ -259,6 +265,15 @@ main {
       &:hover {
         fill: $salmon;
       }
+    }
+    a > span {
+      font-size: 2em;
+    }
+    a {
+      color: $white;
+    }
+    a:hover {
+      color: $salmon;
     }
   }
 }
